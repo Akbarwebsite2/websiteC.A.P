@@ -2,9 +2,9 @@ import React from 'react';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { Products } from './components/Products';
-import { WhatsAppCTA } from './components/WhatsAppCTA';
 import { WhyChoose } from './components/WhyChoose';
 import { Contact } from './components/Contact';
+import { WhatsAppFloat } from './components/WhatsAppFloat';
 
 /**
  * Main App Component
@@ -18,10 +18,10 @@ function App() {
       <main>
         <Hero />
         <Products />
-        <WhatsAppCTA />
         <WhyChoose />
         <Contact />
       </main>
+      <WhatsAppFloat />
     </div>
   );
 }

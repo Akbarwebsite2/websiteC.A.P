@@ -1,16 +1,11 @@
 import React from 'react';
-import { MessageCircle, ArrowDown, Instagram } from 'lucide-react';
+import { ArrowDown } from 'lucide-react';
 
 /**
- * Hero Component
+ * Hero Component - Russian Version
  * Bold, masculine hero section with premium automotive styling
  */
-export const Hero: React.FC = () => {
-  const handleWhatsAppClick = () => {
-    const message = encodeURIComponent("Hello, I'm interested in C.A.P. auto parts.");
-    window.open(`https://wa.me/971561747182?text=${message}`, '_blank');
-  };
-
+export const HeroRu: React.FC = () => {
   return (
     <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Dark Automotive Background */}
@@ -22,9 +17,9 @@ export const Hero: React.FC = () => {
         <div className="absolute inset-0 opacity-10">
           <div className="w-full h-full" style={{
             backgroundImage: `
-              radial-gradient(circle at 25% 25%, #ef4444 0%, transparent 50%),
-              radial-gradient(circle at 75% 75%, #dc2626 0%, transparent 50%),
-              linear-gradient(45deg, transparent 40%, rgba(239, 68, 68, 0.1) 50%, transparent 60%)
+              radial-gradient(circle at 25% 25%, #3b82f6 0%, transparent 50%),
+              radial-gradient(circle at 75% 75%, #2563eb 0%, transparent 50%),
+              linear-gradient(45deg, transparent 40%, rgba(59, 130, 246, 0.1) 50%, transparent 60%)
             `,
             backgroundSize: '200px 200px, 300px 300px, 100px 100px'
           }}></div>
@@ -61,13 +56,13 @@ export const Hero: React.FC = () => {
             C.A.P
           </span>
           <span className="bg-gradient-to-r from-white via-gray-200 to-white bg-clip-text text-transparent">
-            ENGINEERED TO PERFORM
+            СОЗДАНО ДЛЯ РАБОТЫ
           </span>
         </h1>
 
         {/* Tagline */}
         <div className="text-2xl sm:text-3xl lg:text-4xl text-gray-300 mb-8 font-bold tracking-wide">
-          QUALITY GUARANTEED
+          КАЧЕСТВО ГАРАНТИРОВАНО
         </div>
 
         {/* Description */}

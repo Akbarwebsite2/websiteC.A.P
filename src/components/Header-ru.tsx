@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Menu, X, MessageCircle } from 'lucide-react';
 
 /**
- * Header Component
+ * Header Component - Russian Version
  * Premium navigation with bold styling and WhatsApp CTA
  */
-export const Header: React.FC = () => {
+export const HeaderRu: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -19,14 +19,14 @@ export const Header: React.FC = () => {
   }, []);
 
   const navLinks = [
-    { name: 'Home', href: '#home' },
-    { name: 'Products', href: '#products' },
-    { name: 'About', href: '#about' },
-    { name: 'Contact', href: '#contact' }
+    { name: 'Главная', href: '#home' },
+    { name: 'Продукты', href: '#products' },
+    { name: 'О нас', href: '#about' },
+    { name: 'Контакты', href: '#contact' }
   ];
 
   const handleWhatsAppClick = () => {
-    const message = encodeURIComponent("Hello, I'm interested in C.A.P. auto parts.");
+    const message = encodeURIComponent("Здравствуйте, меня интересуют автозапчасти C.A.P.");
     window.open(`https://wa.me/971561747182?text=${message}`, '_blank');
   };
 

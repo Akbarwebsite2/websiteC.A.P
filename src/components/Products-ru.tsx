@@ -2,10 +2,10 @@ import React from 'react';
 import { Droplets, Filter, Zap, Disc } from 'lucide-react';
 
 /**
- * Products Component
+ * Products Component - Russian Version
  * Showcases key product categories with bold, masculine styling
  */
-export const Products: React.FC = () => {
+export const ProductsRu: React.FC = () => {
   const products = [
     {
       icon: Droplets,
@@ -45,18 +45,19 @@ export const Products: React.FC = () => {
       image: "https://images.pexels.com/photos/3806288/pexels-photo-3806288.jpeg?auto=compress&cs=tinysrgb&w=800&h=450&fit=crop"
     }
   ];
+
   return (
     <section id="products" className="py-20 bg-gradient-to-b from-black to-gray-900">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-16">
           <h2 className="text-4xl lg:text-6xl font-black text-white mb-6 tracking-tight">
-            PREMIUM <span className="text-blue-500">AUTO PARTS</span>
+            ПРЕМИАЛЬНЫЕ <span className="text-blue-500">АВТОЗАПЧАСТИ</span>
           </h2>
           <div className="w-24 h-1 bg-blue-500 mx-auto mb-8"></div>
           <p className="text-xl text-gray-400 max-w-3xl mx-auto font-medium">
-            Professional-grade components engineered for performance, 
-            reliability, and longevity. Trust C.A.P. for your most critical automotive needs.
+            Профессиональные компоненты, созданные для производительности, 
+            надежности и долговечности. Доверьтесь C.A.P. для ваших самых важных автомобильных потребностей.
           </p>
         </div>
 
@@ -84,7 +85,6 @@ export const Products: React.FC = () => {
 
               {/* Content */}
               <div className="p-6">
-                <h3 className="text-xl font-bold text-white mb-3 group-hover:text-red-400 transition-colors duration-300">
                 <h3 className="text-xl font-bold text-white mb-3 group-hover:text-blue-400 transition-colors duration-300">
                   {product.title}
                 </h3>
@@ -127,6 +127,7 @@ export const Products: React.FC = () => {
                   </p>
                 </div>
               </div>
+
               {/* Hover Effect Border */}
               <div className="absolute inset-0 border-2 border-transparent group-hover:border-blue-500 rounded-xl transition-colors duration-300 pointer-events-none"></div>
             </div>

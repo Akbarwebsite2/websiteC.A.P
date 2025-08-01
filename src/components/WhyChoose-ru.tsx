@@ -2,10 +2,10 @@ import React from 'react';
 import { Shield, Truck, Award, Users } from 'lucide-react';
 
 /**
- * WhyChoose Component
+ * WhyChoose Component - Russian Version
  * Highlights key advantages and trust factors
  */
-export const WhyChoose: React.FC = () => {
+export const WhyChooseRu: React.FC = () => {
   const reasons = [
     {
       icon: Shield,
@@ -35,12 +35,12 @@ export const WhyChoose: React.FC = () => {
         {/* Section Header */}
         <div className="text-center mb-16">
           <h2 className="text-4xl lg:text-6xl font-black text-white mb-6 tracking-tight">
-            WHY CHOOSE <span className="text-blue-500">C.A.P</span>
+            ПОЧЕМУ ВЫБИРАЮТ <span className="text-blue-500">C.A.P</span>
           </h2>
           <div className="w-24 h-1 bg-blue-500 mx-auto mb-8"></div>
           <p className="text-xl text-gray-400 max-w-3xl mx-auto font-medium">
-            When performance and reliability matter, professionals trust C.A.P. 
-            for superior quality and unmatched service.
+            Когда важны производительность и надежность, профессионалы доверяют C.A.P. 
+            за превосходное качество и непревзойденный сервис.
           </p>
         </div>
 
@@ -66,7 +66,6 @@ export const WhyChoose: React.FC = () => {
             </div>
           ))}
         </div>
-
       </div>
     </section>
   );

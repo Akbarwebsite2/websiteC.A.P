@@ -2,12 +2,12 @@ import React from 'react';
 import { MessageCircle, MapPin, Clock, Mail, Send } from 'lucide-react';
 
 /**
- * Contact Component
+ * Contact Component - Russian Version
  * Contact information and final CTA
  */
-export const Contact: React.FC = () => {
+export const ContactRu: React.FC = () => {
   const handleWhatsAppClick = () => {
-    const message = encodeURIComponent("Hello, I'm interested in C.A.P. auto parts.");
+    const message = encodeURIComponent("Здравствуйте, меня интересуют автозапчасти C.A.P.");
     window.open(`https://wa.me/971561747182?text=${message}`, '_blank');
   };
 
@@ -91,14 +91,13 @@ export const Contact: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
             <div className="flex items-center justify-center space-x-4 text-gray-400">
               <MapPin className="h-6 w-6 text-blue-500" />
-              <span className="font-medium">Dubai, United Arab Emirates</span>
+              <span className="font-medium">Дубай, Объединенные Арабские Эмираты</span>
             </div>
             <div className="flex items-center justify-center space-x-4 text-gray-400">
               <Clock className="h-6 w-6 text-blue-500" />
-              <span className="font-medium">Available 24/7 for urgent orders</span>
+              <span className="font-medium">Доступны 24/7 для срочных заказов</span>
             </div>
           </div>
-
         </div>
 
         {/* Footer */}
@@ -115,7 +114,7 @@ export const Contact: React.FC = () => {
             </div>
           </div>
           <p className="text-gray-500 text-sm">
-            © 2025 Common Auto Parts. All rights reserved. | Engineered to Perform. Built to Last.
+            © 2025 Common Auto Parts. Все права защищены. | Создано для Работы. Построено для Долговечности.
           </p>
         </div>
       </div>
