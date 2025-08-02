@@ -43,25 +43,13 @@ export const Hero: React.FC = () => {
       </div>
 
       <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        {/* Logo Section */}
-        <div className="mb-8">
-          <div className="inline-block relative">
-            <div className="absolute inset-0 bg-blue-600/20 rounded-full blur-xl scale-110"></div>
-            <img 
-              src="/C.A.P logo.jpg" 
-              alt="C.A.P. Common Auto Parts" 
-              className="relative h-28 w-28 lg:h-36 lg:w-36 rounded-full object-cover border-4 border-blue-600 shadow-2xl"
-            />
-          </div>
-        </div>
-
         {/* Main Heading */}
-        <h1 className="text-5xl sm:text-6xl lg:text-8xl font-black text-white mb-8 leading-tight tracking-tight">
+        <h1 className="text-5xl sm:text-6xl lg:text-8xl font-black text-white mb-8 leading-tight tracking-tight mt-16">
           <span className="block text-blue-500 text-3xl sm:text-4xl lg:text-5xl font-black mb-4 tracking-widest">
             C.A.P
           </span>
           <span className="bg-gradient-to-r from-white via-gray-200 to-white bg-clip-text text-transparent">
-            ENGINEERED TO PERFORM
+            МОТОРНЫЕ ЧАСТИ, ХОДОВЫЕ ЧАСТИ
           </span>
         </h1>
 

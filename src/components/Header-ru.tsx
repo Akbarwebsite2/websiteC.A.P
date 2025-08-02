@@ -37,17 +37,17 @@ export const HeaderRu: React.FC = () => {
       <nav className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <div className="flex items-center space-x-6">
+          <div className="flex items-center space-x-4">
             <img 
               src="/C.A.P logo.jpg" 
               alt="C.A.P. Logo" 
-              className="h-16 w-16 rounded-full object-cover border-2 border-blue-600"
+              className="h-12 w-12 rounded-full object-cover border-2 border-blue-600"
             />
             <div>
-              <h1 className="text-3xl lg:text-4xl font-black text-white tracking-tight">
+              <h1 className="text-2xl lg:text-3xl font-black text-white tracking-tight">
                 <span className="text-blue-500 font-black">C.A.P</span>
               </h1>
-              <p className="text-sm lg:text-base text-gray-400 font-bold tracking-wider">
+              <p className="text-xs lg:text-sm text-gray-400 font-bold tracking-wider">
                 COMMON AUTO PARTS
               </p>
             </div>
@@ -65,17 +65,6 @@ export const HeaderRu: React.FC = () => {
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-500 transition-all duration-200 group-hover:w-full"></span>
               </a>
             ))}
-          </div>
-
-          {/* WhatsApp CTA */}
-          <div className="hidden lg:block">
-            <button 
-              onClick={handleWhatsAppClick}
-              className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-6 py-3 rounded-lg font-bold hover:from-blue-700 hover:to-blue-800 transition-all duration-200 transform hover:scale-105 flex items-center space-x-2 shadow-lg"
-            >
-              <MessageCircle className="h-5 w-5" />
-              <span>+971 56 174 71 82</span>
-            </button>
           </div>
 
           {/* Mobile Menu Button */}
@@ -101,13 +90,6 @@ export const HeaderRu: React.FC = () => {
                   {link.name}
                 </a>
               ))}
-              <button 
-                onClick={handleWhatsAppClick}
-                className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white px-6 py-3 rounded-lg font-bold hover:from-blue-700 hover:to-blue-800 transition-colors duration-200 flex items-center justify-center space-x-2 mt-4"
-              >
-                <MessageCircle className="h-5 w-5" />
-                <span>+971 56 174 71 82</span>
-              </button>
             </div>
           </div>
         )}

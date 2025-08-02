@@ -47,10 +47,20 @@ export const ProductsRu: React.FC = () => {
   ];
 
   return (
-    <section id="products" className="py-20 bg-gradient-to-b from-black to-gray-900">
+    <section id="products" className="py-20 relative">
+      {/* Background Image */}
+      <div className="absolute inset-0">
+        <img 
+          src="https://images.pexels.com/photos/3806288/pexels-photo-3806288.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&fit=crop"
+          alt="Auto parts background"
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-black/80"></div>
+      </div>
+      
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="text-center mb-16">
+        <div className="relative z-10 text-center mb-16">
           <h2 className="text-4xl lg:text-6xl font-black text-white mb-6 tracking-tight">
             ПРЕМИАЛЬНЫЕ <span className="text-blue-500">АВТОЗАПЧАСТИ</span>
           </h2>
@@ -62,7 +72,7 @@ export const ProductsRu: React.FC = () => {
         </div>
 
         {/* Products Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {products.map((product, index) => (
             <div 
               key={product.title}
@@ -100,7 +110,7 @@ export const ProductsRu: React.FC = () => {
         </div>
 
         {/* Additional Products - Wide Format */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
+        <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
           {additionalProducts.map((product, index) => (
             <div 
               key={product.title}

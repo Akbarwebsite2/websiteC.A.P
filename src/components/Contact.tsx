@@ -16,9 +16,19 @@ export const Contact: React.FC = () => {
   };
 
   return (
-    <section id="contact" className="py-20 bg-gradient-to-b from-gray-900 to-black">
+    <section id="contact" className="py-20 relative">
+      {/* Background Image */}
+      <div className="absolute inset-0">
+        <img 
+          src="https://images.pexels.com/photos/279949/pexels-photo-279949.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&fit=crop"
+          alt="Contact background"
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-black/90"></div>
+      </div>
+      
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto text-center">
+        <div className="relative z-10 max-w-4xl mx-auto text-center">
           {/* Header */}
           <div className="mb-16">
             <h2 className="text-4xl lg:text-6xl font-black text-white mb-6 tracking-tight">

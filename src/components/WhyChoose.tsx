@@ -30,10 +30,20 @@ export const WhyChoose: React.FC = () => {
   ];
 
   return (
-    <section id="about" className="py-20 bg-black">
+    <section id="about" className="py-20 relative">
+      {/* Background Image */}
+      <div className="absolute inset-0">
+        <img 
+          src="https://images.pexels.com/photos/162553/keys-workshop-mechanic-tools-162553.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&fit=crop"
+          alt="Workshop background"
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-black/85"></div>
+      </div>
+      
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="text-center mb-16">
+        <div className="relative z-10 text-center mb-16">
           <h2 className="text-4xl lg:text-6xl font-black text-white mb-6 tracking-tight">
             WHY CHOOSE <span className="text-blue-500">C.A.P</span>
           </h2>
@@ -45,7 +55,7 @@ export const WhyChoose: React.FC = () => {
         </div>
 
         {/* Reasons Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+        <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
           {reasons.map((reason, index) => (
             <div 
               key={reason.title}

@@ -1,93 +1,134 @@
 import React from 'react';
-import { Wrench, Car, Droplets, Shield, Award, Store } from 'lucide-react';
+import { Wrench, Car, Droplets, Shield, Award, Store, Filter, Zap, Disc } from 'lucide-react';
 
-const Products = () => {
+export const Products: React.FC = () => {
+  const products = [
+    {
+      icon: Droplets,
+      title: "Моторные части",
+      description: "Высококачественные компоненты двигателя для максимальной защиты и производительности вашего автомобиля.",
+      image: "https://images.pexels.com/photos/190574/pexels-photo-190574.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop"
+    },
+    {
+      icon: Filter,
+      title: "Ходовые части",
+      description: "Профессиональные компоненты подвески и ходовой части для комфортной и безопасной езды.",
+      image: "https://images.pexels.com/photos/3806288/pexels-photo-3806288.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop"
+    },
+    {
+      icon: Zap,
+      title: "Моторное масло",
+      description: "Премиальные синтетические и обычные масла для максимальной защиты двигателя и его долговечности.",
+      image: "https://images.pexels.com/photos/13065690/pexels-photo-13065690.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop"
+    },
+    {
+      icon: Disc,
+      title: "Кузовные части",
+      description: "Качественные кузовные элементы и аксессуары для восстановления и улучшения внешнего вида автомобиля.",
+      image: "https://images.pexels.com/photos/279949/pexels-photo-279949.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop"
+    }
+  ];
+
+  const additionalProducts = [
+    {
+      title: "Оригинальные автозапчасти",
+      description: "Подлинные OEM запчасти от официальных производителей для гарантированного качества и совместимости.",
+      image: "https://images.pexels.com/photos/162553/keys-workshop-mechanic-tools-162553.jpeg?auto=compress&cs=tinysrgb&w=800&h=450&fit=crop"
+    },
+    {
+      title: "Автомаркет автозапчасти",
+      description: "Широкий ассортимент качественных запчастей по конкурентным ценам для всех марок автомобилей.",
+      image: "https://images.pexels.com/photos/1319839/pexels-photo-1319839.jpeg?auto=compress&cs=tinysrgb&w=800&h=450&fit=crop"
+    }
+  ];
+
   return (
-    <section className="py-20 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">PREMIUM AUTO PARTS</h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Discover our comprehensive range of high-quality automotive parts and accessories
+    <section id="products" className="py-20 relative">
+      {/* Background Image */}
+      <div className="absolute inset-0">
+        <img 
+          src="https://images.pexels.com/photos/3806288/pexels-photo-3806288.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&fit=crop"
+          alt="Auto parts background"
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-black/80"></div>
+      </div>
+      
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Section Header */}
+        <div className="relative z-10 text-center mb-16">
+          <h2 className="text-4xl lg:text-6xl font-black text-white mb-6 tracking-tight">
+            ПРЕМИАЛЬНЫЕ <span className="text-blue-500">АВТОЗАПЧАСТИ</span>
+          </h2>
+          <p className="text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
+            Откройте для себя наш полный ассортимент высококачественных автомобильных запчастей и аксессуаров от ведущих мировых производителей
           </p>
         </div>
 
-        {/* Main 4 cards in 2x2 grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-          <div className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
-            <div className="aspect-[9/16] bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center">
-              <Wrench className="w-16 h-16 text-white" />
+        {/* Products Grid */}
+        <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {products.map((product, index) => (
+            <div 
+              key={product.title}
+              className="group bg-white/10 backdrop-blur-sm rounded-2xl overflow-hidden hover:bg-white/20 transition-all duration-500 hover:scale-105 border border-white/20"
+            >
+              {/* Product Image */}
+              <div className="relative h-48 overflow-hidden">
+                <img 
+                  src={product.image}
+                  alt={product.title}
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                <div className="absolute top-4 right-4 bg-blue-500 p-3 rounded-full">
+                  <product.icon className="w-6 h-6 text-white" />
+                </div>
+              </div>
+              
+              {/* Product Content */}
+              <div className="p-6">
+                <h3 className="text-xl font-bold text-white mb-3 group-hover:text-blue-400 transition-colors">
+                  {product.title}
+                </h3>
+                <p className="text-gray-300 text-sm leading-relaxed">
+                  {product.description}
+                </p>
+              </div>
             </div>
-            <div className="p-6">
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Моторные части</h3>
-              <p className="text-gray-600">
-                Высококачественные детали двигателя для оптимальной производительности и долговечности вашего автомобиля.
-              </p>
-            </div>
-          </div>
-
-          <div className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
-            <div className="aspect-[9/16] bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center">
-              <Car className="w-16 h-16 text-white" />
-            </div>
-            <div className="p-6">
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Ходовые части</h3>
-              <p className="text-gray-600">
-                Надежные компоненты подвески и рулевого управления для безопасной и комфортной езды.
-              </p>
-            </div>
-          </div>
-
-          <div className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
-            <div className="aspect-[9/16] bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center">
-              <Droplets className="w-16 h-16 text-white" />
-            </div>
-            <div className="p-6">
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Моторное масло</h3>
-              <p className="text-gray-600">
-                Премиальные моторные масла и жидкости для защиты двигателя и продления срока службы.
-              </p>
-            </div>
-          </div>
-
-          <div className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
-            <div className="aspect-[9/16] bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center">
-              <Shield className="w-16 h-16 text-white" />
-            </div>
-            <div className="p-6">
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Кузовные части</h3>
-              <p className="text-gray-600">
-                Качественные детали кузова и аксессуары для восстановления и улучшения внешнего вида.
-              </p>
-            </div>
-          </div>
+          ))}
         </div>
 
-        {/* Additional 2 cards in wide format */}
-        <div className="grid md:grid-cols-2 gap-8">
-          <div className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
-            <div className="aspect-[16/9] bg-gradient-to-r from-blue-500 to-blue-700 flex items-center justify-center">
-              <Award className="w-20 h-20 text-white" />
+        {/* Additional Products - Wide Format */}
+        <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
+          {additionalProducts.map((product, index) => (
+            <div 
+              key={product.title}
+              className="group bg-white/10 backdrop-blur-sm rounded-2xl overflow-hidden hover:bg-white/20 transition-all duration-500 hover:scale-105 border border-white/20"
+            >
+              {/* Product Image */}
+              <div className="relative h-64 overflow-hidden">
+                <img 
+                  src={product.image}
+                  alt={product.title}
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                <div className="absolute top-4 right-4 bg-blue-500 p-3 rounded-full">
+                  {index === 0 ? <Award className="w-6 h-6 text-white" /> : <Store className="w-6 h-6 text-white" />}
+                </div>
+              </div>
+              
+              {/* Product Content */}
+              <div className="p-8">
+                <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-blue-400 transition-colors">
+                  {product.title}
+                </h3>
+                <p className="text-gray-300 leading-relaxed">
+                  {product.description}
+                </p>
+              </div>
             </div>
-            <div className="p-6">
-              <h3 className="text-2xl font-semibold text-gray-900 mb-3">Оригинальные автозапчасти</h3>
-              <p className="text-gray-600">
-                Подлинные запчасти от ведущих производителей с гарантией качества и полной совместимостью с вашим автомобилем.
-              </p>
-            </div>
-          </div>
-
-          <div className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
-            <div className="aspect-[16/9] bg-gradient-to-r from-blue-500 to-blue-700 flex items-center justify-center">
-              <Store className="w-20 h-20 text-white" />
-            </div>
-            <div className="p-6">
-              <h3 className="text-2xl font-semibold text-gray-900 mb-3">Автомаркет автозапчасти</h3>
-              <p className="text-gray-600">
-                Широкий ассортимент запчастей для всех марок автомобилей по конкурентным ценам с быстрой доставкой.
-              </p>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </section>
