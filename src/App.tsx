@@ -13,7 +13,7 @@ import { WhatsAppFloat } from './components/WhatsAppFloat';
  */
 function App() {
   return (
-    <div className="min-h-screen bg-black font-sans">
+    <div className="min-h-screen bg-gray-900 font-sans">
       <Header />
       <main>
         <Hero />

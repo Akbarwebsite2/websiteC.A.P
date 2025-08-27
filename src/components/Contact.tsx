@@ -16,9 +16,8 @@ export const Contact: React.FC = () => {
   };
 
   return (
-    <section id="contact" className="py-20 relative">
+    <section id="contact" className="py-12 relative bg-gray-900">
       {/* Dark Blue Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-blue-900 to-black"></div>
       
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="relative z-10 max-w-4xl mx-auto text-center">
