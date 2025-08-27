@@ -17,15 +17,8 @@ export const Contact: React.FC = () => {
 
   return (
     <section id="contact" className="py-20 relative">
-      {/* Background Image */}
-      <div className="absolute inset-0">
-        <img 
-          src="https://images.pexels.com/photos/279949/pexels-photo-279949.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&fit=crop"
-          alt="Contact background"
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-black/90"></div>
-      </div>
+      {/* Dark Blue Background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-blue-900 to-black"></div>
       
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="relative z-10 max-w-4xl mx-auto text-center">
@@ -94,18 +87,6 @@ export const Contact: React.FC = () => {
               <h3 className="text-xl font-bold text-white group-hover:text-red-400 transition-colors duration-300">
                 Email
               </h3>
-            </div>
-          </div>
-
-          {/* Additional Info */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-            <div className="flex items-center justify-center space-x-4 text-gray-400">
-              <MapPin className="h-6 w-6 text-blue-500" />
-              <span className="font-medium">Dubai, United Arab Emirates</span>
-            </div>
-            <div className="flex items-center justify-center space-x-4 text-gray-400">
-              <Clock className="h-6 w-6 text-blue-500" />
-              <span className="font-medium">Available 24/7 for urgent orders</span>
             </div>
           </div>
 

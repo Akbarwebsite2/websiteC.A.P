@@ -53,8 +53,8 @@ export const HeaderRu: React.FC = () => {
             </div>
           </div>
 
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-8">
+          {/* Desktop Navigation - Centered */}
+          <div className="hidden lg:flex items-center space-x-8 absolute left-1/2 transform -translate-x-1/2">
             {navLinks.map((link) => (
               <a
                 key={link.name}

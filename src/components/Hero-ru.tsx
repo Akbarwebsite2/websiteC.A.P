@@ -8,34 +8,8 @@ import { ArrowDown } from 'lucide-react';
 export const HeroRu: React.FC = () => {
   return (
     <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Dark Automotive Background */}
-      <div className="absolute inset-0">
-        {/* Base gradient */}
-        <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-black"></div>
-        
-        {/* Metallic texture overlay */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="w-full h-full" style={{
-            backgroundImage: `
-              radial-gradient(circle at 25% 25%, #3b82f6 0%, transparent 50%),
-              radial-gradient(circle at 75% 75%, #2563eb 0%, transparent 50%),
-              linear-gradient(45deg, transparent 40%, rgba(59, 130, 246, 0.1) 50%, transparent 60%)
-            `,
-            backgroundSize: '200px 200px, 300px 300px, 100px 100px'
-          }}></div>
-        </div>
-        
-        {/* Subtle grid pattern */}
-        <div className="absolute inset-0 opacity-5">
-          <div className="w-full h-full" style={{
-            backgroundImage: `
-              linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px)
-            `,
-            backgroundSize: '60px 60px'
-          }}></div>
-        </div>
-      </div>
+      {/* Dark Blue Background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-blue-900 to-black"></div>
 
       <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 text-center">
         {/* Main Heading */}
@@ -44,7 +18,7 @@ export const HeroRu: React.FC = () => {
             C.A.P
           </span>
           <span className="bg-gradient-to-r from-white via-gray-200 to-white bg-clip-text text-transparent">
-            МОТОРНЫЕ ЧАСТИ, ХОДОВЫЕ ЧАСТИ
+            Ваш проводник в сфере автозапчастей
           </span>
         </h1>
 
@@ -55,14 +29,8 @@ export const HeroRu: React.FC = () => {
 
         {/* Description */}
         <p className="text-lg sm:text-xl text-gray-400 mb-12 max-w-3xl mx-auto leading-relaxed font-medium">
-          Моторные части, ходовые части, моторное масло, кузовные части, оригинальные автозапчасти и автомаркет автозапчасти. 
-          Когда важно качество, профессионалы выбирают C.A.P. для превосходной производительности и надежности.
+          Профессиональные автозапчасти высокого качества. Когда важна надежность, выбирают C.A.P.
         </p>
-
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-          <ArrowDown className="h-8 w-8 text-gray-500" />
-        </div>
       </div>
     </section>
   );

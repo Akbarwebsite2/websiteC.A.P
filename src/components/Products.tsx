@@ -44,15 +44,8 @@ export const Products: React.FC = () => {
 
   return (
     <section id="products" className="py-20 relative">
-      {/* Background Image */}
-      <div className="absolute inset-0">
-        <img 
-          src="https://images.pexels.com/photos/3806288/pexels-photo-3806288.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&fit=crop"
-          alt="Auto parts background"
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-black/80"></div>
-      </div>
+      {/* Dark Blue Background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-blue-900 to-black"></div>
       
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
