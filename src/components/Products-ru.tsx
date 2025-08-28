@@ -47,8 +47,7 @@ export const ProductsRu: React.FC = () => {
   ];
 
   return (
-    <section id="products" className="py-20 relative bg-gray-900">
-      {/* Dark Blue Background */}
+    <section id="products" className="py-20 relative bg-transparent">
       
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}

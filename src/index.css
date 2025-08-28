@@ -22,8 +22,59 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.6;
-  background-color: #000000;
+  background: linear-gradient(-45deg, #0f172a, #1e293b, #0c1426, #1a202c);
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
   color: #ffffff;
+  overflow-x: hidden;
+}
+
+/* Animated gradient background */
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Interactive background overlay */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), 
+    rgba(59, 130, 246, 0.15) 0%, 
+    rgba(30, 64, 175, 0.1) 25%, 
+    transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+  transition: all 0.3s ease;
+}
+
+/* Click ripple effect */
+.click-ripple {
+  position: fixed;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.4) 0%, transparent 70%);
+  transform: scale(0);
+  animation: ripple 0.8s ease-out;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@keyframes ripple {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
 }
 
 /* Reduced motion preferences */

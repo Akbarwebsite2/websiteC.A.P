@@ -12,8 +12,7 @@ export const Hero: React.FC = () => {
   };
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Dark Blue Background */}
+    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-transparent">
 
       <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 text-center">
         {/* Main Heading */}
