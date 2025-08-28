@@ -22,9 +22,31 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.6;
-  background: linear-gradient(-45deg, #0f172a, #1e293b, #0c1426, #1a202c);
-  background-size: 400% 400%;
-  animation: gradientShift 15s ease infinite;
+  background: 
+    linear-gradient(45deg, 
+      #000000 0%, 
+      #1a0000 15%, 
+      #330000 30%, 
+      #000000 45%, 
+      #4d0000 60%, 
+      #1a0000 75%, 
+      #000000 100%
+    ),
+    linear-gradient(-45deg, 
+      transparent 0%, 
+      #dc2626 10%, 
+      transparent 20%, 
+      #b91c1c 30%, 
+      transparent 40%, 
+      #dc2626 50%, 
+      transparent 60%, 
+      #991b1b 70%, 
+      transparent 80%, 
+      #dc2626 90%, 
+      transparent 100%
+    );
+  background-size: 400% 400%, 200% 200%;
+  animation: gradientShift 20s ease infinite, stripeMove 15s linear infinite;
   color: #ffffff;
   overflow-x: hidden;
 }
@@ -34,11 +56,33 @@ body {
   0% {
     background-position: 0% 50%;
   }
+  25% {
+    background-position: 100% 25%, 50% 50%;
+  }
   50% {
-    background-position: 100% 50%;
+    background-position: 100% 75%, 100% 100%;
+  }
+  75% {
+    background-position: 50% 100%, 25% 75%;
   }
   100% {
-    background-position: 0% 50%;
+    background-position: 0% 50%, 0% 0%;
+  }
+}
+
+/* Stripe movement animation */
+@keyframes stripeMove {
+  0% {
+    background-position: 0% 50%, 0% 0%;
+  }
+  33% {
+    background-position: 50% 25%, 100% 50%;
+  }
+  66% {
+    background-position: 100% 75%, 50% 100%;
+  }
+  100% {
+    background-position: 0% 50%, 0% 0%;
   }
 }
 
@@ -63,7 +107,7 @@ body::before {
 .click-ripple {
   position: fixed;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(59, 130, 246, 0.4) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(220, 38, 38, 0.5) 0%, rgba(185, 28, 28, 0.3) 40%, transparent 70%);
   transform: scale(0);
   animation: ripple 0.8s ease-out;
   pointer-events: none;
@@ -95,7 +139,7 @@ body::before {
 }
 
 ::-webkit-scrollbar-track {
-  background: #1f2937;
+  background: #1a0000;
 }
 
 ::-webkit-scrollbar-thumb {
