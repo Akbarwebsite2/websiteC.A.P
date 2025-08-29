@@ -23,30 +23,35 @@ body {
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.6;
   background: 
-    linear-gradient(45deg, 
-      #1e3a8a 0%, 
-      #dc2626 15%, 
-      #1d4ed8 30%, 
-      #b91c1c 45%, 
-      #2563eb 60%, 
-      #dc2626 75%, 
-      #1e40af 100%
+    radial-gradient(circle at 20% 80%, rgba(30, 58, 138, 0.8) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(29, 78, 216, 0.6) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(37, 99, 235, 0.4) 0%, transparent 50%),
+    linear-gradient(135deg, 
+      #0f172a 0%, 
+      #1e293b 25%, 
+      #334155 50%, 
+      #1e293b 75%, 
+      #0f172a 100%
     ),
-    linear-gradient(-45deg, 
-      transparent 0%, 
-      #dc2626 10%, 
-      transparent 20%, 
-      #3b82f6 30%, 
-      transparent 40%, 
-      #1d4ed8 50%, 
-      transparent 60%, 
-      #dc2626 70%, 
-      transparent 80%, 
-      #2563eb 90%, 
-      transparent 100%
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 2px,
+      rgba(30, 58, 138, 0.1) 2px,
+      rgba(30, 58, 138, 0.1) 4px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 3px,
+      rgba(29, 78, 216, 0.05) 3px,
+      rgba(29, 78, 216, 0.05) 6px
     );
-  background-size: 400% 400%, 200% 200%;
-  animation: gradientShift 20s ease infinite, stripeMove 15s linear infinite;
+  background-size: 300% 300%, 400% 400%, 200% 200%, 100% 100%, 20px 20px, 30px 30px;
+  animation: 
+    gradientShift 25s ease infinite, 
+    patternMove 20s linear infinite,
+    textureShift 30s ease-in-out infinite;
   color: #ffffff;
   overflow-x: hidden;
 }
@@ -54,35 +59,48 @@ body {
 /* Animated gradient background */
 @keyframes gradientShift {
   0% {
-    background-position: 0% 50%;
+    background-position: 0% 50%, 0% 50%, 0% 50%, 0% 0%, 0% 0%, 0% 0%;
   }
   25% {
-    background-position: 100% 25%, 50% 50%;
+    background-position: 100% 25%, 50% 75%, 75% 25%, 0% 0%, 0% 0%, 0% 0%;
   }
   50% {
-    background-position: 100% 75%, 100% 100%;
+    background-position: 100% 75%, 100% 25%, 25% 75%, 0% 0%, 0% 0%, 0% 0%;
   }
   75% {
-    background-position: 50% 100%, 25% 75%;
+    background-position: 25% 100%, 75% 50%, 50% 50%, 0% 0%, 0% 0%, 0% 0%;
   }
   100% {
-    background-position: 0% 50%, 0% 0%;
+    background-position: 0% 50%, 0% 50%, 0% 50%, 0% 0%, 0% 0%, 0% 0%;
   }
 }
 
-/* Stripe movement animation */
-@keyframes stripeMove {
+/* Pattern movement animation */
+@keyframes patternMove {
   0% {
-    background-position: 0% 50%, 0% 0%;
+    background-position: 0% 50%, 0% 50%, 0% 50%, 0% 0%, 0px 0px, 0px 0px;
   }
   33% {
-    background-position: 50% 25%, 100% 50%;
+    background-position: 50% 25%, 100% 75%, 25% 25%, 0% 0%, 10px 10px, -15px 15px;
   }
   66% {
-    background-position: 100% 75%, 50% 100%;
+    background-position: 100% 75%, 25% 25%, 75% 75%, 0% 0%, 20px 20px, -30px 30px;
   }
   100% {
-    background-position: 0% 50%, 0% 0%;
+    background-position: 0% 50%, 0% 50%, 0% 50%, 0% 0%, 0px 0px, 0px 0px;
+  }
+}
+
+/* Texture shifting animation */
+@keyframes textureShift {
+  0% {
+    background-position: 0% 50%, 0% 50%, 0% 50%, 0% 0%, 0px 0px, 0px 0px;
+  }
+  50% {
+    background-position: 75% 25%, 25% 75%, 50% 50%, 0% 0%, 15px 15px, -20px 20px;
+  }
+  100% {
+    background-position: 0% 50%, 0% 50%, 0% 50%, 0% 0%, 0px 0px, 0px 0px;
   }
 }
 
@@ -94,10 +112,12 @@ body::before {
   left: 0;
   width: 100%;
   height: 100%;
-  background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), 
-    rgba(220, 38, 38, 0.15) 0%, 
-    rgba(59, 130, 246, 0.1) 25%, 
-    transparent 50%);
+  background: 
+    radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), 
+      rgba(29, 78, 216, 0.3) 0%, 
+      rgba(30, 58, 138, 0.2) 25%, 
+      rgba(15, 23, 42, 0.1) 50%,
+      transparent 70%);
   pointer-events: none;
   z-index: 0;
   transition: all 0.3s ease;
@@ -107,7 +127,11 @@ body::before {
 .click-ripple {
   position: fixed;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(220, 38, 38, 0.5) 0%, rgba(59, 130, 246, 0.3) 40%, transparent 70%);
+  background: radial-gradient(circle, 
+    rgba(29, 78, 216, 0.6) 0%, 
+    rgba(30, 58, 138, 0.4) 30%, 
+    rgba(15, 23, 42, 0.2) 60%, 
+    transparent 80%);
   transform: scale(0);
   animation: ripple 0.8s ease-out;
   pointer-events: none;
@@ -139,16 +163,16 @@ body::before {
 }
 
 ::-webkit-scrollbar-track {
-  background: #1e3a8a;
+  background: #0f172a;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #dc2626;
+  background: #1d4ed8;
   border-radius: 6px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #3b82f6;
+  background: #2563eb;
 }
 
 /* Focus styles for accessibility */
@@ -156,13 +180,13 @@ button:focus,
 a:focus,
 input:focus,
 textarea:focus {
-  outline: 2px solid #dc2626;
+  outline: 2px solid #2563eb;
   outline-offset: 2px;
 }
 
 /* Text selection */
 ::selection {
-  background-color: #3b82f6;
+  background-color: #1d4ed8;
   color: white;
 }
 
