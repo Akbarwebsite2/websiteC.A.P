@@ -23,29 +23,29 @@ body {
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.6;
   background: 
-    radial-gradient(circle at 20% 80%, rgba(30, 58, 138, 0.8) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(29, 78, 216, 0.6) 0%, transparent 50%),
-    radial-gradient(circle at 40% 40%, rgba(37, 99, 235, 0.4) 0%, transparent 50%),
+    radial-gradient(circle at 20% 80%, rgba(220, 38, 38, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(185, 28, 28, 0.12) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
     linear-gradient(135deg, 
-      #0f172a 0%, 
-      #1e293b 25%, 
-      #334155 50%, 
-      #1e293b 75%, 
-      #0f172a 100%
+      #000000 0%, 
+      #0a0a0f 25%, 
+      #0f1419 50%, 
+      #0a0a0f 75%, 
+      #000000 100%
     ),
     repeating-linear-gradient(
       45deg,
       transparent,
       transparent 2px,
-      rgba(30, 58, 138, 0.1) 2px,
-      rgba(30, 58, 138, 0.1) 4px
+      rgba(220, 38, 38, 0.04) 2px,
+      rgba(220, 38, 38, 0.04) 4px
     ),
     repeating-linear-gradient(
       -45deg,
       transparent,
       transparent 3px,
-      rgba(29, 78, 216, 0.05) 3px,
-      rgba(29, 78, 216, 0.05) 6px
+      rgba(29, 78, 216, 0.03) 3px,
+      rgba(29, 78, 216, 0.03) 6px
     );
   background-size: 300% 300%, 400% 400%, 200% 200%, 100% 100%, 20px 20px, 30px 30px;
   animation: 
@@ -114,9 +114,9 @@ body::before {
   height: 100%;
   background: 
     radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), 
-      rgba(29, 78, 216, 0.3) 0%, 
-      rgba(30, 58, 138, 0.2) 25%, 
-      rgba(15, 23, 42, 0.1) 50%,
+      rgba(29, 78, 216, 0.12) 0%, 
+      rgba(220, 38, 38, 0.08) 25%, 
+      rgba(0, 0, 0, 0.05) 50%,
       transparent 70%);
   pointer-events: none;
   z-index: 0;
@@ -128,9 +128,9 @@ body::before {
   position: fixed;
   border-radius: 50%;
   background: radial-gradient(circle, 
-    rgba(29, 78, 216, 0.6) 0%, 
-    rgba(30, 58, 138, 0.4) 30%, 
-    rgba(15, 23, 42, 0.2) 60%, 
+    rgba(29, 78, 216, 0.25) 0%, 
+    rgba(220, 38, 38, 0.18) 30%, 
+    rgba(0, 0, 0, 0.1) 60%, 
     transparent 80%);
   transform: scale(0);
   animation: ripple 0.8s ease-out;
@@ -163,16 +163,16 @@ body::before {
 }
 
 ::-webkit-scrollbar-track {
-  background: #0f172a;
+  background: #000000;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1d4ed8;
+  background: #dc2626;
   border-radius: 6px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #2563eb;
+  background: #b91c1c;
 }
 
 /* Focus styles for accessibility */
@@ -186,7 +186,7 @@ textarea:focus {
 
 /* Text selection */
 ::selection {
-  background-color: #1d4ed8;
+  background-color: #dc2626;
   color: white;
 }
 
