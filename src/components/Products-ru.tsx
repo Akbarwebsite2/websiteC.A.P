@@ -37,12 +37,12 @@ export const ProductsRu: React.FC = () => {
     {
       title: "Оригинальные автозапчасти",
       description: "Подлинные OEM запчасти от официальных производителей для гарантированного качества и совместимости.",
-      image: "https://images.pexels.com/photos/3806288/pexels-photo-3806288.jpeg?auto=compress&cs=tinysrgb&w=800&h=450&fit=crop"
+      image: "/originall.jpg"
     },
     {
       title: "Автомаркет автозапчасти",
       description: "Широкий ассортимент качественных запчастей по конкурентным ценам для всех марок автомобилей.",
-      image: "https://images.pexels.com/photos/3806288/pexels-photo-3806288.jpeg?auto=compress&cs=tinysrgb&w=800&h=450&fit=crop"
+      image: "/avtomarket.jpg"
     }
   ];
 
