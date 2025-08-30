@@ -12,7 +12,16 @@ export const Hero: React.FC = () => {
   };
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-transparent">
+    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Background Image */}
+      <div className="absolute inset-0 z-0">
+        <img 
+          src="/Изображение WhatsApp 2025-08-29 в 13.53.49_89e4807b copy.jpg"
+          alt="Auto Parts Background"
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-black/70"></div>
+      </div>
 
       <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 text-center">
         {/* Main Heading */}
