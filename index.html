@@ -17,18 +17,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <script>
-      // Language detection and redirect
-      (function() {
-        const userLang = navigator.language || navigator.userLanguage;
-        if (userLang.startsWith('ru') && !window.location.pathname.includes('ru.html')) {
-          window.location.href = 'ru.html';
-        }
-      })();
-    </script>
   </head>
   <body>
     <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+    <script type="module" src="/src/main-ru.tsx"></script>
   </body>
 </html>
