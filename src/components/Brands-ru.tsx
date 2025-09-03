@@ -9,66 +9,65 @@ export const BrandsRu: React.FC = () => {
   // Brands extracted exactly from the catalog image - row by row
   const brands = [
     // Row 1 (top row from catalog)
-    { name: "BOSCH", category: "Автозапчасти" },
-    { name: "MANN-FILTER", category: "Фильтры" },
-    { name: "SACHS", category: "Амортизаторы" },
-    { name: "BREMBO", category: "Тормоза" },
-    { name: "FEBI", category: "Запчасти" },
-    { name: "SWAG", category: "Запчасти" },
+    { name: "NDC", category: "Тормозные колодки" },
+    { name: "TF", category: "Поршневые кольца" },
+    { name: "NPR", category: "Поршневая группа" },
+    { name: "Hemel", category: "Фильтры" },
+    { name: "JTEKT", category: "Подшипники" },
+    { name: "ERISTIC Gasket", category: "Прокладки" },
     
     // Row 2
-    { name: "MOBIL 1", category: "Масла" },
-    { name: "CASTROL", category: "Масла" },
-    { name: "SHELL", category: "Масла" },
-    { name: "TOTAL", category: "Масла" },
-    { name: "LIQUI MOLY", category: "Масла" },
-    { name: "MOTUL", category: "Масла" },
+    { name: "FBK", category: "Прокладки" },
+    { name: "RIK", category: "Поршневые кольца" },
+    { name: "GMB", category: "Водяная помпа" },
+    { name: "MANN FILTER", category: "Фильтры" },
+    { name: "NTN", category: "Подшипники" },
+    { name: "Stone", category: "Прокладки" },
     
     // Row 3
-    { name: "MAHLE", category: "Фильтры" },
-    { name: "HELLA", category: "Освещение" },
-    { name: "CONTINENTAL", category: "Шины" },
-    { name: "VALEO", category: "Электрика" },
-    { name: "PIERBURG", category: "Двигатель" },
-    { name: "VDO", category: "Электрика" },
+    { name: "AISIN", category: "Аккумулятор" },
+    { name: "NPG", category: "Поршневые кольца" },
+    { name: "EXEDY", category: "Диски сцепления" },
+    { name: "MANN FILTER", category: "Фильтры" },
+    { name: "NTN", category: "Подшипники" },
+    { name: "TONG HONG GASKETS", category: "Прокладки головки блока" },
     
     // Row 4
-    { name: "LEMFÖRDER", category: "Подвеска" },
-    { name: "CORTECO", category: "Уплотнители" },
-    { name: "ELRING", category: "Прокладки" },
-    { name: "TRUCKTEC", category: "Грузовые" },
-    { name: "MEYLE", category: "Запчасти" },
-    { name: "TOPRAN", category: "Запчасти" },
+    { name: "TURBO", category: "Стартер + Генератор" },
+    { name: "DREKF", category: "Тормозные диски" },
+    { name: "SB", category: "Амортизаторы" },
+    { name: "KYOSAN", category: "Топливный насос" },
+    { name: "PMC Valeo", category: "Воздушный фильтр" },
+    { name: "TEIKIN", category: "Все комплектующие детали" },
     
     // Row 5
-    { name: "OPTIMAL", category: "Подвеска" },
-    { name: "BIRTH", category: "Резина" },
-    { name: "MAPCO", category: "Запчасти" },
-    { name: "GATES", category: "Ремни" },
-    { name: "DAYCO", category: "Ремни" },
-    { name: "INA", category: "Подшипники" },
+    { name: "TAMA", category: "Термостаты" },
+    { name: "M", category: "MUSASHI" },
+    { name: "BANDO", category: "Ремень ГРМ" },
+    { name: "D.I.D", category: "Цепь ГРМ" },
+    { name: "KOYO", category: "Свечи зажигания" },
+    { name: "AISIN", category: "Подшипники + амортизаторы" },
     
     // Row 6 (bottom row)
-    { name: "FAG", category: "Подшипники" },
-    { name: "SKF", category: "Подшипники" },
-    { name: "ZIMMERMANN", category: "Тормоза" },
-    { name: "ATE", category: "Тормоза" },
-    { name: "TRW", category: "Тормоза" },
-    { name: "TEXTAR", category: "Тормоза" }
+    { name: "ROCKY", category: "Масло для двигателя гидравлических частей" },
+    { name: "OSK", category: "Ремкомплект цепи ГРМ" },
+    { name: "CAMELLIA", category: "Натяжитель, цепи Ремкомплект цепи" },
+    { name: "GMB", category: "Ремень ГРМ" },
+    { name: "FLAMMA", category: "Катушка зажигания" },
+    { name: "IZUMI", category: "Цепь ГРМ" }
   ];
 
   return (
     <section id="brands" className="py-16 relative bg-transparent">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header Section */}
-        <div className="relative z-10 text-center mb-12">
-          <h1 className="text-4xl lg:text-5xl font-black text-white mb-4 tracking-tight">
-            НАШИ <span className="text-blue-500">БРЕНДЫ</span>
-          </h1>
-          <div className="w-20 h-1 bg-blue-500 mx-auto mb-6"></div>
-          <p className="text-lg text-gray-300 max-w-3xl mx-auto leading-relaxed">
-            Работаем с ведущими мировыми производителями автозапчастей
-          </p>
+        {/* Header Section - Exact match to catalog */}
+        <div className="relative z-10 mb-8">
+          {/* Gray header bar like in catalog */}
+          <div className="bg-gray-300 text-black text-center py-3 mb-6 rounded-t-lg">
+            <h1 className="text-2xl lg:text-3xl font-bold tracking-wide">
+              МОТОРНЫЕ ЧАСТИ
+            </h1>
+          </div>
         </div>
 
         {/* Small Brand Cards Grid - Exactly like catalog */}
