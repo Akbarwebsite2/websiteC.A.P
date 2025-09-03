@@ -19,14 +19,14 @@ export const HeroRu: React.FC = () => {
       </div>
 
       <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        {/* Main Heading - C.A.P text above logo */}
+        {/* Main Heading - C.A.P text */}
         <h1 className="text-5xl sm:text-6xl lg:text-8xl font-black text-white mb-8 leading-tight tracking-tight mt-16">
           <span className="block text-blue-500 text-3xl sm:text-4xl lg:text-5xl font-black mb-4 tracking-widest">
             C.A.P
           </span>
         </h1>
 
-        {/* Centered Logo - positioned below C.A.P text */}
+        {/* Centered Logo */}
         <div className="mb-6">
           <img 
             src="/cap logotip.jpg" 
@@ -35,8 +35,8 @@ export const HeroRu: React.FC = () => {
           />
         </div>
 
-        {/* Description */}
-        <div className="mb-8">
+        {/* Description - moved lower */}
+        <div className="mb-8 mt-12">
           <span className="bg-gradient-to-r from-white via-gray-200 to-white bg-clip-text text-transparent text-2xl sm:text-3xl lg:text-4xl font-bold">
             Ваш проводник в сфере автозапчастей
           </span>
