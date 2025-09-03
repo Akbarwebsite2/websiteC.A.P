@@ -20,7 +20,7 @@ export const HeroRu: React.FC = () => {
 
       <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 text-center">
         {/* Centered Logo */}
-        <div className="mb-6 mt-16">
+        <div className="mb-6 mt-24">
           <img 
             src="/cap logotip.jpg" 
             alt="C.A.P. Logo" 
