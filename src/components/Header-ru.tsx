@@ -41,13 +41,13 @@ export const HeaderRu: React.FC = () => {
             <img 
               src="/cap logotip.jpg" 
               alt="C.A.P. Logo" 
-              className="h-12 w-12 rounded-full object-cover border-2 border-blue-600"
+             className="h-16 w-16 rounded-full object-cover border-2 border-blue-600 shadow-lg"
             />
             <div>
-              <h1 className="text-2xl lg:text-3xl font-black text-white tracking-tight">
+             <h1 className="text-3xl lg:text-4xl font-black text-white tracking-tight">
                 <span className="text-blue-500 font-black">C.A.P</span>
               </h1>
-              <p className="text-xs lg:text-sm text-gray-400 font-bold tracking-wider">
+             <p className="text-sm lg:text-base text-gray-400 font-bold tracking-wider">
                 COMMON AUTO PARTS
               </p>
             </div>
