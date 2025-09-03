@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { HeaderRu } from './components/Header-ru';
 import { HeroRu } from './components/Hero-ru';
 import { ProductsRu } from './components/Products-ru';
+import { BrandsRu } from './components/Brands-ru';
 import { WhyChooseRu } from './components/WhyChoose-ru';
 import { ContactRu } from './components/Contact-ru';
 import { WhatsAppFloat } from './components/WhatsAppFloat';
@@ -52,6 +53,7 @@ function AppRu() {
       <main>
         <HeroRu />
         <ProductsRu />
+        <BrandsRu />
         <WhyChooseRu />
         <ContactRu />
       </main>

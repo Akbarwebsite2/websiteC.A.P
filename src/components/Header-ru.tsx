@@ -21,6 +21,7 @@ export const HeaderRu: React.FC = () => {
   const navLinks = [
     { name: 'Главная', href: '#home' },
     { name: 'Продукты', href: '#products' },
+    { name: 'Бренды', href: '#brands' },
     { name: 'О нас', href: '#about' },
     { name: 'Контакты', href: '#contact' }
   ];
