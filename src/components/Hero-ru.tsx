@@ -11,7 +11,7 @@ export const HeroRu: React.FC = () => {
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <img 
-          src="/background c.a.p.jpg"
+          src="/Изображение WhatsApp 2025-08-30 в 19.32.34_31c214e3.jpg"
           alt="C.A.P Background"
           className="w-full h-full object-cover"
         />
