@@ -48,7 +48,9 @@ export const HeaderRu: React.FC = () => {
                 <span className="text-blue-500 font-black">C.A.P</span>
               </h1>
              <p className="text-sm lg:text-base text-gray-400 font-bold tracking-wider">
-                COMMON AUTO PARTS
+                <span className="font-black text-blue-400 tracking-wide" style={{ fontFamily: 'Inter, system-ui, sans-serif', fontWeight: '900', letterSpacing: '0.05em' }}>
+                  COMMON AUTO PARTS
+                </span>
               </p>
             </div>
           </div>

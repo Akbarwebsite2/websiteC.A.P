@@ -324,6 +324,14 @@ textarea:focus {
 }
 
 /* Custom utility classes */
+.common-auto-parts-text {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #60a5fa;
+}
+
 .text-shadow {
   text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
 }
