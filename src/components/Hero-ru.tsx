@@ -19,14 +19,14 @@ export const HeroRu: React.FC = () => {
       </div>
 
       <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        {/* Main Heading */}
+        {/* Main Heading - C.A.P text above logo */}
         <h1 className="text-5xl sm:text-6xl lg:text-8xl font-black text-white mb-8 leading-tight tracking-tight mt-16">
           <span className="block text-blue-500 text-3xl sm:text-4xl lg:text-5xl font-black mb-4 tracking-widest">
             C.A.P
           </span>
         </h1>
 
-        {/* Centered Logo - moved down and smaller */}
+        {/* Centered Logo - positioned below C.A.P text */}
         <div className="mb-6">
           <img 
             src="/cap logotip.jpg" 
