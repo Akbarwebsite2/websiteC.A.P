@@ -39,7 +39,7 @@ export const HeaderRu: React.FC = () => {
           {/* Logo */}
           <div className="flex items-center space-x-4">
             <img 
-              src="/C.A.P logo.jpg" 
+              src="/cap logotip.jpg" 
               alt="C.A.P. Logo" 
               className="h-12 w-12 rounded-full object-cover border-2 border-blue-600"
             />
