@@ -41,14 +41,14 @@ export const HeaderRu: React.FC = () => {
             <img 
               src="/cap logotip.jpg" 
               alt="C.A.P. Logo" 
-             className="h-16 w-16 rounded-full object-cover border-2 border-blue-600 shadow-lg"
+             className="h-16 w-16 rounded-full object-cover border-2 border-blue-600 shadow-lg brightness-110 contrast-125 saturate-110"
             />
             <div>
              <h1 className="text-3xl lg:text-4xl font-black text-white tracking-tight">
                 <span className="text-blue-500 font-black">C.A.P</span>
               </h1>
-             <p className="text-sm lg:text-base text-gray-400 font-bold tracking-wider">
-                <span className="font-black text-blue-400 tracking-wide" style={{ fontFamily: 'Inter, system-ui, sans-serif', fontWeight: '900', letterSpacing: '0.05em' }}>
+             <p className="text-sm lg:text-base text-gray-400 tracking-wider">
+                <span className="font-black text-blue-400 tracking-wide" style={{ fontFamily: 'Inter, system-ui, sans-serif', fontWeight: '900', letterSpacing: '0.05em', textShadow: '0 0 10px rgba(96, 165, 250, 0.5)' }}>
                   Common Auto Parts
                 </span>
               </p>

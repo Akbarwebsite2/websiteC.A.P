@@ -96,11 +96,11 @@ export const ContactRu: React.FC = () => {
             <img 
               src="/cap logotip.jpg" 
               alt="C.A.P. Logo" 
-              className="h-10 w-10 rounded-full object-cover border border-blue-600"
+              className="h-10 w-10 rounded-full object-cover border border-blue-600 brightness-110 contrast-125 saturate-110"
             />
             <div>
               <h4 className="text-xl font-bold text-white">C.A.P</h4>
-              <p className="text-sm text-gray-400">Common Auto Parts</p>
+              <p className="text-sm text-gray-400 font-black" style={{ textShadow: '0 0 8px rgba(96, 165, 250, 0.4)' }}>Common Auto Parts</p>
             </div>
           </div>
           <p className="text-gray-500 text-sm">
