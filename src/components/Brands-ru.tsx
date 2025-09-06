@@ -6,60 +6,52 @@ import React from 'react';
  * Carefully extracted brand names from the catalog
  */
 export const BrandsRu: React.FC = () => {
-  // Brands extracted exactly from the catalog image - row by row
+  // Exactly 36 brand cards - logos first, then text brands
   const brands = [
-    // Row 1 (top row from catalog)
+    // First 10 brands with logos (1.png to 10.png)
     { name: "NDC", category: "Тормозные колодки", logo: "/1.png" },
     { name: "TF", category: "Поршневые кольца", logo: "/2.png" },
     { name: "NPR", category: "Поршневая группа", logo: "/3.png" },
     { name: "Hemel", category: "Фильтры", logo: "/4.png" },
     { name: "JTEKT", category: "Подшипники", logo: "/5.png" },
-    { name: "ERISTIC Gasket", category: "Прокладки" },
     { name: "Brand 6", category: "Автозапчасти", logo: "/6.png" },
     { name: "Brand 7", category: "Автозапчасти", logo: "/7.png" },
     { name: "Brand 8", category: "Автозапчасти", logo: "/8.png" },
     { name: "Brand 9", category: "Автозапчасти", logo: "/9.png" },
     { name: "Brand 10", category: "Автозапчасти", logo: "/10.png" },
     
-    // Row 2
+    // Remaining 26 brands (text only) to make exactly 36 total
+    { name: "ERISTIC Gasket", category: "Прокладки" },
     { name: "FBK", category: "Прокладки" },
     { name: "RIK", category: "Поршневые кольца" },
     { name: "GMB", category: "Водяная помпа" },
     { name: "MANN FILTER", category: "Фильтры" },
     { name: "NTN", category: "Подшипники" },
     { name: "Stone", category: "Прокладки" },
-    
-    // Row 3
     { name: "AISIN", category: "Аккумулятор" },
     { name: "NPG", category: "Поршневые кольца" },
     { name: "EXEDY", category: "Диски сцепления" },
-    { name: "MANN FILTER", category: "Фильтры" },
-    { name: "NTN", category: "Подшипники" },
     { name: "TONG HONG GASKETS", category: "Прокладки головки блока" },
-    
-    // Row 4
     { name: "TURBO", category: "Стартер + Генератор" },
     { name: "DREKF", category: "Тормозные диски" },
     { name: "SB", category: "Амортизаторы" },
     { name: "KYOSAN", category: "Топливный насос" },
     { name: "PMC Valeo", category: "Воздушный фильтр" },
     { name: "TEIKIN", category: "Все комплектующие детали" },
-    
-    // Row 5
     { name: "TAMA", category: "Термостаты" },
-    { name: "M", category: "MUSASHI" },
+    { name: "MUSASHI", category: "Поршневая группа" },
     { name: "BANDO", category: "Ремень ГРМ" },
     { name: "D.I.D", category: "Цепь ГРМ" },
     { name: "KOYO", category: "Свечи зажигания" },
-    { name: "AISIN", category: "Подшипники + амортизаторы" },
-    
-    // Row 6 (bottom row)
     { name: "ROCKY", category: "Масло для двигателя гидравлических частей" },
     { name: "OSK", category: "Ремкомплект цепи ГРМ" },
     { name: "CAMELLIA", category: "Натяжитель, цепи Ремкомплект цепи" },
-    { name: "GMB", category: "Ремень ГРМ" },
     { name: "FLAMMA", category: "Катушка зажигания" },
-    { name: "IZUMI", category: "Цепь ГРМ" }
+    { name: "IZUMI", category: "Цепь ГРМ" },
+    { name: "FEBEST", category: "Подвеска" },
+    { name: "GATES", category: "Ремни" },
+    { name: "BOSCH", category: "Электрика" },
+    { name: "DENSO", category: "Свечи зажигания" }
   ];
 
   return (
