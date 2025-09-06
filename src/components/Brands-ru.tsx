@@ -27,13 +27,6 @@ export const BrandsRu: React.FC = () => {
     { name: "Brand 14", category: "Автозапчасти", logo: "/14.png" },
     { name: "Brand 15", category: "Автозапчасти", logo: "/15.png" },
     
-    // Remaining 21 brands (text only) to make exactly 36 total
-    { name: "Brand 11", category: "Автозапчасти", logo: "/11.png" },
-    { name: "Brand 12", category: "Автозапчасти", logo: "/12.png" },
-    { name: "Brand 13", category: "Автозапчасти", logo: "/13.png" },
-    { name: "Brand 14", category: "Автозапчасти", logo: "/14.png" },
-    { name: "Brand 15", category: "Автозапчасти", logo: "/15.png" },
-    
     // Cards 16-20 with logos (16.png to 20.png)
     { name: "Brand 16", category: "Автозапчасти", logo: "/16.png" },
     { name: "Brand 17", category: "Автозапчасти", logo: "/17.png" },
@@ -57,21 +50,7 @@ export const BrandsRu: React.FC = () => {
     { name: "SB", category: "Амортизаторы" },
     { name: "KYOSAN", category: "Топливный насос" },
     { name: "PMC Valeo", category: "Воздушный фильтр" },
-    { name: "TEIKIN", category: "Все комплектующие детали" },
-    { name: "TAMA", category: "Термостаты" },
-    { name: "MUSASHI", category: "Поршневая группа" },
-    { name: "BANDO", category: "Ремень ГРМ" },
-    { name: "D.I.D", category: "Цепь ГРМ" },
-    { name: "KOYO", category: "Свечи зажигания" },
-    { name: "ROCKY", category: "Масло для двигателя гидравлических частей" },
-    { name: "OSK", category: "Ремкомплект цепи ГРМ" },
-    { name: "CAMELLIA", category: "Натяжитель, цепи Ремкомплект цепи" },
-    { name: "FLAMMA", category: "Катушка зажигания" },
-    { name: "IZUMI", category: "Цепь ГРМ" },
-    { name: "FEBEST", category: "Подвеска" },
-    { name: "GATES", category: "Ремни" },
-    { name: "BOSCH", category: "Электрика" },
-    { name: "DENSO", category: "Свечи зажигания" }
+    { name: "TEIKIN", category: "Все комплектующие детали" }
   ];
 
   return (
