@@ -15,6 +15,11 @@ export const BrandsRu: React.FC = () => {
     { name: "Hemel", category: "Фильтры", logo: "/4.png" },
     { name: "JTEKT", category: "Подшипники", logo: "/5.png" },
     { name: "ERISTIC Gasket", category: "Прокладки" },
+    { name: "Brand 6", category: "Автозапчасти", logo: "/6.png" },
+    { name: "Brand 7", category: "Автозапчасти", logo: "/7.png" },
+    { name: "Brand 8", category: "Автозапчасти", logo: "/8.png" },
+    { name: "Brand 9", category: "Автозапчасти", logo: "/9.png" },
+    { name: "Brand 10", category: "Автозапчасти", logo: "/10.png" },
     
     // Row 2
     { name: "FBK", category: "Прокладки" },
