@@ -59,11 +59,11 @@ export const BrandsRu: React.FC = () => {
 
   // Ходовые части - 6 карточек
   const hodovyeBrands = [
-    { name: "Suspension Brand 1", category: "Амортизаторы", logo: "/x ch kartochka 1.png" },
-    { name: "Suspension Brand 2", category: "Пружины", logo: "/hodovye2.png" },
-    { name: "Suspension Brand 3", category: "Стойки", logo: "/hodovye3.png" },
-    { name: "Suspension Brand 4", category: "Рычаги", logo: "/hodovye4.png" },
-    { name: "Suspension Brand 5", category: "Шаровые опоры", logo: "/hodovye5.png" },
+    { name: "Suspension Brand 1", category: "Амортизаторы", logo: "/1 copy.png" },
+    { name: "Suspension Brand 2", category: "Пружины", logo: "/2 copy.png" },
+    { name: "Suspension Brand 3", category: "Стойки", logo: "/3 copy.png" },
+    { name: "Suspension Brand 4", category: "Рычаги", logo: "/4 copy.png" },
+    { name: "Suspension Brand 5", category: "Шаровые опоры", logo: "/5 copy.png" },
     { name: "Suspension Brand 6", category: "Сайлентблоки", logo: "/hodovye6.png" },
   ];
 
