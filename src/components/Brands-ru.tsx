@@ -35,13 +35,13 @@ export const BrandsRu: React.FC = () => {
     { name: "Brand 20", category: "Автозапчасти", logo: "/20.png" },
     
     // Cards 21-25 with logos (21.png to 25.png)
-    { name: "Brand 21", category: "Автозапчасти", logo: "/21.png" },
-    { name: "Brand 22", category: "Автозапчасти", logo: "/22.png" },
-    { name: "Brand 23", category: "Автозапчасти", logo: "/23.png" },
-    { name: "Brand 24", category: "Автозапчасти", logo: "/24.png" },
-    { name: "Brand 25", category: "Автозапчасти", logo: "/25.png" },
+    { name: "Brand 21", category: "Автозапчасти" },
+    { name: "Brand 22", category: "Автозапчасти" },
+    { name: "Brand 23", category: "Автозапчасти" },
+    { name: "Brand 24", category: "Автозапчасти" },
+    { name: "Brand 25", category: "Автозапчасти" },
     
-    // Remaining 11 brands (text only) to make exactly 36 total
+    // Remaining brands (text only) to make exactly 36 total
     { name: "ERISTIC Gasket", category: "Прокладки" },
     { name: "FBK", category: "Прокладки" },
     { name: "RIK", category: "Поршневые кольца" },
