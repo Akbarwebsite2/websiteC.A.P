@@ -83,13 +83,13 @@ export const BrandsRu: React.FC = () => {
                 key={`${brand.name}-${index}`}
                 className="group bg-white/95 backdrop-blur-sm rounded-md p-1 border border-gray-200 hover:border-blue-500 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 hover:bg-white"
               >
-                {/* Logo Area */}
-                <div className="aspect-square bg-white rounded-sm p-1 mb-1 flex items-center justify-center shadow-sm overflow-hidden h-12 w-12 mx-auto">
+                {/* Logo - занимает почти всю карточку */}
+                <div className="flex items-center justify-center mb-1 h-16 w-full overflow-hidden">
                   {brand.logo ? (
                     <img 
                       src={brand.logo} 
                       alt={`${brand.name} logo`}
-                      className="w-10 h-10 object-contain"
+                      className="w-full h-full object-contain"
                       style={{ 
                         maxWidth: '100%', 
                         maxHeight: '100%',
@@ -97,14 +97,14 @@ export const BrandsRu: React.FC = () => {
                       }}
                     />
                   ) : (
-                    <div className="text-gray-800 font-bold text-[8px] text-center leading-tight break-words">
+                    <div className="text-gray-800 font-bold text-sm text-center leading-tight break-words">
                       {brand.name}
                     </div>
                   )}
                 </div>
                 
-                {/* Brand Name */}
-                <div className="text-gray-700 text-[8px] font-semibold text-center leading-tight group-hover:text-blue-600 transition-colors duration-300">
+                {/* Brand Name - внизу карточки */}
+                <div className="text-gray-700 text-[10px] font-semibold text-center leading-tight group-hover:text-blue-600 transition-colors duration-300 px-1">
                   {brand.name}
                 </div>
               </div>
