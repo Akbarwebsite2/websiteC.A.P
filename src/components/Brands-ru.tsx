@@ -77,19 +77,19 @@ export const BrandsRu: React.FC = () => {
 
         {/* Brand Cards Grid - Compact and professional */}
         <div className="relative z-10">
-          <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 xl:grid-cols-12 gap-3">
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-4">
             {brands.map((brand, index) => (
               <div 
                 key={`${brand.name}-${index}`}
-                className="group text-center p-3"
+                className="group text-center p-4"
               >
-                {/* Logo - полный размер карточки */}
-                <div className="bg-white/95 backdrop-blur-sm rounded-md p-2 hover:bg-white transition-all duration-300 mb-2 aspect-square flex items-center justify-center overflow-hidden border-2 border-gray-300 hover:border-blue-500">
+                {/* Logo - огромный размер */}
+                <div className="bg-white/95 backdrop-blur-sm rounded-lg p-4 hover:bg-white transition-all duration-300 mb-4 flex items-center justify-center overflow-hidden border-2 border-gray-300 hover:border-blue-500" style={{ width: '120px', height: '120px' }}>
                   {brand.logo ? (
                     <img 
                       src={brand.logo} 
                       alt={`${brand.name} logo`}
-                      className="w-full h-full object-contain"
+                      className="w-full h-full object-contain max-w-none"
                       style={{ 
                         maxWidth: '100%', 
                         maxHeight: '100%',
@@ -97,14 +97,14 @@ export const BrandsRu: React.FC = () => {
                       }}
                     />
                   ) : (
-                    <div className="text-gray-800 font-bold text-xs text-center leading-tight break-words p-1">
+                    <div className="text-gray-800 font-bold text-sm text-center leading-tight break-words p-2">
                       {brand.name}
                     </div>
                   )}
                 </div>
                 
                 {/* Brand Name - внизу отдельно */}
-                <div className="text-white text-xs font-semibold leading-tight group-hover:text-blue-400 transition-colors duration-300 px-1">
+                <div className="text-white text-sm font-semibold leading-tight group-hover:text-blue-400 transition-colors duration-300 px-2">
                   {brand.name}
                 </div>
               </div>
