@@ -54,7 +54,7 @@ export const BrandsRu: React.FC = () => {
     { name: "Brand 33", category: "Автозапчасти", logo: "/33.png" },
     { name: "Brand 34", category: "Автозапчасти", logo: "/34.png" },
     { name: "Brand 35", category: "Автозапчасти", logo: "/35.png" },
-    { name: "Stone", category: "Прокладки" },
+    { name: "Stone", category: "Прокладки", logo: "/36.png" },
   ];
 
   return (
