@@ -34,7 +34,14 @@ export const BrandsRu: React.FC = () => {
     { name: "Brand 14", category: "Автозапчасти", logo: "/14.png" },
     { name: "Brand 15", category: "Автозапчасти", logo: "/15.png" },
     
-    // Remaining 21 brands (text only) to make exactly 36 total
+    // Cards 16-20 with logos (16.png to 20.png)
+    { name: "Brand 16", category: "Автозапчасти", logo: "/16.png" },
+    { name: "Brand 17", category: "Автозапчасти", logo: "/17.png" },
+    { name: "Brand 18", category: "Автозапчасти", logo: "/18.png" },
+    { name: "Brand 19", category: "Автозапчасти", logo: "/19.png" },
+    { name: "Brand 20", category: "Автозапчасти", logo: "/20.png" },
+    
+    // Remaining 16 brands (text only) to make exactly 36 total
     { name: "ERISTIC Gasket", category: "Прокладки" },
     { name: "FBK", category: "Прокладки" },
     { name: "RIK", category: "Поршневые кольца" },
