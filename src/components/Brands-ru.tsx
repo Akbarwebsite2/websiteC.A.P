@@ -77,14 +77,14 @@ export const BrandsRu: React.FC = () => {
 
         {/* Brand Cards Grid - Compact and professional */}
         <div className="relative z-10">
-          <div className="grid grid-cols-6 sm:grid-cols-8 md:grid-cols-10 lg:grid-cols-12 xl:grid-cols-15 gap-2">
+          <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 xl:grid-cols-12 gap-3">
             {brands.map((brand, index) => (
               <div 
                 key={`${brand.name}-${index}`}
-                className="group bg-white/95 backdrop-blur-sm rounded-md p-1 border border-gray-200 hover:border-blue-500 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 hover:bg-white"
+                className="group text-center"
               >
-                {/* Logo - занимает почти всю карточку */}
-                <div className="flex items-center justify-center mb-1 h-16 w-full overflow-hidden">
+                {/* Logo - полный размер карточки */}
+                <div className="bg-white/95 backdrop-blur-sm rounded-lg p-2 border border-gray-200 hover:border-blue-500 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 hover:bg-white mb-2 aspect-square flex items-center justify-center overflow-hidden">
                   {brand.logo ? (
                     <img 
                       src={brand.logo} 
@@ -97,14 +97,14 @@ export const BrandsRu: React.FC = () => {
                       }}
                     />
                   ) : (
-                    <div className="text-gray-800 font-bold text-sm text-center leading-tight break-words">
+                    <div className="text-gray-800 font-bold text-xs text-center leading-tight break-words p-1">
                       {brand.name}
                     </div>
                   )}
                 </div>
                 
-                {/* Brand Name - внизу карточки */}
-                <div className="text-gray-700 text-[10px] font-semibold text-center leading-tight group-hover:text-blue-600 transition-colors duration-300 px-1">
+                {/* Brand Name - внизу отдельно */}
+                <div className="text-white text-xs font-semibold leading-tight group-hover:text-blue-400 transition-colors duration-300">
                   {brand.name}
                 </div>
               </div>
