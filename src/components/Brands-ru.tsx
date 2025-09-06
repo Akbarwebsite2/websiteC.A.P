@@ -64,7 +64,7 @@ export const BrandsRu: React.FC = () => {
     { name: "Suspension Brand 3", category: "Стойки", logo: "/3 copy.png" },
     { name: "Suspension Brand 4", category: "Рычаги", logo: "/4 copy.png" },
     { name: "Suspension Brand 5", category: "Шаровые опоры", logo: "/5 copy.png" },
-    { name: "Suspension Brand 6", category: "Сайлентблоки", logo: "/hodovye6.png" },
+    { name: "Suspension Brand 6", category: "Сайлентблоки", logo: "/6 copy.png" },
   ];
 
   return (
