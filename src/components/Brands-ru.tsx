@@ -81,10 +81,10 @@ export const BrandsRu: React.FC = () => {
             {brands.map((brand, index) => (
               <div 
                 key={`${brand.name}-${index}`}
-                className="group text-center"
+                className="group text-center bg-gradient-to-b from-gray-800/50 to-gray-900/50 backdrop-blur-sm rounded-lg border border-gray-600 hover:border-blue-500 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/20 p-3"
               >
                 {/* Logo - полный размер карточки */}
-                <div className="bg-white/95 backdrop-blur-sm rounded-lg p-2 border border-gray-200 hover:border-blue-500 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 hover:bg-white mb-2 aspect-square flex items-center justify-center overflow-hidden">
+                <div className="bg-white/95 backdrop-blur-sm rounded-md p-2 hover:bg-white transition-all duration-300 mb-2 aspect-square flex items-center justify-center overflow-hidden">
                   {brand.logo ? (
                     <img 
                       src={brand.logo} 
@@ -104,7 +104,7 @@ export const BrandsRu: React.FC = () => {
                 </div>
                 
                 {/* Brand Name - внизу отдельно */}
-                <div className="text-white text-xs font-semibold leading-tight group-hover:text-blue-400 transition-colors duration-300">
+                <div className="text-white text-xs font-semibold leading-tight group-hover:text-blue-400 transition-colors duration-300 px-1">
                   {brand.name}
                 </div>
               </div>
