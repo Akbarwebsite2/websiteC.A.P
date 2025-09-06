@@ -9,11 +9,11 @@ export const BrandsRu: React.FC = () => {
   // Brands extracted exactly from the catalog image - row by row
   const brands = [
     // Row 1 (top row from catalog)
-    { name: "NDC", category: "Тормозные колодки" },
-    { name: "TF", category: "Поршневые кольца" },
-    { name: "NPR", category: "Поршневая группа" },
-    { name: "Hemel", category: "Фильтры" },
-    { name: "JTEKT", category: "Подшипники" },
+    { name: "NDC", category: "Тормозные колодки", logo: "/1.png" },
+    { name: "TF", category: "Поршневые кольца", logo: "/2.png" },
+    { name: "NPR", category: "Поршневая группа", logo: "/3.png" },
+    { name: "Hemel", category: "Фильтры", logo: "/4.png" },
+    { name: "JTEKT", category: "Подшипники", logo: "/5.png" },
     { name: "ERISTIC Gasket", category: "Прокладки" },
     
     // Row 2
@@ -84,10 +84,23 @@ export const BrandsRu: React.FC = () => {
                 className="group bg-white/95 backdrop-blur-sm rounded-lg p-3 border border-gray-200 hover:border-blue-500 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:bg-white"
               >
                 {/* Logo Area */}
-                <div className="aspect-square bg-white rounded-md p-2 mb-2 flex items-center justify-center shadow-sm">
-                  <div className="text-gray-800 font-bold text-xs text-center leading-tight break-words">
-                    {brand.name}
-                  </div>
+                <div className="aspect-square bg-white rounded-md p-1 mb-2 flex items-center justify-center shadow-sm overflow-hidden">
+                  {brand.logo ? (
+                    <img 
+                      src={brand.logo} 
+                      alt={`${brand.name} logo`}
+                      className="w-full h-full object-contain"
+                      style={{ 
+                        maxWidth: '100%', 
+                        maxHeight: '100%',
+                        imageRendering: 'crisp-edges'
+                      }}
+                    />
+                  ) : (
+                    <div className="text-gray-800 font-bold text-xs text-center leading-tight break-words">
+                      {brand.name}
+                    </div>
+                  )}
                 </div>
                 
                 {/* Brand Name */}
