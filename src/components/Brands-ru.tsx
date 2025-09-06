@@ -58,35 +58,40 @@ export const BrandsRu: React.FC = () => {
   ];
 
   return (
-    <section id="brands" className="py-16 relative bg-transparent">
+    <section id="brands" className="py-20 relative bg-transparent">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header Section - Exact match to catalog */}
-        <div className="relative z-10 mb-8">
-          {/* Gray header bar like in catalog */}
-          <div className="bg-gray-300 text-black text-center py-3 mb-6 rounded-t-lg">
-            <h1 className="text-2xl lg:text-3xl font-bold tracking-wide">
+        {/* Header Section */}
+        <div className="relative z-10 text-center mb-16">
+          <h2 className="text-4xl lg:text-6xl font-black text-white mb-6 tracking-tight">
+            НАШИ <span className="text-blue-500">БРЕНДЫ</span>
+          </h2>
+          <div className="w-24 h-1 bg-blue-500 mx-auto mb-8"></div>
+          
+          {/* Catalog header like in image */}
+          <div className="bg-gradient-to-r from-gray-600 to-gray-700 text-white text-center py-4 mb-8 rounded-lg shadow-lg border border-blue-500/20">
+            <h3 className="text-xl lg:text-2xl font-bold tracking-wide">
               МОТОРНЫЕ ЧАСТИ
-            </h1>
+            </h3>
           </div>
         </div>
 
-        {/* Small Brand Cards Grid - Exactly like catalog */}
+        {/* Brand Cards Grid - Compact and professional */}
         <div className="relative z-10">
-          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-2 md:gap-3">
+          <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 xl:grid-cols-12 gap-3">
             {brands.map((brand, index) => (
               <div 
                 key={`${brand.name}-${index}`}
-                className="group bg-white/95 rounded-md p-2 border border-gray-200 hover:border-blue-400 transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5"
+                className="group bg-white/95 backdrop-blur-sm rounded-lg p-3 border border-gray-200 hover:border-blue-500 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:bg-white"
               >
-                {/* Small Logo Area */}
-                <div className="aspect-square bg-white rounded-sm p-1 mb-1 flex items-center justify-center">
-                  <div className="text-gray-800 font-bold text-[8px] sm:text-[10px] text-center leading-tight break-words">
+                {/* Logo Area */}
+                <div className="aspect-square bg-white rounded-md p-2 mb-2 flex items-center justify-center shadow-sm">
+                  <div className="text-gray-800 font-bold text-xs text-center leading-tight break-words">
                     {brand.name}
                   </div>
                 </div>
                 
-                {/* Brand Name - Very Small */}
-                <div className="text-gray-700 text-[7px] sm:text-[8px] font-medium text-center leading-tight">
+                {/* Brand Name */}
+                <div className="text-gray-700 text-[10px] font-semibold text-center leading-tight group-hover:text-blue-600 transition-colors duration-300">
                   {brand.name}
                 </div>
               </div>
@@ -94,14 +99,14 @@ export const BrandsRu: React.FC = () => {
           </div>
         </div>
 
-        {/* Bottom Info */}
+        {/* Bottom Info with website colors */}
         <div className="relative z-10 mt-12 text-center">
-          <div className="bg-gradient-to-r from-blue-900/10 to-blue-800/10 backdrop-blur-sm rounded-lg p-6 border border-blue-500/20">
-            <h2 className="text-xl font-bold text-white mb-2">
+          <div className="bg-gradient-to-r from-blue-900/20 to-blue-800/20 backdrop-blur-sm rounded-xl p-8 border border-blue-500/30 shadow-xl">
+            <h4 className="text-2xl font-bold text-white mb-3">
               Более <span className="text-blue-500">40+ брендов</span> в каталоге
-            </h2>
-            <p className="text-gray-300 text-sm max-w-xl mx-auto">
-              Постоянно расширяем ассортимент качественных автозапчастей
+            </h4>
+            <p className="text-gray-300 text-lg max-w-2xl mx-auto leading-relaxed">
+              Постоянно расширяем ассортимент качественных автозапчастей от ведущих мировых производителей
             </p>
           </div>
         </div>
