@@ -101,11 +101,11 @@ export const BrandsRu: React.FC = () => {
                       {brand.name}
                     </div>
                   )}
-                </div>
-                
-                {/* Brand Name - внизу отдельно */}
-                <div className="text-white text-sm font-semibold leading-tight group-hover:text-blue-400 transition-colors duration-300 px-2">
-                  {brand.name}
+                  
+                  {/* Brand Name - внизу внутри карточки */}
+                  <div className="absolute bottom-2 left-0 right-0 text-gray-800 text-xs font-semibold text-center px-1 bg-white/90 rounded mx-1">
+                    {brand.name}
+                  </div>
                 </div>
               </div>
             ))}
