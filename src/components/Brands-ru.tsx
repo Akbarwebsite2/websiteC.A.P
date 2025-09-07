@@ -119,7 +119,7 @@ export const BrandsRu: React.FC = () => {
                       alt={`${brand.name} logo`}
                       className="w-full h-full object-cover max-w-none filter brightness-110 contrast-110 rounded-lg"
                       style={{ 
-                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent rounded-b-xl py-3 h-16">
+                        width: '100%', 
                         height: '100%',
                         imageRendering: 'crisp-edges'
                       }}
