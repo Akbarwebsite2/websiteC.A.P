@@ -72,8 +72,8 @@ export const BrandsRu: React.FC = () => {
     { name: "", category: "Тормозные колодки", logo: "/tormoz 1.png" },
     { name: "", category: "Тормозные диски", logo: "/tormoz 2.png" },
     { name: "Гидравлические части тормоза", category: "Тормозная жидкость", logo: "/tormoz 3.png" },
-    { name: "Transmission Brand 1", category: "Трансмиссионное масло", logo: "/tormoz 4.png" },
-    { name: "Transmission Brand 2", category: "Сцепление", logo: "/tormoz 5.png" },
+    { name: "", category: "Трансмиссионное масло", logo: "/tormoz 4.png" },
+    { name: "", category: "Сцепление", logo: "/tormoz 5.png" },
   ];
 
   // Кузовные части / Рестайлинг - 4 карточки
