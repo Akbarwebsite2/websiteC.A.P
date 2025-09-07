@@ -12,7 +12,7 @@ export const BrandsRu: React.FC = () => {
     { name: "Вкладыши", category: "Моторные части", logo: "/1.png" },
     { name: "Поршневые кольца", category: "Моторные части", logo: "/2.png" },
     { name: "Водяной помпа", category: "Моторные части", logo: "/karta 3.png" },
-    { name: "Фильтры", category: "Моторные части", logo: "/4.png" },
+    { name: "Фильтры", category: "Моторные части", logo: "/karta 4.png" },
     { name: "Подшипники", category: "Моторные части", logo: "/5.png" },
     { name: "Комплект прокладок", category: "Моторные части", logo: "/6.png" },
     { name: "Вкладыши", category: "Моторные части", logo: "/7.png" },
