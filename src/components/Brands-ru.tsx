@@ -279,16 +279,9 @@ export const BrandsRu: React.FC = () => {
               >
                 {/* Logo - огромный размер */}
                 <div className="bg-white/95 backdrop-blur-sm rounded-lg p-4 hover:bg-white transition-all duration-300 mb-4 flex items-center justify-center overflow-hidden border-2 border-gray-300 hover:border-orange-500 relative" style={{ width: '120px', height: '120px' }}>
-                  <img 
-                    src={brand.logo} 
-                    alt={`${brand.name} logo`}
-                    className="w-full h-full object-contain max-w-none"
-                    style={{ 
-                      maxWidth: '100%', 
-                      maxHeight: '100%',
-                      imageRendering: 'crisp-edges'
-                    }}
-                  />
+                  <div className="text-gray-800 font-bold text-sm text-center leading-tight break-words p-2">
+                    {brand.name}
+                  </div>
                   
                   {/* Brand Name - внизу внутри карточки */}
                   <div className="absolute bottom-2 left-0 right-0 text-gray-800 text-xs font-semibold text-center px-1 bg-white/90 rounded mx-1">
