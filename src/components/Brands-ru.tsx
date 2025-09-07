@@ -67,6 +67,15 @@ export const BrandsRu: React.FC = () => {
     { name: "Suspension Brand 6", category: "Сайлентблоки", logo: "/6 copy.png" },
   ];
 
+  // Тормозные части и трансмиссии - 5 карточек
+  const tormoznyeBrands = [
+    { name: "Brake Brand 1", category: "Тормозные колодки", logo: "/tormoz1.png" },
+    { name: "Brake Brand 2", category: "Тормозные диски", logo: "/tormoz2.png" },
+    { name: "Brake Brand 3", category: "Тормозная жидкость", logo: "/tormoz3.png" },
+    { name: "Transmission Brand 1", category: "Трансмиссионное масло", logo: "/tormoz4.png" },
+    { name: "Transmission Brand 2", category: "Сцепление", logo: "/tormoz5.png" },
+  ];
+
   return (
     <section id="brands" className="py-20 relative bg-transparent">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -161,11 +170,50 @@ export const BrandsRu: React.FC = () => {
           </div>
         </div>
 
+        {/* ТОРМОЗНЫЕ ЧАСТИ И ТРАНСМИССИИ */}
+        <div className="relative z-10 mt-16">
+          {/* Catalog header */}
+          <div className="bg-gradient-to-r from-red-600 to-red-700 text-white text-center py-4 mb-8 rounded-lg shadow-lg border border-red-500/20">
+            <h3 className="text-xl lg:text-2xl font-bold tracking-wide">
+              ТОРМОЗНЫЕ ЧАСТИ И ТРАНСМИССИИ
+            </h3>
+          </div>
+
+          {/* Тормозные части Grid - 5 карточек */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+            {tormoznyeBrands.map((brand, index) => (
+              <div 
+                key={`tormoznye-${brand.name}-${index}`}
+                className="group text-center p-4"
+              >
+                {/* Logo - огромный размер */}
+                <div className="bg-white/95 backdrop-blur-sm rounded-lg p-4 hover:bg-white transition-all duration-300 mb-4 flex items-center justify-center overflow-hidden border-2 border-gray-300 hover:border-red-500 relative" style={{ width: '120px', height: '120px' }}>
+                  <img 
+                    src={brand.logo} 
+                    alt={`${brand.name} logo`}
+                    className="w-full h-full object-contain max-w-none"
+                    style={{ 
+                      maxWidth: '100%', 
+                      maxHeight: '100%',
+                      imageRendering: 'crisp-edges'
+                    }}
+                  />
+                  
+                  {/* Brand Name - внизу внутри карточки */}
+                  <div className="absolute bottom-2 left-0 right-0 text-gray-800 text-xs font-semibold text-center px-1 bg-white/90 rounded mx-1">
+                    {brand.name}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* Bottom Info with website colors */}
         <div className="relative z-10 mt-12 text-center">
           <div className="bg-gradient-to-r from-blue-900/20 to-blue-800/20 backdrop-blur-sm rounded-xl p-8 border border-blue-500/30 shadow-xl">
             <h4 className="text-2xl font-bold text-white mb-3">
-              Более <span className="text-blue-500">42+ брендов</span> в каталоге
+              Более <span className="text-blue-500">47+ брендов</span> в каталоге
             </h4>
             <p className="text-gray-300 text-lg max-w-2xl mx-auto leading-relaxed">
               Постоянно расширяем ассортимент качественных автозапчастей от ведущих мировых производителей
