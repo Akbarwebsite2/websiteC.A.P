@@ -38,19 +38,19 @@ export const HeroRu: React.FC = () => {
         </h1>
 
         {/* Description - moved lower */}
-        <div className="mb-8 mt-12">
+        <div className="mb-6 mt-8">
           <span className="bg-gradient-to-r from-white via-gray-200 to-white bg-clip-text text-transparent text-2xl sm:text-3xl lg:text-4xl font-bold">
             Ваш проводник в сфере автозапчастей
           </span>
         </div>
 
         {/* Tagline */}
-        <div className="text-xl sm:text-2xl lg:text-3xl text-blue-400 mb-6 font-bold tracking-wide">
+        <div className="text-xl sm:text-2xl lg:text-3xl text-white mb-6 font-bold tracking-wide">
           КАЧЕСТВО ГАРАНТИРОВАНО
         </div>
 
         {/* Description */}
-        <p className="text-base sm:text-lg text-gray-300 mb-8 max-w-2xl mx-auto leading-relaxed font-medium">
+        <p className="text-base sm:text-lg text-gray-300 mb-6 max-w-2xl mx-auto leading-relaxed font-medium">
           Профессиональные автозапчасти высокого качества. Когда важна надежность, выбирают C.A.P.
         </p>
       </div>
