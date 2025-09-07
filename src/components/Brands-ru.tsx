@@ -111,7 +111,7 @@ export const BrandsRu: React.FC = () => {
                 className="group text-center p-4"
               >
                 {/* Logo - огромный размер */}
-                <div className="bg-white/95 backdrop-blur-sm rounded-lg p-4 hover:bg-white transition-all duration-300 mb-4 flex items-center justify-center overflow-hidden border-2 border-gray-300 hover:border-blue-500" style={{ width: '120px', height: '120px' }}>
+                <div className="bg-white/95 backdrop-blur-sm rounded-lg p-4 hover:bg-white transition-all duration-300 mb-4 flex items-center justify-center overflow-hidden border-2 border-gray-300 hover:border-blue-500 relative" style={{ width: '120px', height: '120px' }}>
                   {brand.logo ? (
                     <img 
                       src={brand.logo} 
@@ -256,8 +256,6 @@ export const BrandsRu: React.FC = () => {
           </div>
         </div>
 
-        {/* Bottom Info with website colors */}
-        <div className="relative z-10 mt-12 text-center">
         {/* МОТОРНОЕ МАСЛО */}
         <div className="relative z-10 mt-16">
           {/* Catalog header */}
