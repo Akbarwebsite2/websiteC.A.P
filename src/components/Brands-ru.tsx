@@ -78,10 +78,10 @@ export const BrandsRu: React.FC = () => {
 
   // Кузовные части / Рестайлинг - 4 карточки
   const kuzovnyeBrands = [
-    { name: "Body Brand 1", category: "Бамперы", logo: "/kuzovnie 1.png" },
-    { name: "Body Brand 2", category: "Фары", logo: "/kuzovnie 2.png" },
-    { name: "Body Brand 3", category: "Зеркала", logo: "/kuzovnie 3.png" },
-    { name: "Body Brand 4", category: "Молдинги", logo: "/kuzovnie 4.png" },
+    { name: "Кузовные компоненты", category: "Бамперы", logo: "/kuzovnie 1.png" },
+    { name: "Фары", category: "Фары", logo: "/kuzovnie 2.png" },
+    { name: "Фары", category: "Зеркала", logo: "/kuzovnie 3.png" },
+    { name: "Кузовные части", category: "Молдинги", logo: "/kuzovnie 4.png" },
   ];
 
   return (
