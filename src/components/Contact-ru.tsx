@@ -48,7 +48,7 @@ export const ContactRu: React.FC = () => {
 
             {/* Telegram */}
             <div 
-              onClick={() => window.open('https://t.me/971561747182', '_blank')}
+              onClick={() => window.open('https://t.me/manager_commonautoparts', '_blank')}
               className="bg-gradient-to-br from-gray-800 to-gray-900 p-8 rounded-xl border border-gray-700 hover:border-blue-500 transition-all duration-300 transform hover:-translate-y-2 cursor-pointer group"
             >
               <div className="bg-blue-500 p-4 rounded-full w-16 h-16 mx-auto mb-6 group-hover:bg-blue-400 transition-colors duration-300">
