@@ -112,15 +112,15 @@ export const BrandsRu: React.FC = () => {
                 className="group"
               >
                 {/* Прямоугольная карточка с градиентом */}
-                <div className="bg-gradient-to-br from-gray-800/90 to-gray-900/90 backdrop-blur-sm rounded-xl p-1 hover:from-blue-800/90 hover:to-blue-900/90 transition-all duration-300 flex items-center justify-center overflow-hidden border border-blue-500/20 hover:border-blue-400/60 relative shadow-lg hover:shadow-blue-500/20 hover:shadow-xl transform hover:scale-105" style={{ width: '140px', height: '100px' }}>
+                <div className="bg-gradient-to-br from-gray-800/90 to-gray-900/90 backdrop-blur-sm rounded-xl p-1 hover:from-gray-700/90 hover:to-gray-800/90 transition-all duration-300 flex items-center justify-center overflow-hidden border border-blue-500/20 hover:border-blue-400/40 relative shadow-lg hover:shadow-blue-500/10 hover:shadow-xl transform hover:scale-102" style={{ width: '140px', height: '100px' }}>
                   {brand.logo ? (
                     <img 
                       src={brand.logo} 
                       alt={`${brand.name} logo`}
-                      className="w-full h-full object-contain max-w-none filter brightness-110 contrast-110"
+                      className="w-full h-full object-cover max-w-none filter brightness-110 contrast-110 rounded-lg"
                       style={{ 
-                        maxWidth: '95%', 
-                        maxHeight: '95%',
+                        width: '100%', 
+                        height: '100%',
                         imageRendering: 'crisp-edges'
                       }}
                     />
@@ -157,14 +157,14 @@ export const BrandsRu: React.FC = () => {
                 className="group"
               >
                 {/* Прямоугольная карточка с градиентом */}
-                <div className="bg-gradient-to-br from-gray-800/90 to-gray-900/90 backdrop-blur-sm rounded-xl p-1 hover:from-blue-800/90 hover:to-blue-900/90 transition-all duration-300 flex items-center justify-center overflow-hidden border border-blue-500/20 hover:border-blue-400/60 relative shadow-lg hover:shadow-blue-500/20 hover:shadow-xl transform hover:scale-105" style={{ width: '140px', height: '100px' }}>
+                <div className="bg-gradient-to-br from-gray-800/90 to-gray-900/90 backdrop-blur-sm rounded-xl p-1 hover:from-gray-700/90 hover:to-gray-800/90 transition-all duration-300 flex items-center justify-center overflow-hidden border border-blue-500/20 hover:border-blue-400/40 relative shadow-lg hover:shadow-blue-500/10 hover:shadow-xl transform hover:scale-102" style={{ width: '140px', height: '100px' }}>
                   <img 
                     src={brand.logo} 
                     alt={`${brand.name} logo`}
-                    className="w-full h-full object-contain max-w-none filter brightness-110 contrast-110"
+                    className="w-full h-full object-cover max-w-none filter brightness-110 contrast-110 rounded-lg"
                     style={{ 
-                      maxWidth: '95%', 
-                      maxHeight: '95%',
+                      width: '100%', 
+                      height: '100%',
                       imageRendering: 'crisp-edges'
                     }}
                   />
@@ -196,14 +196,14 @@ export const BrandsRu: React.FC = () => {
                 className="group"
               >
                 {/* Прямоугольная карточка с градиентом */}
-                <div className="bg-gradient-to-br from-gray-800/90 to-gray-900/90 backdrop-blur-sm rounded-xl p-1 hover:from-blue-800/90 hover:to-blue-900/90 transition-all duration-300 flex items-center justify-center overflow-hidden border border-blue-500/20 hover:border-blue-400/60 relative shadow-lg hover:shadow-blue-500/20 hover:shadow-xl transform hover:scale-105" style={{ width: '140px', height: '100px' }}>
+                <div className="bg-gradient-to-br from-gray-800/90 to-gray-900/90 backdrop-blur-sm rounded-xl p-1 hover:from-gray-700/90 hover:to-gray-800/90 transition-all duration-300 flex items-center justify-center overflow-hidden border border-blue-500/20 hover:border-blue-400/40 relative shadow-lg hover:shadow-blue-500/10 hover:shadow-xl transform hover:scale-102" style={{ width: '140px', height: '100px' }}>
                   <img 
                     src={brand.logo} 
                     alt={`${brand.name} logo`}
-                    className="w-full h-full object-contain max-w-none filter brightness-110 contrast-110"
+                    className="w-full h-full object-cover max-w-none filter brightness-110 contrast-110 rounded-lg"
                     style={{ 
-                      maxWidth: '95%', 
-                      maxHeight: '95%',
+                      width: '100%', 
+                      height: '100%',
                       imageRendering: 'crisp-edges'
                     }}
                   />
@@ -235,14 +235,14 @@ export const BrandsRu: React.FC = () => {
                 className="group"
               >
                 {/* Прямоугольная карточка с градиентом */}
-                <div className="bg-gradient-to-br from-gray-800/90 to-gray-900/90 backdrop-blur-sm rounded-xl p-1 hover:from-blue-800/90 hover:to-blue-900/90 transition-all duration-300 flex items-center justify-center overflow-hidden border border-blue-500/20 hover:border-blue-400/60 relative shadow-lg hover:shadow-blue-500/20 hover:shadow-xl transform hover:scale-105" style={{ width: '140px', height: '100px' }}>
+                <div className="bg-gradient-to-br from-gray-800/90 to-gray-900/90 backdrop-blur-sm rounded-xl p-1 hover:from-gray-700/90 hover:to-gray-800/90 transition-all duration-300 flex items-center justify-center overflow-hidden border border-blue-500/20 hover:border-blue-400/40 relative shadow-lg hover:shadow-blue-500/10 hover:shadow-xl transform hover:scale-102" style={{ width: '140px', height: '100px' }}>
                   <img 
                     src={brand.logo} 
                     alt={`${brand.name} logo`}
-                    className="w-full h-full object-contain max-w-none filter brightness-110 contrast-110"
+                    className="w-full h-full object-cover max-w-none filter brightness-110 contrast-110 rounded-lg"
                     style={{ 
-                      maxWidth: '95%', 
-                      maxHeight: '95%',
+                      width: '100%', 
+                      height: '100%',
                       imageRendering: 'crisp-edges'
                     }}
                   />
@@ -279,14 +279,14 @@ export const BrandsRu: React.FC = () => {
                 className="group"
               >
                 {/* Прямоугольная карточка с градиентом */}
-                <div className="bg-gradient-to-br from-gray-800/90 to-gray-900/90 backdrop-blur-sm rounded-xl p-1 hover:from-blue-800/90 hover:to-blue-900/90 transition-all duration-300 flex items-center justify-center overflow-hidden border border-blue-500/20 hover:border-blue-400/60 relative shadow-lg hover:shadow-blue-500/20 hover:shadow-xl transform hover:scale-105" style={{ width: '140px', height: '100px' }}>
+                <div className="bg-gradient-to-br from-gray-800/90 to-gray-900/90 backdrop-blur-sm rounded-xl p-1 hover:from-gray-700/90 hover:to-gray-800/90 transition-all duration-300 flex items-center justify-center overflow-hidden border border-blue-500/20 hover:border-blue-400/40 relative shadow-lg hover:shadow-blue-500/10 hover:shadow-xl transform hover:scale-102" style={{ width: '140px', height: '100px' }}>
                   <img 
                     src={brand.logo} 
                     alt={`${brand.name} logo`}
-                    className="w-full h-full object-contain max-w-none filter brightness-110 contrast-110"
+                    className="w-full h-full object-cover max-w-none filter brightness-110 contrast-110 rounded-lg"
                     style={{ 
-                      maxWidth: '95%', 
-                      maxHeight: '95%',
+                      width: '100%', 
+                      height: '100%',
                       imageRendering: 'crisp-edges'
                     }}
                   />
