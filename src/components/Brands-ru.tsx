@@ -9,52 +9,52 @@ export const BrandsRu: React.FC = () => {
   // Моторные части - 36 карточек
   const motorBrands = [
     // First 10 brands with logos (1.png to 10.png)
-    { name: "NDC", category: "Тормозные колодки", logo: "/1.png" },
-    { name: "TF", category: "Поршневые кольца", logo: "/2.png" },
-    { name: "NPR", category: "Поршневая группа", logo: "/3.png" },
-    { name: "Hemel", category: "Фильтры", logo: "/4.png" },
-    { name: "JTEKT", category: "Подшипники", logo: "/5.png" },
-    { name: "Brand 6", category: "Автозапчасти", logo: "/6.png" },
-    { name: "Brand 7", category: "Автозапчасти", logo: "/7.png" },
-    { name: "Brand 8", category: "Автозапчасти", logo: "/8.png" },
-    { name: "Brand 9", category: "Автозапчасти", logo: "/9.png" },
-    { name: "Brand 10", category: "Автозапчасти", logo: "/10.png" },
+    { name: "Вкладыши", category: "Моторные части", logo: "/1.png" },
+    { name: "Поршневые кольца", category: "Моторные части", logo: "/2.png" },
+    { name: "Водяной помпа", category: "Моторные части", logo: "/3.png" },
+    { name: "Фильтры", category: "Моторные части", logo: "/4.png" },
+    { name: "Подшипники", category: "Моторные части", logo: "/5.png" },
+    { name: "Комплект прокладок", category: "Моторные части", logo: "/6.png" },
+    { name: "Вкладыши", category: "Моторные части", logo: "/7.png" },
+    { name: "Поршневые кольца", category: "Моторные части", logo: "/8.png" },
+    { name: "Водяной помпа", category: "Моторные части", logo: "/9.png" },
+    { name: "Фильтры", category: "Моторные части", logo: "/10.png" },
     
     // Next 5 brands with logos (11.png to 15.png)
-    { name: "Brand 11", category: "Автозапчасти", logo: "/11.png" },
-    { name: "Brand 12", category: "Автозапчасти", logo: "/12.png" },
-    { name: "Brand 13", category: "Автозапчасти", logo: "/13.png" },
-    { name: "Brand 14", category: "Автозапчасти", logo: "/14.png" },
-    { name: "Brand 15", category: "Автозапчасти", logo: "/15.png" },
+    { name: "Подшипники", category: "Моторные части", logo: "/11.png" },
+    { name: "Комплект прокладок", category: "Моторные части", logo: "/12.png" },
+    { name: "Вкладыши", category: "Моторные части", logo: "/13.png" },
+    { name: "Поршневые кольца", category: "Моторные части", logo: "/14.png" },
+    { name: "Детали сцепления", category: "Моторные части", logo: "/15.png" },
     
     // Cards 16-20 with logos (16.png to 20.png)
-    { name: "Brand 16", category: "Автозапчасти", logo: "/16.png" },
-    { name: "Brand 17", category: "Автозапчасти", logo: "/17.png" },
-    { name: "Brand 18", category: "Автозапчасти", logo: "/18.png" },
-    { name: "Brand 19", category: "Автозапчасти", logo: "/19.png" },
-    { name: "Brand 20", category: "Автозапчасти", logo: "/20.png" },
+    { name: "Фильтры", category: "Моторные части", logo: "/16.png" },
+    { name: "Подшипники", category: "Моторные части", logo: "/17.png" },
+    { name: "Комплект прокладок", category: "Моторные части", logo: "/18.png" },
+    { name: "Стартер - Генератор", category: "Моторные части", logo: "/19.png" },
+    { name: "Переключатель давление масла", category: "Моторные части", logo: "/20.png" },
     
     // Cards 21-25 with logos (21.png to 25.png)
-    { name: "Brand 21", category: "Автозапчасти", logo: "/21.png" },
-    { name: "Brand 22", category: "Автозапчасти", logo: "/22.png" },
-    { name: "Brand 23", category: "Автозапчасти", logo: "/23.png" },
-    { name: "Brand 24", category: "Автозапчасти", logo: "/24.png" },
-    { name: "Brand 25", category: "Автозапчасти", logo: "/25.png" },
+    { name: "Все компоненты двигателя", category: "Моторные части", logo: "/21.png" },
+    { name: "Топливный насос", category: "Моторные части", logo: "/22.png" },
+    { name: "Диск сцепление", category: "Моторные части", logo: "/23.png" },
+    { name: "Все компоненты двигателя", category: "Моторные части", logo: "/24.png" },
+    { name: "Термостаты", category: "Моторные части", logo: "/25.png" },
     
     // Cards 26-30 with logos (26.png to 30.png)
-    { name: "Brand 26", category: "Автозапчасти", logo: "/26.png" },
-    { name: "Brand 27", category: "Автозапчасти", logo: "/27.png" },
-    { name: "Brand 28", category: "Автозапчасти", logo: "/28.png" },
-    { name: "Brand 29", category: "Автозапчасти", logo: "/29.png" },
-    { name: "Brand 30", category: "Автозапчасти", logo: "/30.png" },
+    { name: "Сальники", category: "Моторные части", logo: "/26.png" },
+    { name: "Ремень ГРМ", category: "Моторные части", logo: "/27.png" },
+    { name: "Цепь ГРМ", category: "Моторные части", logo: "/28.png" },
+    { name: "Свечи зажигания", category: "Моторные части", logo: "/29.png" },
+    { name: "Подшипники", category: "Моторные части", logo: "/30.png" },
     
     // Remaining brands (text only) to make exactly 36 total
-    { name: "Brand 31", category: "Автозапчасти", logo: "/31.png" },
-    { name: "Brand 32", category: "Автозапчасти", logo: "/32.png" },
-    { name: "Brand 33", category: "Автозапчасти", logo: "/33.png" },
-    { name: "Brand 34", category: "Автозапчасти", logo: "/34.png" },
-    { name: "Brand 35", category: "Автозапчасти", logo: "/35.png" },
-    { name: "Stone", category: "Прокладки", logo: "/36.png" },
+    { name: "Клапан двигателя", category: "Моторные части", logo: "/31.png" },
+    { name: "Ремкомплект цепи ГРМ", category: "Моторные части", logo: "/32.png" },
+    { name: "Натяжитель цепи", category: "Моторные части", logo: "/33.png" },
+    { name: "Ремень ГРМ", category: "Моторные части", logo: "/34.png" },
+    { name: "Катушка зажигания", category: "Моторные части", logo: "/35.png" },
+    { name: "Цепь ГРМ", category: "Моторные части", logo: "/36.png" },
   ];
 
   // Ходовые части - 6 карточек
