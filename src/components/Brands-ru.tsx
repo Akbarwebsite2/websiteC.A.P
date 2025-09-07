@@ -59,12 +59,12 @@ export const BrandsRu: React.FC = () => {
 
   // Ходовые части - 6 карточек
   const hodovyeBrands = [
-    { name: "Suspension Brand 1", category: "Амортизаторы", logo: "/1 copy.png" },
-    { name: "Suspension Brand 2", category: "Пружины", logo: "/2 copy.png" },
-    { name: "Suspension Brand 3", category: "Стойки", logo: "/3 copy.png" },
-    { name: "Suspension Brand 4", category: "Рычаги", logo: "/4 copy.png" },
-    { name: "Suspension Brand 5", category: "Шаровые опоры", logo: "/5 copy.png" },
-    { name: "Suspension Brand 6", category: "Сайлентблоки", logo: "/6 copy.png" },
+    { name: "", category: "Ходовые части", logo: "/1 copy.png" },
+    { name: "", category: "Ходовые части", logo: "/2 copy.png" },
+    { name: "", category: "Ходовые части", logo: "/3 copy.png" },
+    { name: "Амортизаторы", category: "Ходовые части", logo: "/4 copy.png" },
+    { name: "Амортизаторы", category: "Ходовые части", logo: "/5 copy.png" },
+    { name: "Амортизаторы", category: "Ходовые части", logo: "/6 copy.png" },
   ];
 
   // Тормозные части и трансмиссии - 5 карточек
@@ -170,9 +170,11 @@ export const BrandsRu: React.FC = () => {
                   />
                   
                   {/* Brand Name - внизу с градиентом */}
-                  <div className="absolute bottom-1 left-0 right-0 text-white text-xs font-bold text-center px-1 bg-gradient-to-t from-black/80 to-transparent rounded-b-xl py-1">
-                    {brand.name}
-                  </div>
+                  {brand.name && (
+                    <div className="absolute bottom-1 left-0 right-0 text-white text-xs font-bold text-center px-1 bg-gradient-to-t from-black/80 to-transparent rounded-b-xl py-1">
+                      {brand.name}
+                    </div>
+                  )}
                 </div>
               </div>
             ))}
