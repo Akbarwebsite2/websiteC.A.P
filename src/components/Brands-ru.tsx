@@ -130,9 +130,13 @@ export const BrandsRu: React.FC = () => {
                     </div>
                   )}
                   
-                  {/* Brand Name - внизу с градиентом */}
-                  <div className="absolute bottom-1 left-0 right-0 text-white text-xs font-bold text-center px-1 bg-gradient-to-t from-black/80 to-transparent rounded-b-xl py-1">
-                    {brand.name}
+                  {/* Gradient Shadow - всегда показывается */}
+                  <div className="absolute bottom-1 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent rounded-b-xl py-1">
+                    {brand.name && (
+                      <div className="text-white text-xs font-bold text-center px-1">
+                        {brand.name}
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -169,12 +173,14 @@ export const BrandsRu: React.FC = () => {
                     }}
                   />
                   
-                  {/* Brand Name - внизу с градиентом */}
-                  {brand.name && (
-                    <div className="absolute bottom-1 left-0 right-0 text-white text-xs font-bold text-center px-1 bg-gradient-to-t from-black/80 to-transparent rounded-b-xl py-1">
-                      {brand.name}
-                    </div>
-                  )}
+                  {/* Gradient Shadow - всегда показывается */}
+                  <div className="absolute bottom-1 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent rounded-b-xl py-1">
+                    {brand.name && (
+                      <div className="text-white text-xs font-bold text-center px-1">
+                        {brand.name}
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             ))}
@@ -210,9 +216,13 @@ export const BrandsRu: React.FC = () => {
                     }}
                   />
                   
-                  {/* Brand Name - внизу с градиентом */}
-                  <div className="absolute bottom-1 left-0 right-0 text-white text-xs font-bold text-center px-1 bg-gradient-to-t from-black/80 to-transparent rounded-b-xl py-1">
-                    {brand.name}
+                  {/* Gradient Shadow - всегда показывается */}
+                  <div className="absolute bottom-1 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent rounded-b-xl py-1">
+                    {brand.name && (
+                      <div className="text-white text-xs font-bold text-center px-1">
+                        {brand.name}
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -249,9 +259,13 @@ export const BrandsRu: React.FC = () => {
                     }}
                   />
                   
-                  {/* Brand Name - внизу с градиентом */}
-                  <div className="absolute bottom-1 left-0 right-0 text-white text-xs font-bold text-center px-1 bg-gradient-to-t from-black/80 to-transparent rounded-b-xl py-1">
-                    {brand.name}
+                  {/* Gradient Shadow - всегда показывается */}
+                  <div className="absolute bottom-1 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent rounded-b-xl py-1">
+                    {brand.name && (
+                      <div className="text-white text-xs font-bold text-center px-1">
+                        {brand.name}
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -293,12 +307,14 @@ export const BrandsRu: React.FC = () => {
                     }}
                   />
                   
-                  {/* Brand Name - внизу с градиентом */}
-                  {brand.name && (
-                    <div className="absolute bottom-1 left-0 right-0 text-white text-xs font-bold text-center px-1 bg-gradient-to-t from-black/80 to-transparent rounded-b-xl py-1">
-                      {brand.name}
-                    </div>
-                  )}
+                  {/* Gradient Shadow - всегда показывается */}
+                  <div className="absolute bottom-1 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent rounded-b-xl py-1">
+                    {brand.name && (
+                      <div className="text-white text-xs font-bold text-center px-1">
+                        {brand.name}
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             ))}
