@@ -69,11 +69,11 @@ export const BrandsRu: React.FC = () => {
 
   // Тормозные части и трансмиссии - 5 карточек
   const tormoznyeBrands = [
-    { name: "Brake Brand 1", category: "Тормозные колодки", logo: "/tormoz1.png" },
-    { name: "Brake Brand 2", category: "Тормозные диски", logo: "/tormoz2.png" },
-    { name: "Brake Brand 3", category: "Тормозная жидкость", logo: "/tormoz3.png" },
-    { name: "Transmission Brand 1", category: "Трансмиссионное масло", logo: "/tormoz4.png" },
-    { name: "Transmission Brand 2", category: "Сцепление", logo: "/tormoz5.png" },
+    { name: "Brake Brand 1", category: "Тормозные колодки", logo: "/tormoz 1.png" },
+    { name: "Brake Brand 2", category: "Тормозные диски", logo: "/tormoz 2.png" },
+    { name: "Brake Brand 3", category: "Тормозная жидкость", logo: "/tormoz 3.png" },
+    { name: "Transmission Brand 1", category: "Трансмиссионное масло", logo: "/tormoz 4.png" },
+    { name: "Transmission Brand 2", category: "Сцепление", logo: "/tormoz 5.png" },
   ];
 
   return (
