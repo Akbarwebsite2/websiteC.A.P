@@ -268,10 +268,10 @@ export const BrandsRu: React.FC = () => {
           {/* Моторное масло Grid - 4 карточки */}
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
             {[
-              { name: "Oil Brand 1", category: "Синтетическое масло", logo: "/oil1.png" },
-              { name: "Oil Brand 2", category: "Полусинтетическое масло", logo: "/oil2.png" },
-              { name: "Oil Brand 3", category: "Минеральное масло", logo: "/oil3.png" },
-              { name: "Oil Brand 4", category: "Трансмиссионное масло", logo: "/oil4.png" },
+              { name: "Oil Brand 1", category: "Синтетическое масло", logo: "/maslo 1.png" },
+              { name: "Oil Brand 2", category: "Полусинтетическое масло", logo: "/maslo 2.png" },
+              { name: "Oil Brand 3", category: "Минеральное масло", logo: "/maslo 3.png" },
+              { name: "Oil Brand 4", category: "Трансмиссионное масло", logo: "/maslo 4.png" },
             ].map((brand, index) => (
               <div 
                 key={`oil-${brand.name}-${index}`}
@@ -279,9 +279,16 @@ export const BrandsRu: React.FC = () => {
               >
                 {/* Logo - огромный размер */}
                 <div className="bg-white/95 backdrop-blur-sm rounded-lg p-4 hover:bg-white transition-all duration-300 mb-4 flex items-center justify-center overflow-hidden border-2 border-gray-300 hover:border-orange-500 relative" style={{ width: '120px', height: '120px' }}>
-                  <div className="text-gray-800 font-bold text-sm text-center leading-tight break-words p-2">
-                    {brand.name}
-                  </div>
+                  <img 
+                    src={brand.logo} 
+                    alt={`${brand.name} logo`}
+                    className="w-full h-full object-contain max-w-none"
+                    style={{ 
+                      maxWidth: '100%', 
+                      maxHeight: '100%',
+                      imageRendering: 'crisp-edges'
+                    }}
+                  />
                   
                   {/* Brand Name - внизу внутри карточки */}
                   <div className="absolute bottom-2 left-0 right-0 text-gray-800 text-xs font-semibold text-center px-1 bg-white/90 rounded mx-1">
