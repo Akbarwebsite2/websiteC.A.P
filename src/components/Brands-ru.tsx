@@ -11,7 +11,7 @@ export const BrandsRu: React.FC = () => {
     // First 10 brands with logos (1.png to 10.png)
     { name: "Вкладыши", category: "Моторные части", logo: "/1.png" },
     { name: "Поршневые кольца", category: "Моторные части", logo: "/2.png" },
-    { name: "Водяной помпа", category: "Моторные части", logo: "/3.png" },
+    { name: "Водяной помпа", category: "Моторные части", logo: "/karta 3.png" },
     { name: "Фильтры", category: "Моторные части", logo: "/4.png" },
     { name: "Подшипники", category: "Моторные части", logo: "/5.png" },
     { name: "Комплект прокладок", category: "Моторные части", logo: "/6.png" },
