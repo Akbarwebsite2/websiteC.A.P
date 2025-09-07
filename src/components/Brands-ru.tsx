@@ -271,10 +271,10 @@ export const BrandsRu: React.FC = () => {
           {/* Моторное масло Grid - Прямоугольные карточки */}
           <div className="flex flex-wrap justify-center gap-2 mb-16">
             {[
-              { name: "Oil Brand 1", category: "Синтетическое масло", logo: "/maslo 1.png" },
-              { name: "Oil Brand 2", category: "Полусинтетическое масло", logo: "/maslo 2.png" },
-              { name: "Oil Brand 3", category: "Минеральное масло", logo: "/maslo 3.png" },
-              { name: "Oil Brand 4", category: "Трансмиссионное масло", logo: "/maslo 4.png" },
+              { name: "", category: "Синтетическое масло", logo: "/maslo 1.png" },
+              { name: "", category: "Полусинтетическое масло", logo: "/maslo 2.png" },
+              { name: "", category: "Минеральное масло", logo: "/maslo 3.png" },
+              { name: "", category: "Трансмиссионное масло", logo: "/maslo 4.png" },
             ].map((brand, index) => (
               <div 
                 key={`oil-${brand.name}-${index}`}
@@ -294,9 +294,11 @@ export const BrandsRu: React.FC = () => {
                   />
                   
                   {/* Brand Name - внизу с градиентом */}
-                  <div className="absolute bottom-1 left-0 right-0 text-white text-xs font-bold text-center px-1 bg-gradient-to-t from-black/80 to-transparent rounded-b-xl py-1">
-                    {brand.name}
-                  </div>
+                  {brand.name && (
+                    <div className="absolute bottom-1 left-0 right-0 text-white text-xs font-bold text-center px-1 bg-gradient-to-t from-black/80 to-transparent rounded-b-xl py-1">
+                      {brand.name}
+                    </div>
+                  )}
                 </div>
               </div>
             ))}
