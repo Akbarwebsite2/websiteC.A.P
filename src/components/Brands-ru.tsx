@@ -98,34 +98,34 @@ export const BrandsRu: React.FC = () => {
         {/* МОТОРНЫЕ ЧАСТИ */}
         <div className="relative z-10">
           {/* Section Header */}
-          <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white text-center py-6 mb-8 rounded-2xl shadow-2xl border border-blue-500/30 backdrop-blur-sm">
+          <div className="bg-gradient-to-r from-gray-800 to-gray-900 text-white text-center py-6 mb-8 rounded-2xl shadow-2xl border border-blue-500/30 backdrop-blur-sm">
             <h3 className="text-2xl lg:text-3xl font-black tracking-wide text-shadow-glow">
               МОТОРНЫЕ ЧАСТИ
             </h3>
           </div>
 
           {/* Brand Cards Grid - Прямоугольные карточки */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-2 mb-16">
+          <div className="flex flex-wrap justify-center gap-2 mb-16">
             {motorBrands.map((brand, index) => (
               <div 
                 key={`${brand.name}-${index}`}
                 className="group"
               >
                 {/* Прямоугольная карточка с градиентом */}
-                <div className="bg-gradient-to-br from-gray-800/90 to-gray-900/90 backdrop-blur-sm rounded-xl p-3 hover:from-blue-800/90 hover:to-blue-900/90 transition-all duration-300 flex items-center justify-center overflow-hidden border border-blue-500/20 hover:border-blue-400/60 relative shadow-lg hover:shadow-blue-500/20 hover:shadow-xl transform hover:scale-105" style={{ width: '140px', height: '100px' }}>
+                <div className="bg-gradient-to-br from-gray-800/90 to-gray-900/90 backdrop-blur-sm rounded-xl p-1 hover:from-blue-800/90 hover:to-blue-900/90 transition-all duration-300 flex items-center justify-center overflow-hidden border border-blue-500/20 hover:border-blue-400/60 relative shadow-lg hover:shadow-blue-500/20 hover:shadow-xl transform hover:scale-105" style={{ width: '140px', height: '100px' }}>
                   {brand.logo ? (
                     <img 
                       src={brand.logo} 
                       alt={`${brand.name} logo`}
                       className="w-full h-full object-contain max-w-none filter brightness-110 contrast-110"
                       style={{ 
-                        maxWidth: '90%', 
-                        maxHeight: '90%',
+                        maxWidth: '95%', 
+                        maxHeight: '95%',
                         imageRendering: 'crisp-edges'
                       }}
                     />
                   ) : (
-                    <div className="text-white font-bold text-sm text-center leading-tight break-words p-2">
+                    <div className="text-white font-bold text-sm text-center leading-tight break-words p-1">
                       {brand.name}
                     </div>
                   )}
@@ -143,28 +143,28 @@ export const BrandsRu: React.FC = () => {
         {/* ХОДОВЫЕ ЧАСТИ */}
         <div className="relative z-10 mt-16">
           {/* Section Header */}
-          <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white text-center py-6 mb-8 rounded-2xl shadow-2xl border border-blue-500/30 backdrop-blur-sm">
+          <div className="bg-gradient-to-r from-gray-800 to-gray-900 text-white text-center py-6 mb-8 rounded-2xl shadow-2xl border border-blue-500/30 backdrop-blur-sm">
             <h3 className="text-2xl lg:text-3xl font-black tracking-wide text-shadow-glow">
               ХОДОВЫЕ ЧАСТИ
             </h3>
           </div>
 
           {/* Ходовые части Grid - Прямоугольные карточки */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 mb-16">
+          <div className="flex flex-wrap justify-center gap-2 mb-16">
             {hodovyeBrands.map((brand, index) => (
               <div 
                 key={`hodovye-${brand.name}-${index}`}
                 className="group"
               >
                 {/* Прямоугольная карточка с градиентом */}
-                <div className="bg-gradient-to-br from-gray-800/90 to-gray-900/90 backdrop-blur-sm rounded-xl p-3 hover:from-blue-800/90 hover:to-blue-900/90 transition-all duration-300 flex items-center justify-center overflow-hidden border border-blue-500/20 hover:border-blue-400/60 relative shadow-lg hover:shadow-blue-500/20 hover:shadow-xl transform hover:scale-105" style={{ width: '140px', height: '100px' }}>
+                <div className="bg-gradient-to-br from-gray-800/90 to-gray-900/90 backdrop-blur-sm rounded-xl p-1 hover:from-blue-800/90 hover:to-blue-900/90 transition-all duration-300 flex items-center justify-center overflow-hidden border border-blue-500/20 hover:border-blue-400/60 relative shadow-lg hover:shadow-blue-500/20 hover:shadow-xl transform hover:scale-105" style={{ width: '140px', height: '100px' }}>
                   <img 
                     src={brand.logo} 
                     alt={`${brand.name} logo`}
                     className="w-full h-full object-contain max-w-none filter brightness-110 contrast-110"
                     style={{ 
-                      maxWidth: '90%', 
-                      maxHeight: '90%',
+                      maxWidth: '95%', 
+                      maxHeight: '95%',
                       imageRendering: 'crisp-edges'
                     }}
                   />
@@ -182,28 +182,28 @@ export const BrandsRu: React.FC = () => {
         {/* ТОРМОЗНЫЕ ЧАСТИ И ТРАНСМИССИИ */}
         <div className="relative z-10 mt-16">
           {/* Section Header */}
-          <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white text-center py-6 mb-8 rounded-2xl shadow-2xl border border-blue-500/30 backdrop-blur-sm">
+          <div className="bg-gradient-to-r from-gray-800 to-gray-900 text-white text-center py-6 mb-8 rounded-2xl shadow-2xl border border-blue-500/30 backdrop-blur-sm">
             <h3 className="text-2xl lg:text-3xl font-black tracking-wide text-shadow-glow">
               ТОРМОЗНЫЕ ЧАСТИ И ТРАНСМИССИИ
             </h3>
           </div>
 
           {/* Тормозные части Grid - Прямоугольные карточки */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 mb-16">
+          <div className="flex flex-wrap justify-center gap-2 mb-16">
             {tormoznyeBrands.map((brand, index) => (
               <div 
                 key={`tormoznye-${brand.name}-${index}`}
                 className="group"
               >
                 {/* Прямоугольная карточка с градиентом */}
-                <div className="bg-gradient-to-br from-gray-800/90 to-gray-900/90 backdrop-blur-sm rounded-xl p-3 hover:from-blue-800/90 hover:to-blue-900/90 transition-all duration-300 flex items-center justify-center overflow-hidden border border-blue-500/20 hover:border-blue-400/60 relative shadow-lg hover:shadow-blue-500/20 hover:shadow-xl transform hover:scale-105" style={{ width: '140px', height: '100px' }}>
+                <div className="bg-gradient-to-br from-gray-800/90 to-gray-900/90 backdrop-blur-sm rounded-xl p-1 hover:from-blue-800/90 hover:to-blue-900/90 transition-all duration-300 flex items-center justify-center overflow-hidden border border-blue-500/20 hover:border-blue-400/60 relative shadow-lg hover:shadow-blue-500/20 hover:shadow-xl transform hover:scale-105" style={{ width: '140px', height: '100px' }}>
                   <img 
                     src={brand.logo} 
                     alt={`${brand.name} logo`}
                     className="w-full h-full object-contain max-w-none filter brightness-110 contrast-110"
                     style={{ 
-                      maxWidth: '90%', 
-                      maxHeight: '90%',
+                      maxWidth: '95%', 
+                      maxHeight: '95%',
                       imageRendering: 'crisp-edges'
                     }}
                   />
@@ -221,28 +221,28 @@ export const BrandsRu: React.FC = () => {
         {/* КУЗОВНЫЕ ЧАСТИ / РЕСТАЙЛИНГ */}
         <div className="relative z-10 mt-16">
           {/* Section Header */}
-          <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white text-center py-6 mb-8 rounded-2xl shadow-2xl border border-blue-500/30 backdrop-blur-sm">
+          <div className="bg-gradient-to-r from-gray-800 to-gray-900 text-white text-center py-6 mb-8 rounded-2xl shadow-2xl border border-blue-500/30 backdrop-blur-sm">
             <h3 className="text-2xl lg:text-3xl font-black tracking-wide text-shadow-glow">
               КУЗОВНЫЕ ЧАСТИ / РЕСТАЙЛИНГ
             </h3>
           </div>
 
           {/* Кузовные части Grid - Прямоугольные карточки */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 mb-16">
+          <div className="flex flex-wrap justify-center gap-2 mb-16">
             {kuzovnyeBrands.map((brand, index) => (
               <div 
                 key={`kuzovnye-${brand.name}-${index}`}
                 className="group"
               >
                 {/* Прямоугольная карточка с градиентом */}
-                <div className="bg-gradient-to-br from-gray-800/90 to-gray-900/90 backdrop-blur-sm rounded-xl p-3 hover:from-blue-800/90 hover:to-blue-900/90 transition-all duration-300 flex items-center justify-center overflow-hidden border border-blue-500/20 hover:border-blue-400/60 relative shadow-lg hover:shadow-blue-500/20 hover:shadow-xl transform hover:scale-105" style={{ width: '140px', height: '100px' }}>
+                <div className="bg-gradient-to-br from-gray-800/90 to-gray-900/90 backdrop-blur-sm rounded-xl p-1 hover:from-blue-800/90 hover:to-blue-900/90 transition-all duration-300 flex items-center justify-center overflow-hidden border border-blue-500/20 hover:border-blue-400/60 relative shadow-lg hover:shadow-blue-500/20 hover:shadow-xl transform hover:scale-105" style={{ width: '140px', height: '100px' }}>
                   <img 
                     src={brand.logo} 
                     alt={`${brand.name} logo`}
                     className="w-full h-full object-contain max-w-none filter brightness-110 contrast-110"
                     style={{ 
-                      maxWidth: '90%', 
-                      maxHeight: '90%',
+                      maxWidth: '95%', 
+                      maxHeight: '95%',
                       imageRendering: 'crisp-edges'
                     }}
                   />
@@ -260,14 +260,14 @@ export const BrandsRu: React.FC = () => {
         {/* МОТОРНОЕ МАСЛО */}
         <div className="relative z-10 mt-16">
           {/* Section Header */}
-          <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white text-center py-6 mb-8 rounded-2xl shadow-2xl border border-blue-500/30 backdrop-blur-sm">
+          <div className="bg-gradient-to-r from-gray-800 to-gray-900 text-white text-center py-6 mb-8 rounded-2xl shadow-2xl border border-blue-500/30 backdrop-blur-sm">
             <h3 className="text-2xl lg:text-3xl font-black tracking-wide text-shadow-glow">
               МОТОРНОЕ МАСЛО
             </h3>
           </div>
 
           {/* Моторное масло Grid - Прямоугольные карточки */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 mb-16">
+          <div className="flex flex-wrap justify-center gap-2 mb-16">
             {[
               { name: "Oil Brand 1", category: "Синтетическое масло", logo: "/maslo 1.png" },
               { name: "Oil Brand 2", category: "Полусинтетическое масло", logo: "/maslo 2.png" },
@@ -279,14 +279,14 @@ export const BrandsRu: React.FC = () => {
                 className="group"
               >
                 {/* Прямоугольная карточка с градиентом */}
-                <div className="bg-gradient-to-br from-gray-800/90 to-gray-900/90 backdrop-blur-sm rounded-xl p-3 hover:from-blue-800/90 hover:to-blue-900/90 transition-all duration-300 flex items-center justify-center overflow-hidden border border-blue-500/20 hover:border-blue-400/60 relative shadow-lg hover:shadow-blue-500/20 hover:shadow-xl transform hover:scale-105" style={{ width: '140px', height: '100px' }}>
+                <div className="bg-gradient-to-br from-gray-800/90 to-gray-900/90 backdrop-blur-sm rounded-xl p-1 hover:from-blue-800/90 hover:to-blue-900/90 transition-all duration-300 flex items-center justify-center overflow-hidden border border-blue-500/20 hover:border-blue-400/60 relative shadow-lg hover:shadow-blue-500/20 hover:shadow-xl transform hover:scale-105" style={{ width: '140px', height: '100px' }}>
                   <img 
                     src={brand.logo} 
                     alt={`${brand.name} logo`}
                     className="w-full h-full object-contain max-w-none filter brightness-110 contrast-110"
                     style={{ 
-                      maxWidth: '90%', 
-                      maxHeight: '90%',
+                      maxWidth: '95%', 
+                      maxHeight: '95%',
                       imageRendering: 'crisp-edges'
                     }}
                   />
@@ -298,18 +298,6 @@ export const BrandsRu: React.FC = () => {
                 </div>
               </div>
             ))}
-          </div>
-        </div>
-
-        {/* Bottom Info with website colors */}
-        <div className="relative z-10 mt-12 text-center">
-          <div className="bg-gradient-to-r from-blue-900/30 to-blue-800/30 backdrop-blur-md rounded-2xl p-10 border border-blue-500/40 shadow-2xl">
-            <h4 className="text-3xl font-black text-white mb-4 text-shadow-glow">
-              Более <span className="text-blue-500">55+ брендов</span> в каталоге
-            </h4>
-            <p className="text-gray-200 text-xl max-w-3xl mx-auto leading-relaxed font-medium">
-              Постоянно расширяем ассортимент качественных автозапчастей от ведущих мировых производителей
-            </p>
           </div>
         </div>
       </div>
