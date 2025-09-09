@@ -42,21 +42,21 @@ export const HeroRu: React.FC = () => {
 
         {/* Main Heading - C.A.P text */}
         <h1 className="text-5xl sm:text-6xl lg:text-8xl font-black text-white mb-8 leading-tight tracking-tight">
-          <div className="text-blue-500 text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black mb-6 tracking-tight font-bold">
+          <div className="text-blue-500 text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-black mb-6 tracking-tight font-bold">
             Common Auto Parts
           </div>
         </h1>
 
         {/* Description - moved lower */}
         <div className="mb-6 mt-8">
-          <span className="bg-gradient-to-r from-white via-gray-200 to-white bg-clip-text text-transparent text-2xl sm:text-3xl lg:text-4xl font-bold">
+          <span className="bg-gradient-to-r from-white via-gray-200 to-white bg-clip-text text-transparent text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold">
             Ваш проводник в сфере автозапчастей
           </span>
         </div>
 
         {/* Tagline */}
         {/* Description */}
-        <p className="text-base sm:text-lg text-gray-300 mb-6 max-w-3xl mx-auto leading-relaxed font-medium">
+        <p className="text-sm sm:text-base text-gray-300 mb-6 max-w-3xl mx-auto leading-relaxed font-medium">
           Мы предлагаем профессиональный сервис, широкий выбор и быстрые поставки.
         </p>
       </div>
