@@ -171,7 +171,9 @@ export const BrandsRu: React.FC = () => {
                     style={{ 
                       width: '100%', 
                       height: '100%',
-                      imageRendering: 'crisp-edges'
+                      imageRendering: 'crisp-edges',
+                      WebkitImageRendering: 'crisp-edges',
+                      msImageRendering: 'crisp-edges'
                     }}
                   />
                   
@@ -212,7 +214,9 @@ export const BrandsRu: React.FC = () => {
                     style={{ 
                       width: '100%', 
                       height: '100%',
-                      imageRendering: 'crisp-edges'
+                      imageRendering: 'crisp-edges',
+                      WebkitImageRendering: 'crisp-edges',
+                      msImageRendering: 'crisp-edges'
                     }}
                   />
                   
@@ -253,7 +257,9 @@ export const BrandsRu: React.FC = () => {
                     style={{ 
                       width: '100%', 
                       height: '100%',
-                      imageRendering: 'crisp-edges'
+                      imageRendering: 'crisp-edges',
+                      WebkitImageRendering: 'crisp-edges',
+                      msImageRendering: 'crisp-edges'
                     }}
                   />
                   
@@ -299,7 +305,9 @@ export const BrandsRu: React.FC = () => {
                     style={{ 
                       width: '100%', 
                       height: '100%',
-                      imageRendering: 'crisp-edges'
+                      imageRendering: 'crisp-edges',
+                      WebkitImageRendering: 'crisp-edges',
+                      msImageRendering: 'crisp-edges'
                     }}
                   />
                   
