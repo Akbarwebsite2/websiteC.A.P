@@ -42,9 +42,18 @@ export const HeroRu: React.FC = () => {
 
         {/* Main Heading - C.A.P text */}
         <h1 className="text-5xl sm:text-6xl lg:text-8xl font-black text-white mb-8 leading-tight tracking-tight">
-          <span className="block text-blue-500 text-3xl sm:text-4xl lg:text-5xl font-black mb-4 tracking-widest">
-            C.A.P
-          </span>
+          <div className="flex justify-center mb-4">
+            <img 
+              src="/text 1.png" 
+              alt="C.A.P. Text" 
+              className="h-32 sm:h-40 lg:h-48 xl:h-56 object-contain brightness-110 contrast-125 saturate-110 filter drop-shadow-lg"
+              style={{ 
+                imageRendering: 'crisp-edges',
+                WebkitImageRendering: 'crisp-edges',
+                msImageRendering: 'crisp-edges'
+              }}
+            />
+          </div>
         </h1>
 
         {/* Description - moved lower */}
