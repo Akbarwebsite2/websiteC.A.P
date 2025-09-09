@@ -42,18 +42,23 @@ export const HeaderRu: React.FC = () => {
             <img 
               src="/cap logotip.jpg" 
               alt="C.A.P. Logo" 
-             className="h-16 w-16 rounded-full object-cover border-2 border-blue-600 shadow-lg brightness-110 contrast-125 saturate-110"
+              className="h-16 w-16 rounded-full object-cover border-2 border-blue-600 shadow-lg brightness-110 contrast-125 saturate-110 filter drop-shadow-lg"
+              style={{ 
+                imageRendering: 'crisp-edges',
+                WebkitImageRendering: 'crisp-edges',
+                msImageRendering: 'crisp-edges'
+              }}
             />
-            <div>
-             <h1 className="text-2xl lg:text-3xl font-black tracking-tight">
-                <span className="text-blue-500 font-black">C.A.P</span>
-              </h1>
-             <p className="text-base lg:text-lg tracking-wider">
-                <span className="font-black text-blue-500 tracking-wide" style={{ fontFamily: 'Inter, system-ui, sans-serif', fontWeight: '900', letterSpacing: '0.05em', textShadow: '0 0 10px rgba(96, 165, 250, 0.5)' }}>
-                  Common Auto Parts
-                </span>
-              </p>
-            </div>
+            <img 
+              src="/text 2.png" 
+              alt="C.A.P. Common Auto Parts" 
+              className="h-16 object-contain brightness-110 contrast-125 saturate-110 filter"
+              style={{ 
+                imageRendering: 'crisp-edges',
+                WebkitImageRendering: 'crisp-edges',
+                msImageRendering: 'crisp-edges'
+              }}
+            />
           </div>
 
           {/* Desktop Navigation - Centered */}

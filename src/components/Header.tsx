@@ -41,16 +41,23 @@ export const Header: React.FC = () => {
             <img 
               src="/cap logotip.jpg" 
               alt="C.A.P. Logo" 
-              className="h-12 w-12 rounded-full object-cover border-2 border-blue-600"
+              className="h-16 w-16 rounded-full object-cover border-2 border-blue-600 shadow-lg brightness-110 contrast-125 saturate-110 filter drop-shadow-lg"
+              style={{ 
+                imageRendering: 'crisp-edges',
+                WebkitImageRendering: 'crisp-edges',
+                msImageRendering: 'crisp-edges'
+              }}
             />
-            <div>
-              <h1 className="text-2xl lg:text-3xl font-black text-white tracking-tight">
-                <span className="text-blue-500 font-black">C.A.P</span>
-              </h1>
-              <p className="text-xs lg:text-sm text-gray-400 font-bold tracking-wider">
-                COMMON AUTO PARTS
-              </p>
-            </div>
+            <img 
+              src="/text 2.png" 
+              alt="C.A.P. Common Auto Parts" 
+              className="h-16 object-contain brightness-110 contrast-125 saturate-110 filter"
+              style={{ 
+                imageRendering: 'crisp-edges',
+                WebkitImageRendering: 'crisp-edges',
+                msImageRendering: 'crisp-edges'
+              }}
+            />
           </div>
 
           {/* Desktop Navigation - Centered */}
