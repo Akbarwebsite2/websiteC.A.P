@@ -51,7 +51,7 @@ export const Header: React.FC = () => {
             <img 
               src="/tekst 2.png" 
               alt="C.A.P. Common Auto Parts" 
-              className="h-16 w-16 object-contain brightness-110 contrast-125 saturate-110 filter -ml-2"
+              className="h-20 w-20 object-contain brightness-110 contrast-125 saturate-110 filter -ml-2"
               style={{ 
                 imageRendering: 'crisp-edges',
                 WebkitImageRendering: 'crisp-edges',
