@@ -16,7 +16,7 @@ export const Hero: React.FC = () => {
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <img 
-          src="/Изображение WhatsApp 2025-08-30 в 19.32.34_31c214e3.jpg"
+          src="https://images.pexels.com/photos/3807277/pexels-photo-3807277.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&fit=crop"
           alt="Auto Parts Background"
           className="w-full h-full object-cover"
         />

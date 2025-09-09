@@ -40,7 +40,7 @@ export const HeaderRu: React.FC = () => {
           {/* Logo */}
           <div className="flex items-center space-x-4">
             <img 
-              src="/cap logotip.jpg" 
+              src="https://images.pexels.com/photos/3807277/pexels-photo-3807277.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&fit=crop" 
               alt="C.A.P. Logo" 
              className="h-16 w-16 rounded-full object-cover border-2 border-blue-600 shadow-lg brightness-110 contrast-125 saturate-110"
             />
