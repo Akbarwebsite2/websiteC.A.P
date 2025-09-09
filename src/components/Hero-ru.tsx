@@ -11,9 +11,14 @@ export const HeroRu: React.FC = () => {
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <img 
-          src="https://images.pexels.com/photos/3807277/pexels-photo-3807277.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&fit=crop"
-          alt="Auto Parts Background"
-          className="w-full h-full object-cover"
+          src="/bolt background.jpg"
+          alt="C.A.P Auto Parts Background"
+          className="w-full h-full object-cover brightness-110 contrast-125 saturate-110 filter"
+          style={{ 
+            imageRendering: 'crisp-edges',
+            WebkitImageRendering: 'crisp-edges',
+            msImageRendering: 'crisp-edges'
+          }}
         />
         <div className="absolute inset-0 bg-black/60"></div>
         {/* Красивая тень внизу */}
@@ -26,7 +31,12 @@ export const HeroRu: React.FC = () => {
           <img 
             src="/cap logotip.jpg" 
             alt="C.A.P. Logo" 
-            className="h-24 w-24 sm:h-28 sm:w-28 lg:h-32 lg:w-32 rounded-full object-cover border-4 border-blue-600 shadow-2xl mx-auto brightness-110 contrast-125 saturate-110"
+            className="h-32 w-32 sm:h-36 sm:w-36 lg:h-40 lg:w-40 rounded-full object-cover border-4 border-blue-600 shadow-2xl mx-auto brightness-110 contrast-125 saturate-110 filter drop-shadow-2xl"
+            style={{ 
+              imageRendering: 'crisp-edges',
+              WebkitImageRendering: 'crisp-edges',
+              msImageRendering: 'crisp-edges'
+            }}
           />
         </div>
 

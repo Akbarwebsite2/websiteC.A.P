@@ -16,9 +16,14 @@ export const Hero: React.FC = () => {
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <img 
-          src="https://images.pexels.com/photos/3807277/pexels-photo-3807277.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&fit=crop"
-          alt="Auto Parts Background"
-          className="w-full h-full object-cover"
+          src="/bolt background.jpg"
+          alt="C.A.P Auto Parts Background"
+          className="w-full h-full object-cover brightness-110 contrast-125 saturate-110 filter"
+          style={{ 
+            imageRendering: 'crisp-edges',
+            WebkitImageRendering: 'crisp-edges',
+            msImageRendering: 'crisp-edges'
+          }}
         />
         <div className="absolute inset-0 bg-black/70"></div>
       </div>
