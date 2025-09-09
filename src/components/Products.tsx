@@ -71,8 +71,17 @@ export const Products: React.FC = () => {
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                <div className="absolute top-4 right-4 bg-blue-500 p-3 rounded-full">
-                  <product.icon className="w-6 h-6 text-white" />
+                <div className="absolute top-4 right-4 w-12 h-12 rounded-full overflow-hidden bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center">
+                  <img 
+                    src={`/znak ${index + 1}.png`}
+                    alt={`${product.title} icon`}
+                    className="w-8 h-8 object-contain filter brightness-110 contrast-110"
+                    style={{ 
+                      imageRendering: 'crisp-edges',
+                      WebkitImageRendering: 'crisp-edges',
+                      msImageRendering: 'crisp-edges'
+                    }}
+                  />
                 </div>
               </div>
               
