@@ -43,7 +43,7 @@ export const HeroRu: React.FC = () => {
         {/* Main Heading - C.A.P text */}
         <h1 className="text-5xl sm:text-6xl lg:text-8xl font-black text-white mb-8 leading-tight tracking-tight">
           <div className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black mb-6 tracking-tight">
-            <span className="text-blue-600">Common Auto Parts</span>
+            <span className="text-blue-700">Common Auto Parts</span>
           </div>
         </h1>
 
