@@ -55,13 +55,10 @@ export const HeroRu: React.FC = () => {
         </div>
 
         {/* Tagline */}
-        <div className="text-xl sm:text-2xl lg:text-3xl text-white mb-6 font-bold tracking-wide">
-          КАЧЕСТВО ГАРАНТИРОВАНО
-        </div>
-
         {/* Description */}
-        <p className="text-base sm:text-lg text-gray-300 mb-6 max-w-2xl mx-auto leading-relaxed font-medium">
-          Профессиональные автозапчасти высокого качества. Когда важна надежность, выбирают C.A.P.
+        <p className="text-lg sm:text-xl text-gray-300 mb-6 max-w-3xl mx-auto leading-relaxed font-medium">
+          Ваш проводник в сфере автозапчастей:<br />
+          Мы предлагаем профессиональный сервис, широкий выбор и быстрые поставки.
         </p>
       </div>
     </section>
