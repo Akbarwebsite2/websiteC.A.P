@@ -48,7 +48,7 @@ export const Header: React.FC = () => {
                 msImageRendering: 'crisp-edges'
               }}
             />
-            <div className="text-blue-800 font-black text-3xl tracking-wider">
+            <div className="text-blue-800 font-black text-3xl tracking-wider" style={{ fontFamily: 'Russo One, Orbitron, Impact, Arial Black, sans-serif', fontWeight: '900', textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>
               C.A.P
             </div>
           </div>
