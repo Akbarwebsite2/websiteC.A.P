@@ -51,10 +51,10 @@ export const Header: React.FC = () => {
             <div className="font-black text-3xl tracking-wider" style={{ 
               fontFamily: 'Exo 2, sans-serif', 
               fontWeight: '900',
-              color: '#1e3a8a',
-              textShadow: '2px 2px 0px #000, -2px -2px 0px #000, 2px -2px 0px #000, -2px 2px 0px #000, 0px 2px 0px #000, 2px 0px 0px #000, 0px -2px 0px #000, -2px 0px 0px #000',
-              WebkitTextStroke: '1px #000',
-              filter: 'drop-shadow(2px 2px 4px rgba(0,0,0,0.8))'
+              color: 'transparent',
+              WebkitTextStroke: '2px #1e3a8a',
+              textStroke: '2px #1e3a8a',
+              filter: 'drop-shadow(1px 1px 2px rgba(0,0,0,0.5))'
             }}>
               C.A.P
             </div>

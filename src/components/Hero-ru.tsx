@@ -44,10 +44,11 @@ export const HeroRu: React.FC = () => {
         <h1 className="text-5xl sm:text-6xl lg:text-8xl font-black text-white mb-8 leading-tight tracking-tight">
           <div className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black mb-6 tracking-tight font-bold" style={{ 
             fontFamily: 'Exo 2, sans-serif',
-            color: '#1e3a8a',
-            textShadow: '2px 2px 0px #000, -2px -2px 0px #000, 2px -2px 0px #000, -2px 2px 0px #000, 0px 2px 0px #000, 2px 0px 0px #000, 0px -2px 0px #000, -2px 0px 0px #000',
-            WebkitTextStroke: '1px #000',
-            filter: 'drop-shadow(3px 3px 6px rgba(0,0,0,0.8))'
+            color: 'transparent',
+            WebkitTextStroke: '3px #1e3a8a',
+            textStroke: '3px #1e3a8a',
+            textShadow: '0 0 0 #1e3a8a',
+            filter: 'drop-shadow(2px 2px 4px rgba(0,0,0,0.5))'
           }}>
             Common Auto Parts
           </div>
