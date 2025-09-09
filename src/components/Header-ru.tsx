@@ -49,7 +49,7 @@ export const HeaderRu: React.FC = () => {
                 msImageRendering: 'crisp-edges'
               }}
             />
-            <div className="font-black text-3xl tracking-wider text-white">
+            <div className="font-black text-3xl tracking-wider text-blue-600">
               C.A.P
             </div>
           </div>
