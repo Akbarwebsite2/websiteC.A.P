@@ -42,17 +42,8 @@ export const HeroRu: React.FC = () => {
 
         {/* Main Heading - C.A.P text */}
         <h1 className="text-5xl sm:text-6xl lg:text-8xl font-black text-white mb-8 leading-tight tracking-tight">
-          <div className="flex justify-center mb-4">
-            <img 
-             src="/text 222.png" 
-             alt="C.A.P. Text" 
-              className="h-32 sm:h-40 lg:h-48 xl:h-56 object-contain brightness-110 contrast-125 saturate-110 filter drop-shadow-lg"
-              style={{ 
-                imageRendering: 'crisp-edges',
-                WebkitImageRendering: 'crisp-edges',
-                msImageRendering: 'crisp-edges'
-              }}
-            />
+          <div className="text-blue-500 text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black mb-6 tracking-widest">
+            Common Auto Parts
           </div>
         </h1>
 

@@ -48,16 +48,9 @@ export const Header: React.FC = () => {
                 msImageRendering: 'crisp-edges'
               }}
             />
-            <img 
-              src="/tekst 2.png" 
-              alt="C.A.P. Common Auto Parts" 
-              className="h-20 w-20 object-contain brightness-110 contrast-125 saturate-110 filter -ml-2"
-              style={{ 
-                imageRendering: 'crisp-edges',
-                WebkitImageRendering: 'crisp-edges',
-                msImageRendering: 'crisp-edges'
-              }}
-            />
+            <div className="text-blue-500 font-black text-2xl tracking-wider">
+              C.A.P
+            </div>
           </div>
 
           {/* Desktop Navigation - Centered */}
