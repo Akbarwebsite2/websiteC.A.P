@@ -75,7 +75,7 @@ export const Products: React.FC = () => {
                   <img 
                     src={`/znak ${index + 1}.png`}
                     alt={`${product.title} icon`}
-                    className="w-24 h-24 object-cover filter brightness-110 contrast-110"
+                    className="w-32 h-32 object-cover filter brightness-110 contrast-110"
                     style={{ 
                       imageRendering: 'crisp-edges',
                       WebkitImageRendering: 'crisp-edges',
