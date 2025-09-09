@@ -24,7 +24,7 @@ export const HeroRu: React.FC = () => {
         {/* Centered Logo */}
         <div className="mb-6 mt-24">
           <img 
-            src="https://images.pexels.com/photos/3807277/pexels-photo-3807277.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&fit=crop" 
+            src="/cap logotip.jpg" 
             alt="C.A.P. Logo" 
             className="h-24 w-24 sm:h-28 sm:w-28 lg:h-32 lg:w-32 rounded-full object-cover border-4 border-blue-600 shadow-2xl mx-auto brightness-110 contrast-125 saturate-110"
           />

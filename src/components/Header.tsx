@@ -39,7 +39,7 @@ export const Header: React.FC = () => {
           {/* Logo */}
           <div className="flex items-center space-x-4">
             <img 
-              src="https://images.pexels.com/photos/3807277/pexels-photo-3807277.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&fit=crop" 
+              src="/cap logotip.jpg" 
               alt="C.A.P. Logo" 
               className="h-12 w-12 rounded-full object-cover border-2 border-blue-600"
             />
