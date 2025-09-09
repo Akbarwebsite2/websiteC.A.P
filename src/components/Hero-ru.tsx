@@ -42,14 +42,7 @@ export const HeroRu: React.FC = () => {
 
         {/* Main Heading - C.A.P text */}
         <h1 className="text-5xl sm:text-6xl lg:text-8xl font-black text-white mb-8 leading-tight tracking-tight">
-          <div className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black mb-6 tracking-tight font-bold" style={{ 
-            fontFamily: 'Exo 2, sans-serif',
-            color: 'transparent',
-            WebkitTextStroke: '3px #1e3a8a',
-            textStroke: '3px #1e3a8a',
-            textShadow: '0 0 0 #1e3a8a',
-            filter: 'drop-shadow(2px 2px 4px rgba(0,0,0,0.5))'
-          }}>
+          <div className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black mb-6 tracking-tight">
             Common Auto Parts
           </div>
         </h1>
