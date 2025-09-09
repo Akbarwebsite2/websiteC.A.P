@@ -10,7 +10,7 @@ export const ProductsRu: React.FC = () => {
     {
       icon: Droplets,
       title: "Моторные части",
-      description: "Высококачественные компоненты двигателя для максимальной защиты и производительности вашего автомобиля.",
+      description: "Высококачественные компоненты для максимальной защиты и производительности вашего автомобиля.",
       image: "/motornie chasti 2.jpg"
     },
     {
@@ -53,12 +53,11 @@ export const ProductsRu: React.FC = () => {
         {/* Section Header */}
         <div className="relative z-10 text-center mb-16">
           <h2 className="text-4xl lg:text-6xl font-black text-white mb-6 tracking-tight">
-            ПРЕМИАЛЬНЫЕ <span className="text-blue-500">АВТОЗАПЧАСТИ</span>
+            ВЫСОКОКАЧЕСТВЕННЫЕ <span className="text-blue-500">АВТОЗАПЧАСТИ</span>
           </h2>
           <div className="w-24 h-1 bg-blue-500 mx-auto mb-8"></div>
           <p className="text-xl text-gray-400 max-w-3xl mx-auto font-medium">
-            Профессиональные компоненты, созданные для производительности, 
-            надежности и долговечности. Доверьтесь C.A.P. для ваших самых важных автомобильных потребностей.
+            У нас вы можете приобрести как оригинальные запчасти, так и качественные аналоги мировых брендов — оптом и в розницу.
           </p>
         </div>
 
