@@ -11,25 +11,25 @@ export const ProductsRu: React.FC = () => {
       icon: Droplets,
       title: "Моторные части",
       description: "Высококачественные компоненты двигателя для максимальной защиты и производительности вашего автомобиля.",
-      image: "https://images.pexels.com/photos/190574/pexels-photo-190574.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop"
+      image: "/motornie chasti 2.jpg"
     },
     {
       icon: Filter,
       title: "Ходовые части",
       description: "Профессиональные компоненты подвески и ходовой части для комфортной и безопасной езды.",
-      image: "https://images.pexels.com/photos/3807277/pexels-photo-3807277.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop"
+      image: "/xodovie chasti.jpg"
     },
     {
       icon: Zap,
       title: "Моторное масло",
       description: "Премиальные синтетические и обычные масла для максимальной защиты двигателя и его долговечности.",
-      image: "https://images.pexels.com/photos/4315570/pexels-photo-4315570.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop"
+      image: "/motornoe maslo 2.jpg"
     },
     {
       icon: Disc,
       title: "Кузовные части",
       description: "Качественные кузовные элементы и аксессуары для восстановления и улучшения внешнего вида автомобиля.",
-      image: "https://images.pexels.com/photos/3807277/pexels-photo-3807277.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop"
+      image: "/kuzovnie chasti 2.jpg"
     }
   ];
 
@@ -37,12 +37,12 @@ export const ProductsRu: React.FC = () => {
     {
       title: "Оригинальные автозапчасти",
       description: "Подлинные OEM запчасти от официальных производителей для гарантированного качества и совместимости.",
-      image: "https://images.pexels.com/photos/3807277/pexels-photo-3807277.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop"
+      image: "/originall.jpg"
     },
     {
       title: "Автомаркет автозапчасти",
       description: "Широкий ассортимент качественных запчастей по конкурентным ценам для всех марок автомобилей.",
-      image: "https://images.pexels.com/photos/3807277/pexels-photo-3807277.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop"
+      image: "/avtomarket.jpg"
     }
   ];
 
