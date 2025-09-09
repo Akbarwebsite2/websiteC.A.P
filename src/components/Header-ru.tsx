@@ -49,7 +49,7 @@ export const HeaderRu: React.FC = () => {
                 msImageRendering: 'crisp-edges'
               }}
             />
-            <div className="text-blue-800 font-black text-3xl tracking-wider" style={{ fontFamily: 'Saira Condensed, Exo 2, Rajdhani, Oswald, Impact, Arial Black, sans-serif', fontWeight: '900', textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>
+            <div className="text-blue-800 font-black text-3xl tracking-wider" style={{ fontFamily: 'Exo 2, sans-serif', fontWeight: '900', textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>
               <span className="text-blue-500">C.A.P</span>
             </div>
           </div>
