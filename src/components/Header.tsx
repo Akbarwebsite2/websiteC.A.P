@@ -48,14 +48,7 @@ export const Header: React.FC = () => {
                 msImageRendering: 'crisp-edges'
               }}
             />
-            <div className="font-black text-3xl tracking-wider" style={{ 
-              fontFamily: 'Exo 2, sans-serif', 
-              fontWeight: '900',
-              color: 'transparent',
-              WebkitTextStroke: '2px #1e3a8a',
-              textStroke: '2px #1e3a8a',
-              filter: 'drop-shadow(1px 1px 2px rgba(0,0,0,0.5))'
-            }}>
+            <div className="font-black text-3xl tracking-wider text-white">
               C.A.P
             </div>
           </div>
