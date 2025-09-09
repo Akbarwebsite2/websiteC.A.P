@@ -48,7 +48,7 @@ export const Header: React.FC = () => {
                 msImageRendering: 'crisp-edges'
               }}
             />
-            <div className="text-blue-500 font-black text-2xl tracking-wider">
+            <div className="text-blue-800 font-black text-3xl tracking-wider">
               C.A.P
             </div>
           </div>
