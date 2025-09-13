@@ -44,9 +44,9 @@ export const HeroRu: React.FC = () => {
         <h1 className="text-5xl sm:text-6xl lg:text-8xl font-black text-white mb-8 leading-tight tracking-tight">
           <div className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black mb-6 tracking-tight">
             <img 
-              src="/Common.png" 
+              src="/Common 2.png" 
               alt="Common Auto Parts" 
-              className="h-16 sm:h-20 lg:h-24 xl:h-28 mx-auto object-contain filter brightness-110 contrast-125 saturate-110"
+              className="h-12 sm:h-16 lg:h-20 xl:h-24 mx-auto object-contain filter brightness-110 contrast-125 saturate-110"
               style={{ 
                 imageRendering: 'crisp-edges',
                 WebkitImageRendering: 'crisp-edges',
@@ -56,14 +56,14 @@ export const HeroRu: React.FC = () => {
           </div>
           
           {/* Description - moved closer */}
-          <div className="mb-2 mt-2">
+          <div className="mb-1 mt-1">
             <span className="bg-gradient-to-r from-white via-gray-200 to-white bg-clip-text text-transparent text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold">
               Ваш проводник в сфере автозапчастей
             </span>
           </div>
 
           {/* Tagline */}
-          <p className="text-sm sm:text-base text-gray-300 mb-4 max-w-3xl mx-auto leading-relaxed font-medium">
+          <p className="text-sm sm:text-base text-gray-300 mb-2 max-w-3xl mx-auto leading-relaxed font-medium">
             Мы предлагаем профессиональный сервис, широкий выбор и быстрые поставки.
           </p>
         </h1>
