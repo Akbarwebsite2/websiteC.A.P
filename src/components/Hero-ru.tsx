@@ -56,14 +56,14 @@ export const HeroRu: React.FC = () => {
           </div>
           
           {/* Description - moved closer */}
-          <div className="mb-1 mt-1">
-            <span className="bg-gradient-to-r from-white via-gray-200 to-white bg-clip-text text-transparent text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold">
+          <div className="mb-4 mt-1">
+            <span className="bg-gradient-to-r from-white via-gray-200 to-white bg-clip-text text-transparent text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold">
               Ваш проводник в сфере автозапчастей
             </span>
           </div>
 
           {/* Tagline */}
-          <p className="text-sm sm:text-base text-gray-300 mb-2 max-w-3xl mx-auto leading-relaxed font-medium">
+          <p className="text-base sm:text-lg text-gray-300 mb-4 max-w-3xl mx-auto leading-relaxed font-medium">
             Мы предлагаем профессиональный сервис, широкий выбор и быстрые поставки.
           </p>
         </h1>
