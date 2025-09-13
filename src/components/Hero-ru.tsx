@@ -46,13 +46,16 @@ export const HeroRu: React.FC = () => {
             <img 
               src="/Parts 1.png" 
               alt="Ваш проводник в сфере автозапчастей" 
-              className="h-12 sm:h-16 lg:h-20 xl:h-24 mx-auto object-contain filter brightness-110 contrast-125 saturate-110"
+              className="h-8 sm:h-10 lg:h-12 xl:h-14 mx-auto object-contain filter brightness-110 contrast-125 saturate-110"
               style={{ 
                 imageRendering: 'crisp-edges',
                 WebkitImageRendering: 'crisp-edges',
                 msImageRendering: 'crisp-edges'
               }}
             />
+            <h2 className="text-xl sm:text-2xl lg:text-3xl font-semibold text-white mt-4 tracking-wide">
+              Ваш проводник в сфере автозапчастей
+            </h2>
           </div>
           
         </h1>
