@@ -38,7 +38,7 @@ export const HeaderRu: React.FC = () => {
       <nav className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-2">
             <img 
               src="/cap logotip.jpg" 
               alt="C.A.P. Logo" 
@@ -52,7 +52,7 @@ export const HeaderRu: React.FC = () => {
             <img 
               src="/Common cap.png" 
               alt="C.A.P" 
-              className="h-8 sm:h-10 lg:h-12 object-contain filter brightness-110 contrast-125 saturate-110"
+              className="h-6 sm:h-7 lg:h-8 object-contain filter brightness-110 contrast-125 saturate-110"
               style={{ 
                 imageRendering: 'crisp-edges',
                 WebkitImageRendering: 'crisp-edges',
