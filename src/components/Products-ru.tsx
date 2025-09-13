@@ -52,8 +52,8 @@ export const ProductsRu: React.FC = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="relative z-10 text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl lg:text-6xl font-black text-white mb-6 tracking-tight">
-            <span className="block sm:inline">КАЧЕСТВЕННЫЕ</span>{' '}
+          <h2 className="text-2xl sm:text-4xl lg:text-6xl font-black text-white mb-6 tracking-tight">
+            <span className="block sm:inline">ВЫСОКОКАЧЕСТВЕННЫЕ</span>{' '}
             <span className="text-blue-500">АВТОЗАПЧАСТИ</span>
           </h2>
           <div className="w-24 h-1 bg-blue-500 mx-auto mb-8"></div>
