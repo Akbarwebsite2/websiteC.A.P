@@ -61,7 +61,7 @@ export const HeroRu: React.FC = () => {
         </h1>
 
         {/* Description */}
-        <p className="text-lg sm:text-xl text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed font-medium">
+        <p className="text-lg sm:text-xl text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed font-medium mt-6">
           <span className="tracking-wide">Мы предлагаем профессиональный сервис, широкий выбор и быстрые поставки.</span>
         </p>
       </div>
