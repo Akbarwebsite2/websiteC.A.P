@@ -44,8 +44,8 @@ export const HeroRu: React.FC = () => {
         <h1 className="text-5xl sm:text-6xl lg:text-8xl font-black text-white mb-8 leading-tight tracking-tight">
           <div className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black mb-6 tracking-tight">
             <img 
-              src="/Common 2.png" 
-              alt="Common Auto Parts" 
+              src="/Parts 1.png" 
+              alt="Ваш проводник в сфере автозапчастей" 
               className="h-12 sm:h-16 lg:h-20 xl:h-24 mx-auto object-contain filter brightness-110 contrast-125 saturate-110"
               style={{ 
                 imageRendering: 'crisp-edges',
@@ -55,25 +55,12 @@ export const HeroRu: React.FC = () => {
             />
           </div>
           
-          {/* Description - moved closer */}
-          <div className="mb-4 mt-1">
-            <img 
-              src="/Parts 1.png" 
-              alt="Ваш проводник в сфере автозапчастей" 
-              className="h-16 sm:h-20 lg:h-24 xl:h-28 mx-auto object-contain filter brightness-110 contrast-125 saturate-110 drop-shadow-lg"
-              style={{ 
-                imageRendering: 'crisp-edges',
-                WebkitImageRendering: 'crisp-edges',
-                msImageRendering: 'crisp-edges'
-              }}
-            />
-          </div>
-
-          {/* Tagline */}
-          <p className="text-base sm:text-lg text-gray-300 mb-4 max-w-3xl mx-auto leading-relaxed font-medium">
-            <span className="tracking-wide">Мы предлагаем профессиональный сервис, широкий выбор и быстрые поставки.</span>
-          </p>
         </h1>
+
+        {/* Description */}
+        <p className="text-lg sm:text-xl text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed font-medium">
+          <span className="tracking-wide">Мы предлагаем профессиональный сервис, широкий выбор и быстрые поставки.</span>
+        </p>
       </div>
     </section>
   );
