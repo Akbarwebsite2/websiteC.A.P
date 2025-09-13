@@ -50,9 +50,9 @@ export const HeaderRu: React.FC = () => {
               }}
             />
             <img 
-              src="/Common cap.png" 
+              src="/Parts 2.png" 
               alt="C.A.P" 
-              className="h-6 sm:h-7 lg:h-8 object-contain filter brightness-110 contrast-125 saturate-110"
+              className="h-8 sm:h-9 lg:h-10 object-contain filter brightness-110 contrast-125 saturate-110"
               style={{ 
                 imageRendering: 'crisp-edges',
                 WebkitImageRendering: 'crisp-edges',
