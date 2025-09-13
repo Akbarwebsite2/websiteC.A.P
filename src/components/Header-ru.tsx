@@ -49,9 +49,16 @@ export const HeaderRu: React.FC = () => {
                 msImageRendering: 'crisp-edges'
               }}
             />
-            <div className="font-black text-3xl tracking-wider text-blue-700">
-              C.A.P
-            </div>
+            <img 
+              src="/Common cap.png" 
+              alt="C.A.P" 
+              className="h-8 sm:h-10 lg:h-12 object-contain filter brightness-110 contrast-125 saturate-110"
+              style={{ 
+                imageRendering: 'crisp-edges',
+                WebkitImageRendering: 'crisp-edges',
+                msImageRendering: 'crisp-edges'
+              }}
+            />
           </div>
 
           {/* Desktop Navigation - Centered */}
