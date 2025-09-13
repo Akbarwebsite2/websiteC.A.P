@@ -64,7 +64,7 @@ export const HeroRu: React.FC = () => {
 
           {/* Tagline */}
           <p className="text-base sm:text-lg text-gray-300 mb-4 max-w-3xl mx-auto leading-relaxed font-medium">
-            Мы предлагаем профессиональный сервис, широкий выбор и быстрые поставки.
+            <span className="tracking-wide">Мы предлагаем профессиональный сервис, широкий выбор и быстрые поставки.</span>
           </p>
         </h1>
       </div>
