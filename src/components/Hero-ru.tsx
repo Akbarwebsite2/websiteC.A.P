@@ -57,9 +57,16 @@ export const HeroRu: React.FC = () => {
           
           {/* Description - moved closer */}
           <div className="mb-4 mt-1">
-            <span className="bg-gradient-to-r from-white via-gray-200 to-white bg-clip-text text-transparent text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold">
-              Ваш проводник в сфере автозапчастей
-            </span>
+            <img 
+              src="/Parts 1.png" 
+              alt="Ваш проводник в сфере автозапчастей" 
+              className="h-16 sm:h-20 lg:h-24 xl:h-28 mx-auto object-contain filter brightness-110 contrast-125 saturate-110 drop-shadow-lg"
+              style={{ 
+                imageRendering: 'crisp-edges',
+                WebkitImageRendering: 'crisp-edges',
+                msImageRendering: 'crisp-edges'
+              }}
+            />
           </div>
 
           {/* Tagline */}
