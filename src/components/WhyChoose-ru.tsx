@@ -10,7 +10,7 @@ export const WhyChooseRu: React.FC = () => {
     {
       icon: Shield,
       title: "Удобная оплата",
-      description: "Удобная оплата через Alif и DC для вашего комфорта и безопасности"
+      description: "Удобная оплата через VISA, Master Card, Alif, DC, Kaspi, USDT для вашего комфорта"
     },
     {
       icon: Award,
@@ -25,7 +25,7 @@ export const WhyChooseRu: React.FC = () => {
     {
       icon: Users,
       title: "Быстрая доставка",
-      description: "Оперативная доставка автозапчастей по всему региону"
+      description: "Гарантируем быструю доставку до вашего карго и полный контроль до вашего склада"
     }
   ];
 
