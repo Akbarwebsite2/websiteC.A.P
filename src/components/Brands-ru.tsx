@@ -90,9 +90,9 @@ export const BrandsRu: React.FC = () => {
         {/* Header Section */}
         <div className="relative z-10 text-center mb-16">
           <h2 className="text-4xl lg:text-6xl font-black text-white mb-6 tracking-tight">
-            НАШИ <span className="text-blue-500">БРЕНДЫ</span>
+            НАШИ <span className="text-[#144374]">БРЕНДЫ</span>
           </h2>
-          <div className="w-24 h-1 bg-blue-500 mx-auto mb-8"></div>
+          <div className="w-24 h-1 bg-[#144374] mx-auto mb-8"></div>
         </div>
 
         {/* МОТОРНЫЕ ЧАСТИ */}

@@ -54,9 +54,9 @@ export const ProductsRu: React.FC = () => {
         <div className="relative z-10 text-center mb-16">
           <h2 className="text-2xl sm:text-4xl lg:text-6xl font-black text-white mb-6 tracking-tight">
             <span className="block sm:inline">ВЫСОКОКАЧЕСТВЕННЫЕ</span>{' '}
-            <span className="text-blue-500">АВТОЗАПЧАСТИ</span>
+            <span className="text-[#144374]">АВТОЗАПЧАСТИ</span>
           </h2>
-          <div className="w-24 h-1 bg-blue-500 mx-auto mb-8"></div>
+          <div className="w-24 h-1 bg-[#144374] mx-auto mb-8"></div>
           <p className="text-xl text-gray-400 max-w-3xl mx-auto font-medium">
             У нас вы можете приобрести как оригинальные запчасти, так и качественные аналоги мировых брендов — оптом и в розницу.
           </p>
@@ -67,7 +67,7 @@ export const ProductsRu: React.FC = () => {
           {products.map((product, index) => (
             <div 
               key={product.title}
-              className="group relative bg-gradient-to-b from-gray-800 to-gray-900 rounded-xl overflow-hidden hover:from-gray-700 hover:to-gray-800 transition-all duration-300 transform hover:-translate-y-2 border border-gray-700 hover:border-blue-500"
+              className="group relative bg-gradient-to-b from-gray-800 to-gray-900 rounded-xl overflow-hidden hover:from-gray-700 hover:to-gray-800 transition-all duration-300 transform hover:-translate-y-2 border border-gray-700 hover:border-[#144374]"
             >
               {/* Product Image */}
               <div className="relative h-48 overflow-hidden">
@@ -95,7 +95,7 @@ export const ProductsRu: React.FC = () => {
 
               {/* Content */}
               <div className="p-6">
-                <h3 className="text-xl font-bold text-white mb-3 group-hover:text-blue-400 transition-colors duration-300">
+                <h3 className="text-xl font-bold text-white mb-3 group-hover:text-[#144374] transition-colors duration-300">
                   {product.title}
                 </h3>
                 <p className="text-gray-400 leading-relaxed">
@@ -104,7 +104,7 @@ export const ProductsRu: React.FC = () => {
               </div>
 
               {/* Hover Effect Border */}
-              <div className="absolute inset-0 border-2 border-transparent group-hover:border-blue-500 rounded-xl transition-colors duration-300 pointer-events-none"></div>
+              <div className="absolute inset-0 border-2 border-transparent group-hover:border-[#144374] rounded-xl transition-colors duration-300 pointer-events-none"></div>
             </div>
           ))}
         </div>

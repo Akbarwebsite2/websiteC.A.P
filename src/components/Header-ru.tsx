@@ -42,7 +42,7 @@ export const HeaderRu: React.FC = () => {
             <img 
               src="/cap logotip.jpg" 
               alt="C.A.P. Logo" 
-              className="h-16 w-16 rounded-full object-cover border-2 border-blue-600 shadow-lg brightness-110 contrast-125 saturate-110 filter drop-shadow-lg"
+              className="h-16 w-16 rounded-full object-cover border-2 border-[#144374] shadow-lg brightness-110 contrast-125 saturate-110 filter drop-shadow-lg"
               style={{ 
                 imageRendering: 'crisp-edges',
                 WebkitImageRendering: 'crisp-edges',
@@ -67,10 +67,10 @@ export const HeaderRu: React.FC = () => {
               <a
                 key={link.name}
                 href={link.href}
-                className="text-gray-300 hover:text-blue-500 font-semibold transition-colors duration-200 relative group tracking-wide"
+                className="text-gray-300 hover:text-[#144374] font-semibold transition-colors duration-200 relative group tracking-wide"
               >
                 {link.name}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-500 transition-all duration-200 group-hover:w-full"></span>
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#144374] transition-all duration-200 group-hover:w-full"></span>
               </a>
             ))}
           </div>
@@ -92,7 +92,7 @@ export const HeaderRu: React.FC = () => {
                 <a
                   key={link.name}
                   href={link.href}
-                  className="block text-gray-300 hover:text-blue-500 font-semibold py-2 transition-colors duration-200"
+                  className="block text-gray-300 hover:text-[#144374] font-semibold py-2 transition-colors duration-200"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {link.name}
