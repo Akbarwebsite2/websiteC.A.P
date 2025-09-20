@@ -31,12 +31,10 @@ export const BrandsRu: React.FC = () => {
     { name: "Фильтры", category: "Моторные части", logo: "/16.png" },
     { name: "Подшипники", category: "Моторные части", logo: "/17.png" },
     { name: "Комплект прокладок", category: "Моторные части", logo: "/18.png" },
-    { name: "Стартер - Генератор", category: "Моторные части", logo: "/19.png" },
     { name: "Переключатель давление масла", category: "Моторные части", logo: "/20.png" },
     
     // Cards 21-25 with logos (21.png to 25.png)
     { name: "Все компоненты двигателя", category: "Моторные части", logo: "/21.png" },
-    { name: "Топливный насос", category: "Моторные части", logo: "/22.png" },
     { name: "Диск сцепление", category: "Моторные части", logo: "/23.png" },
     { name: "Все компоненты двигателя", category: "Моторные части", logo: "/24.png" },
     { name: "Термостаты", category: "Моторные части", logo: "/25.png" },
