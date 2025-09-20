@@ -93,17 +93,10 @@ export const BrandsRu: React.FC = () => {
           <div className="w-24 h-1 bg-[#144374] mx-auto mb-8"></div>
         </div>
 
-        {/* МОТОРНЫЕ ЧАСТИ */}
+        {/* All Brands Grid - Прямоугольные карточки */}
         <div className="relative z-10">
-          {/* Section Header */}
-          <div className="bg-gradient-to-r from-gray-800 to-gray-900 text-white text-center py-6 mb-8 rounded-2xl shadow-2xl border border-blue-500/30 backdrop-blur-sm">
-            <h3 className="text-2xl lg:text-3xl font-black tracking-wide text-shadow-glow">
-              МОТОРНЫЕ ЧАСТИ
-            </h3>
-          </div>
-
-          {/* Brand Cards Grid - Прямоугольные карточки */}
           <div className="flex flex-wrap justify-center gap-2 mb-16">
+            {/* Моторные части */}
             {motorBrands.map((brand, index) => (
               <div 
                 key={`${brand.name}-${index}`}
@@ -141,20 +134,8 @@ export const BrandsRu: React.FC = () => {
                 </div>
               </div>
             ))}
-          </div>
-        </div>
-
-        {/* ХОДОВЫЕ ЧАСТИ */}
-        <div className="relative z-10 mt-16">
-          {/* Section Header */}
-          <div className="bg-gradient-to-r from-gray-800 to-gray-900 text-white text-center py-6 mb-8 rounded-2xl shadow-2xl border border-blue-500/30 backdrop-blur-sm">
-            <h3 className="text-2xl lg:text-3xl font-black tracking-wide text-shadow-glow">
-              ХОДОВЫЕ ЧАСТИ
-            </h3>
-          </div>
-
-          {/* Ходовые части Grid - Прямоугольные карточки */}
-          <div className="flex flex-wrap justify-center gap-2 mb-16">
+            
+            {/* Ходовые части */}
             {hodovyeBrands.map((brand, index) => (
               <div 
                 key={`hodovye-${brand.name}-${index}`}
@@ -184,20 +165,8 @@ export const BrandsRu: React.FC = () => {
                 </div>
               </div>
             ))}
-          </div>
-        </div>
-
-        {/* ТОРМОЗНЫЕ ЧАСТИ И ТРАНСМИССИИ */}
-        <div className="relative z-10 mt-16">
-          {/* Section Header */}
-          <div className="bg-gradient-to-r from-gray-800 to-gray-900 text-white text-center py-6 mb-8 rounded-2xl shadow-2xl border border-blue-500/30 backdrop-blur-sm">
-            <h3 className="text-2xl lg:text-3xl font-black tracking-wide text-shadow-glow">
-              ТОРМОЗНЫЕ ЧАСТИ И ТРАНСМИССИИ
-            </h3>
-          </div>
-
-          {/* Тормозные части Grid - Прямоугольные карточки */}
-          <div className="flex flex-wrap justify-center gap-2 mb-16">
+            
+            {/* Тормозные части и трансмиссии */}
             {tormoznyeBrands.map((brand, index) => (
               <div 
                 key={`tormoznye-${brand.name}-${index}`}
@@ -227,20 +196,8 @@ export const BrandsRu: React.FC = () => {
                 </div>
               </div>
             ))}
-          </div>
-        </div>
-
-        {/* КУЗОВНЫЕ ЧАСТИ / РЕСТАЙЛИНГ */}
-        <div className="relative z-10 mt-16">
-          {/* Section Header */}
-          <div className="bg-gradient-to-r from-gray-800 to-gray-900 text-white text-center py-6 mb-8 rounded-2xl shadow-2xl border border-blue-500/30 backdrop-blur-sm">
-            <h3 className="text-2xl lg:text-3xl font-black tracking-wide text-shadow-glow">
-              КУЗОВНЫЕ ЧАСТИ / РЕСТАЙЛИНГ
-            </h3>
-          </div>
-
-          {/* Кузовные части Grid - Прямоугольные карточки */}
-          <div className="flex flex-wrap justify-center gap-2 mb-16">
+            
+            {/* Кузовные части / Рестайлинг */}
             {kuzovnyeBrands.map((brand, index) => (
               <div 
                 key={`kuzovnye-${brand.name}-${index}`}
@@ -270,20 +227,8 @@ export const BrandsRu: React.FC = () => {
                 </div>
               </div>
             ))}
-          </div>
-        </div>
-
-        {/* МОТОРНОЕ МАСЛО */}
-        <div className="relative z-10 mt-16">
-          {/* Section Header */}
-          <div className="bg-gradient-to-r from-gray-800 to-gray-900 text-white text-center py-6 mb-8 rounded-2xl shadow-2xl border border-blue-500/30 backdrop-blur-sm">
-            <h3 className="text-2xl lg:text-3xl font-black tracking-wide text-shadow-glow">
-              МОТОРНОЕ МАСЛО
-            </h3>
-          </div>
-
-          {/* Моторное масло Grid - Прямоугольные карточки */}
-          <div className="flex flex-wrap justify-center gap-2 mb-16">
+            
+            {/* Моторное масло */}
             {[
               { name: "Моторное масло", category: "Синтетическое масло", logo: "/royal super 2.png" },
               { name: "Моторные масла", category: "Полусинтетическое масло", logo: "/lukoil 2.png" },
