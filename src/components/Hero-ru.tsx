@@ -27,7 +27,7 @@ export const HeroRu: React.FC = () => {
 
       <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 text-center">
         {/* Centered Logo */}
-        <div className="mb-6 mt-24">
+        <div className="mb-6 mt-24 content-reveal delay-1">
           <img 
             src="/cap logotip.jpg" 
             alt="C.A.P. Logo" 
@@ -41,8 +41,8 @@ export const HeroRu: React.FC = () => {
         </div>
 
         {/* Main Heading - C.A.P text */}
-        <h1 className="text-5xl sm:text-6xl lg:text-8xl font-black text-white mb-8 leading-tight tracking-tight">
-          <div className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black mb-6 tracking-tight">
+        <h1 className="text-5xl sm:text-6xl lg:text-8xl font-black text-white mb-8 leading-tight tracking-tight hero-title-animated">
+          <div className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black mb-6 tracking-tight content-reveal delay-2">
             <img 
               src="/Parts 1.png" 
               alt="Ваш проводник в сфере автозапчастей" 
@@ -53,7 +53,7 @@ export const HeroRu: React.FC = () => {
                 msImageRendering: 'crisp-edges'
               }}
             />
-            <h2 className="text-xl sm:text-2xl lg:text-3xl font-semibold text-white mt-4 tracking-wide">
+            <h2 className="text-xl sm:text-2xl lg:text-3xl font-semibold text-white mt-4 tracking-wide content-reveal delay-3">
               Ваш проводник в сфере автозапчастей
             </h2>
           </div>
@@ -61,7 +61,7 @@ export const HeroRu: React.FC = () => {
         </h1>
 
         {/* Description */}
-        <p className="text-lg sm:text-xl text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed font-medium -mt-2">
+        <p className="text-lg sm:text-xl text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed font-medium -mt-2 content-reveal delay-4">
           <span className="tracking-wide">Мы предлагаем профессиональный сервис, широкий выбор и быстрые поставки.</span>
         </p>
       </div>
