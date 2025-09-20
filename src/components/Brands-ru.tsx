@@ -90,9 +90,9 @@ export const BrandsRu: React.FC = () => {
         {/* Header Section */}
         <div className="relative z-10 text-center mb-16">
           <h2 className="text-4xl lg:text-6xl font-black text-white mb-6 tracking-tight">
-            НАШИ <span className="text-[#144374]">БРЕНДЫ</span>
+            НАШИ <span className="text-blue-500">БРЕНДЫ</span>
           </h2>
-          <div className="w-24 h-1 bg-[#144374] mx-auto mb-8"></div>
+          <div className="w-24 h-1 bg-blue-500 mx-auto mb-8"></div>
         </div>
 
         {/* МОТОРНЫЕ ЧАСТИ */}
@@ -112,7 +112,7 @@ export const BrandsRu: React.FC = () => {
                 className="group"
               >
                 {/* Прямоугольная карточка с градиентом */}
-                <div className="bg-gradient-to-br from-gray-800/90 to-gray-900/90 backdrop-blur-sm rounded-xl p-1 hover:from-gray-700/90 hover:to-gray-800/90 transition-all duration-300 flex items-center justify-center overflow-hidden border border-blue-500/20 hover:border-blue-400/40 relative shadow-lg hover:shadow-blue-500/10 hover:shadow-xl transform hover:scale-102" style={{ width: '140px', height: '100px' }}>
+                <div className="bg-gradient-to-br from-gray-800/90 to-gray-900/90 backdrop-blur-sm rounded-xl p-1 hover:from-gray-700/90 hover:to-gray-800/90 transition-all duration-300 flex items-center justify-center overflow-hidden border border-[#144374]/20 hover:border-[#144374]/40 relative shadow-lg hover:shadow-[#144374]/10 hover:shadow-xl transform hover:scale-102" style={{ width: '140px', height: '100px' }}>
                   {brand.logo ? (
                     <img 
                       src={brand.logo} 
