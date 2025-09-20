@@ -291,8 +291,6 @@ export const BrandsRu: React.FC = () => {
               { name: "", category: "Полусинтетическое масло", logo: "/maslo 2.png" },
               { name: "", category: "Минеральное масло", logo: "/maslo 3.png" },
               { name: "", category: "Трансмиссионное масло", logo: "/maslo 4.png" },
-              { name: "ENEOS", category: "Премиальное масло", logo: "/eneos.webp" },
-              { name: "FD ELECMAN", category: "Моторное масло", logo: "/fd logo.jpg" },
             ].map((brand, index) => (
               <div 
                 key={`oil-${brand.name}-${index}`}
@@ -303,7 +301,7 @@ export const BrandsRu: React.FC = () => {
                   <img 
                     src={brand.logo} 
                     alt={`${brand.name} logo`}
-                    className="w-full h-full object-contain max-w-none filter brightness-110 contrast-110 rounded-lg p-2"
+                    className="w-full h-full object-cover max-w-none filter brightness-110 contrast-110 rounded-lg"
                     style={{ 
                       width: '100%', 
                       height: '100%',
