@@ -96,7 +96,7 @@ export const ContactRu: React.FC = () => {
             <img 
               src="/cap logotip.jpg" 
               alt="C.A.P. Logo" 
-              className="h-10 w-10 rounded-full object-cover border border-blue-600 brightness-110 contrast-125 saturate-110"
+              className="h-10 w-10 rounded-full object-cover border border-[#144374] brightness-110 contrast-125 saturate-110"
             />
             <div>
               <h4 className="text-xl font-bold text-white">C.A.P</h4>
