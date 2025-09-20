@@ -287,10 +287,11 @@ export const BrandsRu: React.FC = () => {
           {/* Моторное масло Grid - Прямоугольные карточки */}
           <div className="flex flex-wrap justify-center gap-2 mb-16">
             {[
-              { name: "", category: "Синтетическое масло", logo: "/maslo 1.png" },
-              { name: "", category: "Полусинтетическое масло", logo: "/maslo 2.png" },
-              { name: "", category: "Минеральное масло", logo: "/maslo 3.png" },
-              { name: "", category: "Трансмиссионное масло", logo: "/maslo 4.png" },
+              { name: "Моторное масло", category: "Синтетическое масло", logo: "/royal super 2.png" },
+              { name: "Моторные масла", category: "Полусинтетическое масло", logo: "/lukoil 2.png" },
+              { name: "Моторное масло", category: "Минеральное масло", logo: "/drivol 2.png" },
+              { name: "Топливный насос", category: "Топливная система", logo: "/fd elecman.png" },
+              { name: "Моторное масло", category: "Премиальное масло", logo: "/eneos.png" },
             ].map((brand, index) => (
               <div 
                 key={`oil-${brand.name}-${index}`}
@@ -301,7 +302,7 @@ export const BrandsRu: React.FC = () => {
                   <img 
                     src={brand.logo} 
                     alt={`${brand.name} logo`}
-                    className="w-full h-full object-cover max-w-none filter brightness-110 contrast-110 rounded-lg"
+                    className="w-full h-full object-contain max-w-none filter brightness-110 contrast-110 rounded-lg p-2"
                     style={{ 
                       width: '100%', 
                       height: '100%',
@@ -313,11 +314,9 @@ export const BrandsRu: React.FC = () => {
                   
                   {/* Gradient Shadow - всегда показывается */}
                   <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent rounded-b-xl py-2">
-                    {brand.name && (
-                      <div className="text-white text-xs font-bold text-center px-1">
-                        {brand.name}
-                      </div>
-                    )}
+                    <div className="text-white text-xs font-bold text-center px-1">
+                      {brand.name}
+                    </div>
                   </div>
                 </div>
               </div>
