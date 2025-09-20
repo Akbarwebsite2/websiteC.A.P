@@ -101,10 +101,10 @@ export const BrandsRu: React.FC = () => {
               <div 
                 key={`${brand.name}-${index}`}
                 className="group brand-card-animated"
-                style={{ animationDelay: `${4.5 + index * 0.05}s` }}
+                style={{ animationDelay: `${2 + index * 0.05}s` }}
               >
                 {/* Прямоугольная карточка с градиентом */}
-                <div className="bg-gradient-to-br from-gray-800/90 to-gray-900/90 backdrop-blur-sm rounded-xl p-1 hover:from-gray-700/90 hover:to-gray-800/90 transition-all duration-300 flex items-center justify-center overflow-hidden border border-[#144374]/20 hover:border-[#144374]/40 relative shadow-lg hover:shadow-[#144374]/10 hover:shadow-xl transform hover:scale-105 pulse-glow" style={{ width: '140px', height: '100px' }}>
+                <div className="bg-gradient-to-br from-gray-800/90 to-gray-900/90 backdrop-blur-sm rounded-xl p-1 hover:from-gray-700/90 hover:to-gray-800/90 transition-all duration-300 flex items-center justify-center overflow-hidden border border-[#144374]/20 hover:border-[#144374]/40 relative shadow-lg hover:shadow-[#144374]/10 hover:shadow-xl transform hover:scale-105" style={{ width: '140px', height: '100px' }}>
                   {brand.logo ? (
                     <img 
                       src={brand.logo} 
@@ -141,10 +141,10 @@ export const BrandsRu: React.FC = () => {
               <div 
                 key={`hodovye-${brand.name}-${index}`}
                 className="group brand-card-animated"
-                style={{ animationDelay: `${6.2 + index * 0.05}s` }}
+                style={{ animationDelay: `${3.7 + index * 0.05}s` }}
               >
                 {/* Прямоугольная карточка с градиентом */}
-                <div className="bg-gradient-to-br from-gray-800/90 to-gray-900/90 backdrop-blur-sm rounded-xl p-1 hover:from-gray-700/90 hover:to-gray-800/90 transition-all duration-300 flex items-center justify-center overflow-hidden border border-[#144374]/20 hover:border-[#144374]/40 relative shadow-lg hover:shadow-[#144374]/10 hover:shadow-xl transform hover:scale-105 pulse-glow" style={{ width: '140px', height: '100px' }}>
+                <div className="bg-gradient-to-br from-gray-800/90 to-gray-900/90 backdrop-blur-sm rounded-xl p-1 hover:from-gray-700/90 hover:to-gray-800/90 transition-all duration-300 flex items-center justify-center overflow-hidden border border-[#144374]/20 hover:border-[#144374]/40 relative shadow-lg hover:shadow-[#144374]/10 hover:shadow-xl transform hover:scale-105" style={{ width: '140px', height: '100px' }}>
                   <img 
                     src={brand.logo} 
                     alt={`${brand.name} logo`}
@@ -173,10 +173,10 @@ export const BrandsRu: React.FC = () => {
               <div 
                 key={`tormoznye-${brand.name}-${index}`}
                 className="group brand-card-animated"
-                style={{ animationDelay: `${6.5 + index * 0.05}s` }}
+                style={{ animationDelay: `${4 + index * 0.05}s` }}
               >
                 {/* Прямоугольная карточка с градиентом */}
-                <div className="bg-gradient-to-br from-gray-800/90 to-gray-900/90 backdrop-blur-sm rounded-xl p-1 hover:from-gray-700/90 hover:to-gray-800/90 transition-all duration-300 flex items-center justify-center overflow-hidden border border-[#144374]/20 hover:border-[#144374]/40 relative shadow-lg hover:shadow-[#144374]/10 hover:shadow-xl transform hover:scale-105 pulse-glow" style={{ width: '140px', height: '100px' }}>
+                <div className="bg-gradient-to-br from-gray-800/90 to-gray-900/90 backdrop-blur-sm rounded-xl p-1 hover:from-gray-700/90 hover:to-gray-800/90 transition-all duration-300 flex items-center justify-center overflow-hidden border border-[#144374]/20 hover:border-[#144374]/40 relative shadow-lg hover:shadow-[#144374]/10 hover:shadow-xl transform hover:scale-105" style={{ width: '140px', height: '100px' }}>
                   <img 
                     src={brand.logo} 
                     alt={`${brand.name} logo`}
@@ -205,10 +205,10 @@ export const BrandsRu: React.FC = () => {
               <div 
                 key={`kuzovnye-${brand.name}-${index}`}
                 className="group brand-card-animated"
-                style={{ animationDelay: `${6.8 + index * 0.05}s` }}
+                style={{ animationDelay: `${4.3 + index * 0.05}s` }}
               >
                 {/* Прямоугольная карточка с градиентом */}
-                <div className="bg-gradient-to-br from-gray-800/90 to-gray-900/90 backdrop-blur-sm rounded-xl p-1 hover:from-gray-700/90 hover:to-gray-800/90 transition-all duration-300 flex items-center justify-center overflow-hidden border border-[#144374]/20 hover:border-[#144374]/40 relative shadow-lg hover:shadow-[#144374]/10 hover:shadow-xl transform hover:scale-105 pulse-glow" style={{ width: '140px', height: '100px' }}>
+                <div className="bg-gradient-to-br from-gray-800/90 to-gray-900/90 backdrop-blur-sm rounded-xl p-1 hover:from-gray-700/90 hover:to-gray-800/90 transition-all duration-300 flex items-center justify-center overflow-hidden border border-[#144374]/20 hover:border-[#144374]/40 relative shadow-lg hover:shadow-[#144374]/10 hover:shadow-xl transform hover:scale-105" style={{ width: '140px', height: '100px' }}>
                   <img 
                     src={brand.logo} 
                     alt={`${brand.name} logo`}
@@ -248,10 +248,10 @@ export const BrandsRu: React.FC = () => {
               <div 
                 key={`oil-${brand.name}-${index}`}
                 className="group brand-card-animated"
-                style={{ animationDelay: `${7.0 + index * 0.05}s` }}
+                style={{ animationDelay: `${4.5 + index * 0.05}s` }}
               >
                 {/* Прямоугольная карточка с градиентом */}
-                <div className="bg-gradient-to-br from-gray-800/90 to-gray-900/90 backdrop-blur-sm rounded-xl p-1 hover:from-gray-700/90 hover:to-gray-800/90 transition-all duration-300 flex items-center justify-center overflow-hidden border border-[#144374]/20 hover:border-[#144374]/40 relative shadow-lg hover:shadow-[#144374]/10 hover:shadow-xl transform hover:scale-105 pulse-glow" style={{ width: '140px', height: '100px' }}>
+                <div className="bg-gradient-to-br from-gray-800/90 to-gray-900/90 backdrop-blur-sm rounded-xl p-1 hover:from-gray-700/90 hover:to-gray-800/90 transition-all duration-300 flex items-center justify-center overflow-hidden border border-[#144374]/20 hover:border-[#144374]/40 relative shadow-lg hover:shadow-[#144374]/10 hover:shadow-xl transform hover:scale-105" style={{ width: '140px', height: '100px' }}>
                   <img 
                     src={brand.logo} 
                     alt={`${brand.name} logo`}

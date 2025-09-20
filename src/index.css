@@ -257,141 +257,6 @@ body::after {
 
 /* МОЩНЫЕ АНИМАЦИИ ПРИВЕТСТВИЯ */
 
-/* Анимация загрузки страницы */
-.page-loader {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, #000000 0%, #0a0a0f 50%, #000000 100%);
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  animation: fadeOutLoader 1s ease-in-out 3s forwards;
-}
-
-.page-loader.hidden {
-  display: none;
-}
-
-@keyframes fadeOutLoader {
-  0% { opacity: 1; visibility: visible; }
-  100% { opacity: 0; visibility: hidden; }
-}
-
-/* Логотип в загрузчике */
-.loader-logo {
-  animation: 
-    logoEntrance 2s ease-out,
-    logoGlow 2s ease-in-out infinite alternate 1s;
-  transform-origin: center;
-}
-
-@keyframes logoEntrance {
-  0% {
-    transform: scale(0) rotate(-180deg);
-    opacity: 0;
-    filter: blur(20px);
-  }
-  50% {
-    transform: scale(1.2) rotate(-90deg);
-    opacity: 0.7;
-    filter: blur(5px);
-  }
-  100% {
-    transform: scale(1) rotate(0deg);
-    opacity: 1;
-    filter: blur(0px);
-  }
-}
-
-@keyframes logoGlow {
-  0% {
-    box-shadow: 
-      0 0 20px rgba(59, 130, 246, 0.5),
-      0 0 40px rgba(29, 78, 216, 0.3),
-      0 0 60px rgba(37, 99, 235, 0.2);
-  }
-  100% {
-    box-shadow: 
-      0 0 40px rgba(59, 130, 246, 0.8),
-      0 0 80px rgba(29, 78, 216, 0.6),
-      0 0 120px rgba(37, 99, 235, 0.4);
-  }
-}
-
-/* Текст приветствия */
-.welcome-text {
-  position: absolute;
-  bottom: 30%;
-  left: 50%;
-  transform: translateX(-50%);
-  color: white;
-  font-size: 2rem;
-  font-weight: 900;
-  text-align: center;
-  animation: welcomeTextReveal 2s ease-out 0.5s both;
-}
-
-@keyframes welcomeTextReveal {
-  0% {
-    opacity: 0;
-    transform: translateX(-50%) translateY(50px);
-    letter-spacing: 10px;
-    filter: blur(10px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-    letter-spacing: 2px;
-    filter: blur(0px);
-  }
-}
-
-/* Частицы фона */
-.particles {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
-
-.particle {
-  position: absolute;
-  background: radial-gradient(circle, rgba(59, 130, 246, 0.8) 0%, transparent 70%);
-  border-radius: 50%;
-  animation: particleFloat 6s ease-in-out infinite;
-}
-
-.particle:nth-child(1) { width: 4px; height: 4px; left: 10%; animation-delay: 0s; }
-.particle:nth-child(2) { width: 6px; height: 6px; left: 20%; animation-delay: 1s; }
-.particle:nth-child(3) { width: 3px; height: 3px; left: 30%; animation-delay: 2s; }
-.particle:nth-child(4) { width: 5px; height: 5px; left: 40%; animation-delay: 0.5s; }
-.particle:nth-child(5) { width: 4px; height: 4px; left: 50%; animation-delay: 1.5s; }
-.particle:nth-child(6) { width: 7px; height: 7px; left: 60%; animation-delay: 2.5s; }
-.particle:nth-child(7) { width: 3px; height: 3px; left: 70%; animation-delay: 3s; }
-.particle:nth-child(8) { width: 5px; height: 5px; left: 80%; animation-delay: 0.8s; }
-.particle:nth-child(9) { width: 4px; height: 4px; left: 90%; animation-delay: 1.8s; }
-
-@keyframes particleFloat {
-  0% {
-    transform: translateY(100vh) rotate(0deg);
-    opacity: 0;
-  }
-  10% {
-    opacity: 1;
-  }
-  90% {
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(-100px) rotate(360deg);
-    opacity: 0;
-  }
-}
-
 /* Анимации появления контента */
 .content-reveal {
   opacity: 0;
@@ -399,67 +264,53 @@ body::after {
   animation: contentSlideUp 1s ease-out forwards;
 }
 
-.content-reveal.delay-1 { animation-delay: 3.5s; }
-.content-reveal.delay-2 { animation-delay: 3.7s; }
-.content-reveal.delay-3 { animation-delay: 3.9s; }
-.content-reveal.delay-4 { animation-delay: 4.1s; }
+.content-reveal.delay-1 { animation-delay: 0.2s; }
+.content-reveal.delay-2 { animation-delay: 0.4s; }
+.content-reveal.delay-3 { animation-delay: 0.6s; }
+.content-reveal.delay-4 { animation-delay: 0.8s; }
 
 @keyframes contentSlideUp {
   0% {
     opacity: 0;
     transform: translateY(50px);
-    filter: blur(5px);
   }
   100% {
     opacity: 1;
     transform: translateY(0);
-    filter: blur(0px);
   }
 }
 
 /* Анимация заголовка героя */
 .hero-title-animated {
   opacity: 0;
-  animation: heroTitleReveal 2s ease-out 3.2s both;
+  animation: heroTitleReveal 1.5s ease-out 0.1s both;
 }
 
 @keyframes heroTitleReveal {
   0% {
     opacity: 0;
     transform: scale(0.8) translateY(30px);
-    filter: blur(10px);
-    text-shadow: none;
-  }
-  50% {
-    opacity: 0.7;
-    transform: scale(1.05) translateY(15px);
-    filter: blur(5px);
   }
   100% {
     opacity: 1;
     transform: scale(1) translateY(0);
-    filter: blur(0px);
-    text-shadow: 
-      0 0 20px rgba(59, 130, 246, 0.6),
-      0 0 40px rgba(29, 78, 216, 0.4),
-      2px 2px 8px rgba(0, 0, 0, 0.8);
   }
 }
 
 /* Анимация логотипа в хедере */
 .header-logo-animated {
   opacity: 0;
-  animation: headerLogoSlide 1.5s ease-out 3.8s both;
+  animation: headerLogoSlide 1s ease-out 1s both;
 }
 
 @keyframes headerLogoSlide {
   0% {
     opacity: 0;
-    transform: translateX(-100px) rotate(-10deg);
+    transform: translateX(-50px);
   }
   100% {
     opacity: 1;
-    transform: translateX(0) rotate(0deg);
+    transform: translateX(0);
   }
 }
 
@@ -469,11 +320,11 @@ body::after {
   transform: translateY(-20px);
 }
 
-.nav-item-animated:nth-child(1) { animation: navItemSlide 0.8s ease-out 4s both; }
-.nav-item-animated:nth-child(2) { animation: navItemSlide 0.8s ease-out 4.1s both; }
-.nav-item-animated:nth-child(3) { animation: navItemSlide 0.8s ease-out 4.2s both; }
-.nav-item-animated:nth-child(4) { animation: navItemSlide 0.8s ease-out 4.3s both; }
-.nav-item-animated:nth-child(5) { animation: navItemSlide 0.8s ease-out 4.4s both; }
+.nav-item-animated:nth-child(1) { animation: navItemSlide 0.6s ease-out 1.2s both; }
+.nav-item-animated:nth-child(2) { animation: navItemSlide 0.6s ease-out 1.3s both; }
+.nav-item-animated:nth-child(3) { animation: navItemSlide 0.6s ease-out 1.4s both; }
+.nav-item-animated:nth-child(4) { animation: navItemSlide 0.6s ease-out 1.5s both; }
+.nav-item-animated:nth-child(5) { animation: navItemSlide 0.6s ease-out 1.6s both; }
 
 @keyframes navItemSlide {
   0% {
@@ -486,32 +337,6 @@ body::after {
   }
 }
 
-/* Пульсирующий эффект для кнопок */
-.pulse-glow {
-  animation: pulseGlowEffect 2s ease-in-out infinite;
-}
-
-@keyframes pulseGlowEffect {
-  0% {
-    box-shadow: 
-      0 0 5px rgba(59, 130, 246, 0.4),
-      0 0 10px rgba(29, 78, 216, 0.3),
-      0 0 15px rgba(37, 99, 235, 0.2);
-  }
-  50% {
-    box-shadow: 
-      0 0 20px rgba(59, 130, 246, 0.6),
-      0 0 30px rgba(29, 78, 216, 0.5),
-      0 0 40px rgba(37, 99, 235, 0.4);
-  }
-  100% {
-    box-shadow: 
-      0 0 5px rgba(59, 130, 246, 0.4),
-      0 0 10px rgba(29, 78, 216, 0.3),
-      0 0 15px rgba(37, 99, 235, 0.2);
-  }
-}
-
 /* Анимация карточек брендов */
 .brand-card-animated {
   opacity: 0;
@@ -519,11 +344,11 @@ body::after {
   animation: brandCardReveal 0.8s ease-out both;
 }
 
-.brand-card-animated:nth-child(1) { animation-delay: 4.5s; }
-.brand-card-animated:nth-child(2) { animation-delay: 4.6s; }
-.brand-card-animated:nth-child(3) { animation-delay: 4.7s; }
-.brand-card-animated:nth-child(4) { animation-delay: 4.8s; }
-.brand-card-animated:nth-child(5) { animation-delay: 4.9s; }
+.brand-card-animated:nth-child(1) { animation-delay: 2s; }
+.brand-card-animated:nth-child(2) { animation-delay: 2.1s; }
+.brand-card-animated:nth-child(3) { animation-delay: 2.2s; }
+.brand-card-animated:nth-child(4) { animation-delay: 2.3s; }
+.brand-card-animated:nth-child(5) { animation-delay: 2.4s; }
 
 @keyframes brandCardReveal {
   0% {
@@ -534,26 +359,6 @@ body::after {
     opacity: 1;
     transform: scale(1) rotateY(0deg);
   }
-}
-
-/* Эффект печатной машинки для текста */
-.typewriter {
-  overflow: hidden;
-  border-right: 3px solid rgba(59, 130, 246, 0.8);
-  white-space: nowrap;
-  animation: 
-    typewriter 2s steps(40, end) 3.5s both,
-    blinkCursor 1s infinite 5.5s;
-}
-
-@keyframes typewriter {
-  from { width: 0; }
-  to { width: 100%; }
-}
-
-@keyframes blinkCursor {
-  from, to { border-color: transparent; }
-  50% { border-color: rgba(59, 130, 246, 0.8); }
 }
 
 /* Reduced motion preferences */
@@ -572,17 +377,11 @@ body::after {
     animation: none !important;
   }
   
-  .page-loader,
-  .loader-logo,
-  .welcome-text,
-  .particle,
   .content-reveal,
   .hero-title-animated,
   .header-logo-animated,
   .nav-item-animated,
-  .pulse-glow,
-  .brand-card-animated,
-  .typewriter {
+  .brand-card-animated {
     animation: none !important;
     opacity: 1 !important;
     transform: none !important;
