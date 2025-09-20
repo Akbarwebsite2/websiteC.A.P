@@ -292,6 +292,11 @@ export const BrandsRu: React.FC = () => {
               { name: "Моторное масло", category: "Минеральное масло", logo: "/drivol 2.png" },
               { name: "Топливный насос", category: "Топливная система", logo: "/fd elecman.png" },
               { name: "Моторное масло", category: "Премиальное масло", logo: "/eneos.png" },
+              { name: "Моторное масло", category: "Премиальное масло", logo: "/total 2.png" },
+              { name: "Поршни и гильзы", category: "Моторные части", logo: "/toto.jpg" },
+              { name: "Моторные масла", category: "Оригинальное масло", logo: "/toyota oil.jpg" },
+              { name: "Моторное масло", category: "Синтетическое масло", logo: "/valvoline.jpg" },
+              { name: "Фильтры", category: "Фильтрация", logo: "/vic.jpg" },
             ].map((brand, index) => (
               <div 
                 key={`oil-${brand.name}-${index}`}
@@ -302,7 +307,7 @@ export const BrandsRu: React.FC = () => {
                   <img 
                     src={brand.logo} 
                     alt={`${brand.name} logo`}
-                    className="w-full h-full object-contain max-w-none filter brightness-110 contrast-110 rounded-lg p-2"
+                    className="w-full h-full object-cover max-w-none filter brightness-110 contrast-110 rounded-lg"
                     style={{ 
                       width: '100%', 
                       height: '100%',
