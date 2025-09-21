@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Package, Weight, Info, Lock, LogOut, User } from 'lucide-react';
+import { Search, Package, Weight, Info, Lock, LogOut, User, Eye } from 'lucide-react';
 import { AdminPanel } from './AdminPanel';
 import { AuthModal } from './AuthModal';
 
@@ -193,6 +193,17 @@ export const CatalogRu: React.FC = () => {
         onClose={() => setShowAuthModal(false)}
         onLogin={handleLogin}
       />
+      
+      {/* Admin Panel Button */}
+      {showAdminButton && (
+        <button
+          onClick={() => setShowAdminButton(true)}
+          className="fixed top-4 right-4 bg-red-600 hover:bg-red-700 text-white p-3 rounded-full shadow-lg z-40 transition-all duration-300"
+          title="Админ-панель"
+        >
+          <Eye className="w-5 h-5" />
+        </button>
+      )}
       
       <AdminPanel 
         onCatalogUpdate={handleCatalogUpdate}

@@ -216,7 +216,17 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, current
 
   // Показывать кнопку только если каталог не загружен или showAdminButton = true
   if (!isVisible) {
-    return null;
+    return (
+      showAdminButton && (
+        <button
+          onClick={() => setIsVisible(true)}
+          className="fixed top-4 right-4 bg-red-600 hover:bg-red-700 text-white p-3 rounded-full shadow-lg z-40 transition-all duration-300"
+          title="Админ-панель"
+        >
+          <Eye className="w-5 h-5" />
+        </button>
+      )
+    );
   }
 
   return (
