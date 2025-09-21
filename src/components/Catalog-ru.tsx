@@ -250,12 +250,14 @@ export const CatalogRu: React.FC = () => {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center text-green-400">
                       <DollarSign className="w-4 h-4 mr-1" />
-                      <span className="font-bold">{part.price || 'Цена по запросу'}</span>
+                      <span className="font-bold">{part.price ? part.price : 'Цена по запросу'}</span>
                     </div>
-                    <div className="flex items-center text-gray-400">
-                      <Weight className="w-4 h-4 mr-1" />
-                      <span className="text-sm">{part.weight || ''}</span>
-                    </div>
+                    {part.weight && (
+                      <div className="flex items-center text-gray-400">
+                        <Weight className="w-4 h-4 mr-1" />
+                        <span className="text-sm">{part.weight}</span>
+                      </div>
+                    )}
                   </div>
                 </div>
               ))}
