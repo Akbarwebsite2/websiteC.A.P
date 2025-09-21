@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Search, Upload, Package, DollarSign, Weight, Info, FileText, Download } from 'lucide-react';
+import * as XLSX from 'xlsx';
 
 interface PartData {
   code: string;
@@ -94,10 +95,33 @@ export const CatalogRu: React.FC = () => {
   };
 
   // Функция обработки Excel файла
-  const processExcelFile = () => {
+  const processExcelFile = async () => {
     if (selectedFile) {
-      // Здесь будет логика обработки Excel файла
-      alert('Функция обработки Excel файла будет реализована с библиотекой xlsx');
+      try {
+        const arrayBuffer = await selectedFile.arrayBuffer();
+        const workbook = XLSX.read(arrayBuffer, { type: 'array' });
+        const sheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[sheetName];
+        const jsonData = XLSX.utils.sheet_to_json(worksheet);
+        
+        // Преобразование данных Excel в формат PartData
+        const processedData: PartData[] = jsonData.map((row: any) => ({
+          code: row['Код'] || row['Code'] || row['код'] || '',
+          name: row['Название'] || row['Name'] || row['название'] || '',
+          brand: row['Бренд'] || row['Brand'] || row['бренд'] || '',
+          price: parseFloat(row['Цена'] || row['Price'] || row['цена'] || '0'),
+          weight: parseFloat(row['Вес'] || row['Weight'] || row['вес'] || '0'),
+          category: row['Категория'] || row['Category'] || row['категория'] || '',
+          description: row['Описание'] || row['Description'] || row['описание'] || '',
+          availability: row['Наличие'] || row['Availability'] || row['наличие'] || 'Под заказ'
+        }));
+        
+        setPartsData(processedData);
+        alert(`Успешно загружено ${processedData.length} позиций из файла ${selectedFile.name}`);
+      } catch (error) {
+        console.error('Ошибка при обработке файла:', error);
+        alert('Ошибка при обработке файла. Проверьте формат Excel файла.');
+      }
     }
   };
 
