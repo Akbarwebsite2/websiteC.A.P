@@ -83,9 +83,9 @@ export const CatalogRu: React.FC = () => {
           code: String(row['PART NO'] || row['Part No'] || row['part no'] || row['Код'] || row['Code'] || row['код'] || row['КОД'] || row['code'] || '').trim(),
           name: String(row['DISCRAPTION'] || row['Discraption'] || row['discraption'] || row['DESCRIPTION'] || row['Description'] || row['description'] || row['Название'] || row['Name'] || row['название'] || row['НАЗВАНИЕ'] || row['name'] || '').trim(),
           brand: String(row['Бренд'] || row['Brand'] || row['бренд'] || row['БРЕНД'] || row['brand'] || 'C.A.P').trim(),
-          price: parseFloat(String(row['NETT'] || row['Nett'] || row['nett'] || row['ЦЕНА'] || row['Цена'] || row['Price'] || row['цена'] || row['ЦЕНА'] || row['price'] || '0').replace(/[^\d.,]/g, '').replace(',', '.')) || 0,
+          price: parseFloat(String(row['NETT'] || row['Nett'] || row['nett'] || row['ЦЕНА'] || row['Цена'] || row['Price'] || row['цена'] || row['ЦЕНА'] || row['price'] || '0')) || 0,
           weight: parseFloat(String(row['Вес'] || row['Weight'] || row['вес'] || row['ВЕС'] || row['weight'] || '0').replace(/[^\d.,]/g, '').replace(',', '.')) || 0,
-          category: String(row['Категория'] || row['Category'] || row['категория'] || row['КАТЕГОРИЯ'] || row['category'] || 'Автозапчасти').trim(),
+          category: String(row['Категория'] || row['Category'] || row['категория'] || row['КАТЕГОРИЯ'] || row['category'] || '').trim(),
           description: String(row['DISCRAPTION'] || row['Discraption'] || row['discraption'] || row['DESCRIPTION'] || row['Description'] || row['description'] || row['Описание'] || row['описание'] || row['ОПИСАНИЕ'] || '').trim(),
           availability: String(row['Наличие'] || row['Availability'] || row['наличие'] || row['НАЛИЧИЕ'] || row['availability'] || 'В наличии').trim()
         })).filter(part => part.code && part.code !== ''); // Фильтруем пустые коды
@@ -238,9 +238,9 @@ export const CatalogRu: React.FC = () => {
 
                   {/* Part Info */}
                   <h4 className="text-lg font-bold text-white mb-2">{part.name}</h4>
-                  <p className="text-gray-400 text-sm mb-4">{part.brand} • {part.category}</p>
+                  <p className="text-gray-400 text-sm mb-4">{part.brand}{part.category ? ` • ${part.category}` : ''}</p>
                   
-                  {part.description && (
+                  {part.description && part.description !== part.name && (
                     <p className="text-gray-300 text-sm mb-4 leading-relaxed">
                       {part.description}
                     </p>
@@ -250,7 +250,7 @@ export const CatalogRu: React.FC = () => {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center text-green-400">
                       <DollarSign className="w-4 h-4 mr-1" />
-                      <span className="font-bold">${part.price}</span>
+                      <span className="font-bold">{part.price}</span>
                     </div>
                     <div className="flex items-center text-gray-400">
                       <Weight className="w-4 h-4 mr-1" />
