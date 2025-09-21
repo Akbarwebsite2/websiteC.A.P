@@ -21,9 +21,9 @@ export const CatalogRu: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState<PartData[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [showAdminButton, setShowAdminButton] = useState(false);
   const [partsData, setPartsData] = useState<PartData[]>([
     // Примеры данных - замените на ваши реальные данные
-  const [showAdminButton, setShowAdminButton] = useState(false);
     {
       code: "15208-65F0C",
       name: "Фильтр масляный",
