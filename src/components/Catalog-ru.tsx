@@ -81,12 +81,12 @@ export const CatalogRu: React.FC = () => {
         // Преобразование данных Excel в формат PartData
         const processedData: PartData[] = jsonData.map((row: any) => ({
           code: String(row['PART NO'] || row['Part No'] || row['part no'] || row['Код'] || row['Code'] || row['код'] || row['КОД'] || row['code'] || '').trim(),
-          name: String(row['DISCRAPTION'] || row['Discraption'] || row['discraption'] || row['DESCRIPTION'] || row['Description'] || row['description'] || row['Название'] || row['Name'] || row['название'] || row['НАЗВАНИЕ'] || row['name'] || '').trim(),
+          name: String(row['DISCRAPION'] || row['Discrapion'] || row['discrapion'] || row['DISCRAPTION'] || row['Discraption'] || row['discraption'] || row['DESCRIPTION'] || row['Description'] || row['description'] || row['Название'] || row['Name'] || row['название'] || row['НАЗВАНИЕ'] || row['name'] || '').trim(),
           brand: String(row['Бренд'] || row['Brand'] || row['бренд'] || row['БРЕНД'] || row['brand'] || 'C.A.P').trim(),
           price: parseFloat(String(row['NETT'] || row['Nett'] || row['nett'] || row['ЦЕНА'] || row['Цена'] || row['Price'] || row['цена'] || row['ЦЕНА'] || row['price'] || '0')) || 0,
           weight: parseFloat(String(row['Вес'] || row['Weight'] || row['вес'] || row['ВЕС'] || row['weight'] || '0').replace(/[^\d.,]/g, '').replace(',', '.')) || 0,
           category: String(row['Категория'] || row['Category'] || row['категория'] || row['КАТЕГОРИЯ'] || row['category'] || '').trim(),
-          description: String(row['DISCRAPTION'] || row['Discraption'] || row['discraption'] || row['DESCRIPTION'] || row['Description'] || row['description'] || row['Описание'] || row['описание'] || row['ОПИСАНИЕ'] || '').trim(),
+          description: String(row['DISCRAPION'] || row['Discrapion'] || row['discrapion'] || row['DISCRAPTION'] || row['Discraption'] || row['discraption'] || row['DESCRIPTION'] || row['Description'] || row['description'] || row['Описание'] || row['описание'] || row['ОПИСАНИЕ'] || '').trim(),
           availability: String(row['Наличие'] || row['Availability'] || row['наличие'] || row['НАЛИЧИЕ'] || row['availability'] || 'В наличии').trim()
         })).filter(part => part.code && part.code !== ''); // Фильтруем пустые коды
         
@@ -319,7 +319,7 @@ export const CatalogRu: React.FC = () => {
                   <h4 className="text-lg font-bold text-[#144374] mb-4">Поддерживаемые колонки Excel:</h4>
                   <ul className="text-gray-300 space-y-2">
                     <li>• <strong>PART NO</strong> - код запчасти</li>
-                    <li>• <strong>DISCRAPTION</strong> - описание детали</li>
+                    <li>• <strong>DISCRAPION</strong> - описание детали</li>
                     <li>• <strong>NETT</strong> - цена</li>
                     <li>• <em>Дополнительно:</em> Бренд, Вес, Категория</li>
                   </ul>
