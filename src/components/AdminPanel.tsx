@@ -269,7 +269,10 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, current
                   Загрузить новый каталог Excel
                 </h3>
                 <p className="text-gray-400 mb-4">
-                  Файл должен содержать колонки: PART NO, DESCRIPTION, NETT
+                  Поддерживаемые колонки:<br/>
+                  • Код: PART NO, Part Name, PARTNO<br/>
+                  • Описание: DESCRIPTION, DESC<br/>
+                  • Цена: Price in AED, U/P AED, NETT, PRICE
                 </p>
                 <input
                   type="file"
