@@ -80,12 +80,15 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, current
           // Найти индексы колонок
           const headerRow = jsonData[0] as string[];
           
+          console.log('Заголовки файла:', headerRow);
+          
           // Поиск колонки с кодом запчасти (поддержка разных названий)
           const partNoIndex = headerRow.findIndex(header => {
             if (!header) return false;
             const headerLower = header.toString().toLowerCase();
             return headerLower === 'part no' || 
-                   headerLower === 'part no.';
+                   headerLower === 'part no.' ||
+                   headerLower === 'partno';
           });
           
           // Поиск колонки с описанием
@@ -94,39 +97,54 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, current
             const headerLower = header.toString().toLowerCase();
             return headerLower === 'part name' ||
                    headerLower.includes('description') || 
-                   headerLower.includes('discrapion') ||
-                   headerLower.includes('desc');
+                   headerLower === 'discrapion';
           });
           
           // Поиск колонки с ценой (поддержка разных названий)
           const priceIndex = headerRow.findIndex(header => {
             if (!header) return false;
             const headerLower = header.toString().toLowerCase();
-            return headerLower.includes('price in aed') ||
-                   headerLower.includes('u/p aed') ||
-                   headerLower.includes('nett');
+            return headerLower === 'price in aed' ||
+                   headerLower === 'u/p aed' ||
+                   headerLower === 'nett';
           });
+
+          console.log('Найденные индексы:', {
+            partNoIndex,
+            descriptionIndex, 
+            priceIndex
+          });
+
+          if (partNoIndex === -1) {
+            console.warn(`В файле ${file.name} не найдена колонка с кодом запчасти`);
+          }
+          if (descriptionIndex === -1) {
+            console.warn(`В файле ${file.name} не найдена колонка с описанием`);
+          }
+          if (priceIndex === -1) {
+            console.warn(`В файле ${file.name} не найдена колонка с ценой`);
+          }
 
           // Обработать данные начиная со второй строки
           for (let i = 1; i < jsonData.length; i++) {
             const row = jsonData[i] as any[];
             
-            if (row && row.length > 0) {
+            if (row && row.length > 0 && partNoIndex !== -1) {
               const partNo = row[partNoIndex]?.toString().trim() || '';
-              const description = row[descriptionIndex]?.toString().trim() || '';
-              const price = row[priceIndex]?.toString().trim() || '';
+              const description = descriptionIndex !== -1 ? (row[descriptionIndex]?.toString().trim() || '') : '';
+              const price = priceIndex !== -1 ? (row[priceIndex]?.toString().trim() || '') : '';
 
-              if (partNo) {
+              if (partNo && partNo !== '') {
                 // Проверить, не существует ли уже такой код
                 const existingIndex = allProcessedData.findIndex(item => item.code === partNo);
                 const newItem = {
                   code: partNo,
-                  name: description,
+                  name: description || partNo,
                   brand: 'C.A.P',
-                  price: price ? `${price} AED` : 'Цена по запросу',
+                  price: price && price !== '' ? `${price} AED` : 'Цена по запросу',
                   weight: '',
                   category: `Файл ${fileIndex + 1}: ${file.name}`,
-                  description: description,
+                  description: description || partNo,
                   availability: 'В наличии'
                 };
                 
@@ -137,6 +155,8 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, current
                   // Добавить новый элемент
                   allProcessedData.push(newItem);
                 }
+              } else {
+                console.warn(`Строка ${i + 1} в файле ${file.name}: пустой код запчасти`);
               }
             }
           }
@@ -266,7 +286,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, current
                 </h3>
                 <p className="text-gray-400 mb-4">
                   Поддерживаемые колонки:<br/>
-                  • Код: PART NO, Part No<br/>
+                  • Код: PART NO, Part No, PARTNO<br/>
                   • Описание: Part Name, DESCRIPTION, DISCRAPION<br/>
                   • Цена: Price in AED, U/P AED, NETT
                 </p>
