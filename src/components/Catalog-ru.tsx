@@ -83,7 +83,7 @@ export const CatalogRu: React.FC = () => {
           code: String(row['PART NO'] || row['Part No'] || row['part no'] || row['Код'] || row['Code'] || row['код'] || row['КОД'] || row['code'] || '').trim(),
           name: String(row['DISCRAPION'] || row['Discrapion'] || row['discrapion'] || row['DISCRAPTION'] || row['Discraption'] || row['discraption'] || row['DESCRIPTION'] || row['Description'] || row['description'] || row['Название'] || row['Name'] || row['название'] || row['НАЗВАНИЕ'] || row['name'] || '').trim(),
           brand: String(row['Бренд'] || row['Brand'] || row['бренд'] || row['БРЕНД'] || row['brand'] || 'C.A.P').trim(),
-          price: parseFloat(String(row['NETT'] || row['Nett'] || row['nett'] || row['ЦЕНА'] || row['Цена'] || row['Price'] || row['цена'] || row['ЦЕНА'] || row['price'] || '0')) || 0,
+          price: String(row['NETT'] || row['Nett'] || row['nett'] || row['ЦЕНА'] || row['Цена'] || row['Price'] || row['цена'] || row['ЦЕНА'] || row['price'] || '0').trim(),
           weight: parseFloat(String(row['Вес'] || row['Weight'] || row['вес'] || row['ВЕС'] || row['weight'] || '0').replace(/[^\d.,]/g, '').replace(',', '.')) || 0,
           category: String(row['Категория'] || row['Category'] || row['категория'] || row['КАТЕГОРИЯ'] || row['category'] || '').trim(),
           description: String(row['DISCRAPION'] || row['Discrapion'] || row['discrapion'] || row['DISCRAPTION'] || row['Discraption'] || row['discraption'] || row['DESCRIPTION'] || row['Description'] || row['description'] || row['Описание'] || row['описание'] || row['ОПИСАНИЕ'] || '').trim(),
