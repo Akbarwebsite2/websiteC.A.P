@@ -20,6 +20,8 @@ export const CatalogRu: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState<PartData[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [isFileProcessed, setIsFileProcessed] = useState(false);
   const [partsData] = useState<PartData[]>([
     // Примеры данных - замените на ваши реальные данные
     {
