@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Upload, FileText, Save, Eye, EyeOff } from 'lucide-react';
 import * as XLSX from 'xlsx';
 
