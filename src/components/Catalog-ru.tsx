@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Package, DollarSign, Weight, Info, Download } from 'lucide-react';
+import { Search, Package, DollarSign, Weight, Info, Download, Upload } from 'lucide-react';
 
 interface PartData {
   code: string;
