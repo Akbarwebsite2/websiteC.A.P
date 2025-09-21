@@ -22,6 +22,7 @@ export const HeaderRu: React.FC = () => {
     { name: 'Главная', href: '#home' },
     { name: 'Продукты', href: '#products' },
     { name: 'Бренды', href: '#brands' },
+    { name: 'Каталог', href: '#catalog' },
     { name: 'О нас', href: '#about' },
     { name: 'Контакты', href: '#contact' }
   ];
