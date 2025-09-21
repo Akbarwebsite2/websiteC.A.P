@@ -226,7 +226,7 @@ export const CatalogRu: React.FC = () => {
                   {/* Price and Weight */}
                   <div className="flex items-center justify-between">
                     <div className="flex items-center text-green-400">
-                      <span className="text-xs mr-1">💰</span>
+                      <span className="text-xs mr-1">AED</span>
                       <span className="font-bold">{part.price ? part.price : 'Цена по запросу'}</span>
                     </div>
                     {part.weight && (
