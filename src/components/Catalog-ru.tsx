@@ -34,6 +34,7 @@ export const CatalogRu: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [currentUser, setCurrentUser] = useState<AuthUser | null>(null);
   const [showAuthModal, setShowAuthModal] = useState(false);
+  const [showAdminPanel, setShowAdminPanel] = useState(false);
 
   // Создать тестового пользователя при первом запуске
   useEffect(() => {
@@ -195,7 +196,7 @@ export const CatalogRu: React.FC = () => {
       {/* Admin Panel Button */}
       {showAdminButton && (
         <button
-          onClick={() => setShowAdminButton(true)}
+          onClick={() => setShowAdminPanel(true)}
           className="fixed top-4 right-4 bg-red-600 hover:bg-red-700 text-white p-3 rounded-full shadow-lg z-40 transition-all duration-300"
           title="Админ-панель"
         >
@@ -203,12 +204,15 @@ export const CatalogRu: React.FC = () => {
         </button>
       )}
       
-      <AdminPanel 
-        onCatalogUpdate={handleCatalogUpdate}
-        currentCatalogSize={totalParts}
-        showAdminButton={showAdminButton}
-        currentFiles={catalogFiles}
-      />
+      {showAdminPanel && (
+        <AdminPanel 
+          onCatalogUpdate={handleCatalogUpdate}
+          currentCatalogSize={totalParts}
+          showAdminButton={showAdminButton}
+          currentFiles={catalogFiles}
+          onClose={() => setShowAdminPanel(false)}
+        />
+      )}
       
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}

@@ -18,9 +18,10 @@ interface AdminPanelProps {
   currentCatalogSize: number;
   showAdminButton: boolean;
   currentFiles: string[];
+  onClose: () => void;
 }
 
-export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, currentCatalogSize, showAdminButton, currentFiles }) => {
+export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, currentCatalogSize, showAdminButton, currentFiles, onClose }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -216,17 +217,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, current
 
   // Показывать кнопку только если каталог не загружен или showAdminButton = true
   if (!isVisible) {
-    return (
-      showAdminButton && (
-        <button
-          onClick={() => setIsVisible(true)}
-          className="fixed top-4 right-4 bg-red-600 hover:bg-red-700 text-white p-3 rounded-full shadow-lg z-40 transition-all duration-300"
-          title="Админ-панель"
-        >
-          <Eye className="w-5 h-5" />
-        </button>
-      )
-    );
+    return null;
   }
 
   return (
@@ -235,7 +226,11 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, current
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold text-white">Админ-панель - Управление каталогом</h2>
           <button
-            onClick={() => setIsVisible(false)}
+            onClick={() => {
+              setIsVisible(false);
+              onClose();
+              onClose();
+            }}
             className="text-gray-400 hover:text-white"
           >
             <EyeOff className="w-6 h-6" />
