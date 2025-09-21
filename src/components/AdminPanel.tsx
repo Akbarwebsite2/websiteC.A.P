@@ -53,7 +53,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, current
     }
   };
 
-  const handleFilesUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files || []);
     if (files.length > 0) {
       setSelectedFiles(files);
