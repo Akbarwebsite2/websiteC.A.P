@@ -222,14 +222,6 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onLogin }
             </button>
           </p>
         </div>
-
-        {isLoginMode && (
-          <div className="mt-4 p-4 bg-gray-800 rounded-lg">
-            <p className="text-gray-300 text-sm mb-2">Тестовый аккаунт:</p>
-            <p className="text-gray-400 text-xs">Email: test@cap.com</p>
-            <p className="text-gray-400 text-xs">Пароль: 123456</p>
-          </div>
-        )}
       </div>
     </div>
   );
