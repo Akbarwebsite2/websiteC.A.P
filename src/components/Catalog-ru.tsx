@@ -22,6 +22,7 @@ export const CatalogRu: React.FC = () => {
   const [searchResults, setSearchResults] = useState<PartData[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [showAdminButton, setShowAdminButton] = useState(false);
+  const [catalogFiles, setCatalogFiles] = useState<string[]>([]);
   const [partsData, setPartsData] = useState<PartData[]>([
     // Примеры данных - замените на ваши реальные данные
     {
@@ -61,7 +62,18 @@ export const CatalogRu: React.FC = () => {
   // Загрузить каталог из localStorage при запуске
   useEffect(() => {
     const savedCatalog = localStorage.getItem('capCatalog');
+    const savedFiles = localStorage.getItem('capCatalogFiles');
     const catalogUploaded = localStorage.getItem('capCatalogUploaded');
+    
+    if (savedFiles) {
+      try {
+        const filesData = JSON.parse(savedFiles);
+        setCatalogFiles(filesData);
+      } catch (error) {
+        console.error('Ошибка загрузки списка файлов:', error);
+        setCatalogFiles([]);
+      }
+    }
     
     if (savedCatalog) {
       try {
@@ -89,8 +101,11 @@ export const CatalogRu: React.FC = () => {
   }, []);
 
   // Обновить каталог из админ-панели
-  const handleCatalogUpdate = (newData: PartData[]) => {
+  const handleCatalogUpdate = (newData: PartData[], fileNames?: string[]) => {
     setPartsData(newData);
+    if (fileNames) {
+      setCatalogFiles(fileNames);
+    }
     setShowAdminButton(false); // Скрыть кнопку после обновления
   };
 
@@ -123,6 +138,7 @@ export const CatalogRu: React.FC = () => {
         onCatalogUpdate={handleCatalogUpdate}
         currentCatalogSize={totalParts}
         showAdminButton={showAdminButton}
+        currentFiles={catalogFiles}
       />
       
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">

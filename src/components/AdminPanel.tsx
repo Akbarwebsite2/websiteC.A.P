@@ -14,7 +14,7 @@ interface PartData {
 }
 
 interface AdminPanelProps {
-  onCatalogUpdate: (data: PartData[]) => void;
+  onCatalogUpdate: (data: PartData[], fileNames?: string[]) => void;
   currentCatalogSize: number;
   showAdminButton: boolean;
   currentFiles: string[];
@@ -150,12 +150,16 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, current
 
   const saveCatalog = () => {
     if (previewData.length > 0) {
+      // Получить список имен файлов
+      const fileNames = selectedFiles.map(file => file.name);
+      
       // Сохранить в localStorage для демо
       localStorage.setItem('capCatalog', JSON.stringify(previewData));
+      localStorage.setItem('capCatalogFiles', JSON.stringify(fileNames));
       localStorage.setItem('capCatalogUploaded', 'true');
-      onCatalogUpdate(previewData);
+      onCatalogUpdate(previewData, fileNames);
       alert(`Каталог сохранен! Загружено ${previewData.length} позиций.`);
-      setSelectedFile(null);
+      setSelectedFiles([]);
       setPreviewData([]);
       setIsVisible(false);
     }
@@ -168,7 +172,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, current
       localStorage.removeItem('capCatalogFiles');
       setAllCatalogData([]);
       setPreviewData([]);
-      onCatalogUpdate([]);
+      onCatalogUpdate([], []);
       alert('Каталог полностью очищен!');
     }
   };
