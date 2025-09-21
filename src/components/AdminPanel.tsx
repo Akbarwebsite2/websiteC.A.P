@@ -267,13 +267,13 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, current
               </div>
             </div>
 
-            {selectedFile && (
+            {selectedFiles.length > 0 && (
               <div className="mb-6 p-4 bg-gray-800 rounded-lg">
                 <p className="text-green-400 mb-2">
-                  ✅ Файл выбран: {selectedFile.name}
+                  ✅ Файлы выбраны: {selectedFiles.map(f => f.name).join(', ')}
                 </p>
                 {isProcessing && (
-                  <p className="text-yellow-400">🔄 Обработка файла...</p>
+                  <p className="text-yellow-400">🔄 Обработка файлов...</p>
                 )}
               </div>
             )}
