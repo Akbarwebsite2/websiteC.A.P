@@ -127,7 +127,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, current
                   code: partNo,
                   name: description,
                   brand: 'C.A.P',
-                  price: price,
+                  price: price ? `${price} AED` : 'Цена по запросу',
                   weight: '',
                   category: `Файл ${fileIndex + 1}: ${file.name}`,
                   description: description,
