@@ -110,7 +110,6 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, current
                    headerLower.includes('price') ||
                    headerLower.includes('cost');
           });
-          );
 
           // Обработать данные начиная со второй строки
           for (let i = 1; i < jsonData.length; i++) {
@@ -128,7 +127,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, current
                   code: partNo,
                   name: description,
                   brand: 'C.A.P',
-                  price: price ? `${price} AED` : 'Цена по запросу',
+                  price: price,
                   weight: '',
                   category: `Файл ${fileIndex + 1}: ${file.name}`,
                   description: description,
@@ -248,15 +247,15 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, current
         ) : (
           <>
             <div className="mb-6">
-                      <div className="font-bold text-gray-300">Код запчасти</div>
+              <p className="text-gray-300 mb-4">
                 Текущий каталог: <span className="text-green-400 font-bold">{currentCatalogSize} позиций</span>
-                      <div className="font-bold text-gray-300">Цена (AED)</div>
+                {currentFiles.length > 0 && (
                   <div className="mt-2">
                     <p className="text-sm text-gray-400">Загруженные файлы:</p>
                     <div className="flex flex-wrap gap-2 mt-1">
                       {currentFiles.map((fileName, index) => (
                         <span key={index} className="bg-blue-600 text-white px-2 py-1 rounded text-xs">
-                          <div className="text-green-400 text-sm">{item.price}</div>
+                          {fileName}
                         </span>
                       ))}
                     </div>
