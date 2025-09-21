@@ -79,15 +79,37 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, current
 
           // Найти индексы колонок
           const headerRow = jsonData[0] as string[];
-          const partNoIndex = headerRow.findIndex(header => 
-            header && header.toString().toLowerCase().includes('part')
-          );
-          const descriptionIndex = headerRow.findIndex(header => 
-            header && (header.toString().toLowerCase().includes('description') || 
-                      header.toString().toLowerCase().includes('discrapion'))
-          );
-          const priceIndex = headerRow.findIndex(header => 
-            header && header.toString().toLowerCase().includes('nett')
+          
+          // Поиск колонки с кодом запчасти (поддержка разных названий)
+          const partNoIndex = headerRow.findIndex(header => {
+            if (!header) return false;
+            const headerLower = header.toString().toLowerCase();
+            return headerLower.includes('part no') || 
+                   headerLower.includes('part name') || 
+                   headerLower.includes('partno') ||
+                   headerLower.includes('part_no') ||
+                   headerLower.includes('part');
+          });
+          
+          // Поиск колонки с описанием
+          const descriptionIndex = headerRow.findIndex(header => {
+            if (!header) return false;
+            const headerLower = header.toString().toLowerCase();
+            return headerLower.includes('description') || 
+                   headerLower.includes('discrapion') ||
+                   headerLower.includes('desc');
+          });
+          
+          // Поиск колонки с ценой (поддержка разных названий)
+          const priceIndex = headerRow.findIndex(header => {
+            if (!header) return false;
+            const headerLower = header.toString().toLowerCase();
+            return headerLower.includes('price in aed') ||
+                   headerLower.includes('u/p aed') ||
+                   headerLower.includes('nett') ||
+                   headerLower.includes('price') ||
+                   headerLower.includes('cost');
+          });
           );
 
           // Обработать данные начиная со второй строки
@@ -106,7 +128,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, current
                   code: partNo,
                   name: description,
                   brand: 'C.A.P',
-                  price: price,
+                  price: price ? `${price} AED` : 'Цена по запросу',
                   weight: '',
                   category: `Файл ${fileIndex + 1}: ${file.name}`,
                   description: description,
@@ -226,15 +248,15 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, current
         ) : (
           <>
             <div className="mb-6">
-              <p className="text-gray-300 mb-4">
+                      <div className="font-bold text-gray-300">Код запчасти</div>
                 Текущий каталог: <span className="text-green-400 font-bold">{currentCatalogSize} позиций</span>
-                {currentFiles.length > 0 && (
+                      <div className="font-bold text-gray-300">Цена (AED)</div>
                   <div className="mt-2">
                     <p className="text-sm text-gray-400">Загруженные файлы:</p>
                     <div className="flex flex-wrap gap-2 mt-1">
                       {currentFiles.map((fileName, index) => (
                         <span key={index} className="bg-blue-600 text-white px-2 py-1 rounded text-xs">
-                          {fileName}
+                          <div className="text-green-400 text-sm">{item.price}</div>
                         </span>
                       ))}
                     </div>
