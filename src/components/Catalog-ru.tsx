@@ -83,7 +83,7 @@ export const CatalogRu: React.FC = () => {
           code: String(row['PART NO'] || row['Part No'] || row['part no'] || row['Код'] || row['Code'] || row['код'] || row['КОД'] || row['code'] || '').trim(),
           name: String(row['DISCRAPION'] || row['Discrapion'] || row['discrapion'] || row['DISCRAPTION'] || row['Discraption'] || row['discraption'] || row['DESCRIPTION'] || row['Description'] || row['description'] || row['Название'] || row['Name'] || row['название'] || row['НАЗВАНИЕ'] || row['name'] || '').trim(),
           brand: String(row['Бренд'] || row['Brand'] || row['бренд'] || row['БРЕНД'] || row['brand'] || 'C.A.P').trim(),
-          price: String(row['NETT'] || row['Nett'] || row['nett'] || row['ЦЕНА'] || row['Цена'] || row['Price'] || row['цена'] || row['ЦЕНА'] || row['price'] || '').trim(),
+          price: String(row['NETT'] || row['Nett'] || row['nett'] || '').trim(),
           weight: String(row['Вес'] || row['Weight'] || row['вес'] || row['ВЕС'] || row['weight'] || '0').trim(),
           category: String(row['Категория'] || row['Category'] || row['категория'] || row['КАТЕГОРИЯ'] || row['category'] || '').trim(),
           description: String(row['DISCRAPION'] || row['Discrapion'] || row['discrapion'] || row['DISCRAPTION'] || row['Discraption'] || row['discraption'] || row['DESCRIPTION'] || row['Description'] || row['description'] || row['Описание'] || row['описание'] || row['ОПИСАНИЕ'] || '').trim(),
@@ -250,11 +250,11 @@ export const CatalogRu: React.FC = () => {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center text-green-400">
                       <DollarSign className="w-4 h-4 mr-1" />
-                      <span className="font-bold">{part.price}</span>
+                      <span className="font-bold">{part.price || 'Цена по запросу'}</span>
                     </div>
                     <div className="flex items-center text-gray-400">
                       <Weight className="w-4 h-4 mr-1" />
-                      <span className="text-sm">{part.weight}{part.weight ? ' кг' : ''}</span>
+                      <span className="text-sm">{part.weight || ''}</span>
                     </div>
                   </div>
                 </div>
