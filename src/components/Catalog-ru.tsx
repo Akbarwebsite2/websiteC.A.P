@@ -23,6 +23,7 @@ export const CatalogRu: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [partsData, setPartsData] = useState<PartData[]>([
     // Примеры данных - замените на ваши реальные данные
+  const [showAdminButton, setShowAdminButton] = useState(false);
     {
       code: "15208-65F0C",
       name: "Фильтр масляный",
@@ -60,19 +61,37 @@ export const CatalogRu: React.FC = () => {
   // Загрузить каталог из localStorage при запуске
   useEffect(() => {
     const savedCatalog = localStorage.getItem('capCatalog');
+    const catalogUploaded = localStorage.getItem('capCatalogUploaded');
+    
     if (savedCatalog) {
       try {
         const catalogData = JSON.parse(savedCatalog);
         setPartsData(catalogData);
+        setShowAdminButton(false); // Скрыть кнопку если каталог уже загружен
       } catch (error) {
         console.error('Ошибка загрузки каталога:', error);
+        setShowAdminButton(true); // Показать кнопку при ошибке
       }
+    } else {
+      setShowAdminButton(true); // Показать кнопку если каталог не загружен
+    }
+
+    // Показать кнопку при двойном клике на заголовок (для повторной загрузки)
+    const handleDoubleClick = () => {
+      setShowAdminButton(true);
+    };
+
+    const titleElement = document.querySelector('h2');
+    if (titleElement) {
+      titleElement.addEventListener('dblclick', handleDoubleClick);
+      return () => titleElement.removeEventListener('dblclick', handleDoubleClick);
     }
   }, []);
 
   // Обновить каталог из админ-панели
   const handleCatalogUpdate = (newData: PartData[]) => {
     setPartsData(newData);
+    setShowAdminButton(false); // Скрыть кнопку после обновления
   };
 
   // Функция поиска
@@ -103,6 +122,7 @@ export const CatalogRu: React.FC = () => {
       <AdminPanel 
         onCatalogUpdate={handleCatalogUpdate}
         currentCatalogSize={totalParts}
+        showAdminButton={showAdminButton}
       />
       
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">

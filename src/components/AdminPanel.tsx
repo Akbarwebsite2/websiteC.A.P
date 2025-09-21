@@ -16,9 +16,10 @@ interface PartData {
 interface AdminPanelProps {
   onCatalogUpdate: (data: PartData[]) => void;
   currentCatalogSize: number;
+  showAdminButton: boolean;
 }
 
-export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, currentCatalogSize }) => {
+export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, currentCatalogSize, showAdminButton }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -112,18 +113,25 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, current
     if (previewData.length > 0) {
       // Сохранить в localStorage для демо
       localStorage.setItem('capCatalog', JSON.stringify(previewData));
+      localStorage.setItem('capCatalogUploaded', 'true');
       onCatalogUpdate(previewData);
       alert(`Каталог сохранен! Загружено ${previewData.length} позиций.`);
       setSelectedFile(null);
       setPreviewData([]);
+      setIsVisible(false);
     }
   };
 
-  if (!isVisible) {
+  // Показывать кнопку только если каталог не загружен или showAdminButton = true
+  if (!isVisible && !showAdminButton) {
+    return null;
+  }
+
+  if (!isVisible && showAdminButton) {
     return (
       <button
         onClick={() => setIsVisible(true)}
-        className="fixed top-4 left-4 bg-red-600 hover:bg-red-700 text-white p-2 rounded-full shadow-lg z-50"
+        className="fixed top-4 left-4 bg-red-600 hover:bg-red-700 text-white p-2 rounded-full shadow-lg z-50 opacity-20 hover:opacity-100 transition-opacity duration-300"
         title="Админ-панель"
       >
         <Eye className="w-5 h-5" />
