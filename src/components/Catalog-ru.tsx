@@ -194,7 +194,7 @@ export const CatalogRu: React.FC = () => {
       />
       
       {/* Admin Panel Button */}
-      {showAdminButton && (
+      {true && (
         <button
           onClick={() => setShowAdminPanel(true)}
           className="fixed top-4 right-4 bg-red-600 hover:bg-red-700 text-white p-3 rounded-full shadow-lg z-40 transition-all duration-300"
