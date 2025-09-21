@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Upload, Package, DollarSign, Weight, Info, FileText, Download } from 'lucide-react';
-import * as XLSX from 'xlsx';
+import { Search, Package, DollarSign, Weight, Info, Download } from 'lucide-react';
 
 interface PartData {
   code: string;
@@ -21,20 +20,46 @@ export const CatalogRu: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState<PartData[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [partsData, setPartsData] = useState<PartData[]>([]);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [isFileProcessed, setIsFileProcessed] = useState(false);
-  const [totalParts, setTotalParts] = useState(0);
+  const [partsData] = useState<PartData[]>([
+    // Примеры данных - замените на ваши реальные данные
+    {
+      code: "15208-65F0C",
+      name: "Фильтр масляный",
+      brand: "C.A.P",
+      price: "63,81",
+      weight: "0.5",
+      category: "Моторные части",
+      description: "Фильтр масляный для двигателя",
+      availability: "В наличии"
+    },
+    {
+      code: "16546-0W020",
+      name: "Фильтр топливный",
+      brand: "C.A.P",
+      price: "125,50",
+      weight: "0.3",
+      category: "Топливная система",
+      description: "Фильтр топливный высокого качества",
+      availability: "В наличии"
+    },
+    {
+      code: "90915-YZZD4",
+      name: "Фильтр масляный Toyota",
+      brand: "Toyota",
+      price: "89,99",
+      weight: "0.4",
+      category: "Оригинальные запчасти",
+      description: "Оригинальный масляный фильтр Toyota",
+      availability: "В наличии"
+    },
+    // Добавьте больше данных здесь...
+  ]);
+  const totalParts = partsData.length;
 
 
   // Функция поиска
   const handleSearch = (term: string) => {
     setSearchTerm(term);
-    
-    if (!isFileProcessed) {
-      setSearchResults([]);
-      return;
-    }
     
     setIsLoading(true);
 
@@ -53,59 +78,6 @@ export const CatalogRu: React.FC = () => {
       }
       setIsLoading(false);
     }, 300);
-  };
-
-  // Функция загрузки Excel файла
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      setSelectedFile(file);
-      setIsFileProcessed(false);
-      setPartsData([]);
-      setSearchResults([]);
-      setTotalParts(0);
-    }
-  };
-
-  // Функция обработки Excel файла
-  const processExcelFile = async () => {
-    if (selectedFile) {
-      setIsLoading(true);
-      try {
-        const arrayBuffer = await selectedFile.arrayBuffer();
-        const workbook = XLSX.read(arrayBuffer, { type: 'array' });
-        const sheetName = workbook.SheetNames[0];
-        const worksheet = workbook.Sheets[sheetName];
-        const jsonData = XLSX.utils.sheet_to_json(worksheet);
-        
-        // Преобразование данных Excel в формат PartData
-        const processedData: PartData[] = jsonData.map((row: any) => ({
-          code: String(row['PART NO'] || row['Part No'] || row['part no'] || row['Код'] || row['Code'] || row['код'] || row['КОД'] || row['code'] || '').trim(),
-          name: String(row['DISCRAPION'] || row['Discrapion'] || row['discrapion'] || row['DISCRAPTION'] || row['Discraption'] || row['discraption'] || row['DESCRIPTION'] || row['Description'] || row['description'] || row['Название'] || row['Name'] || row['название'] || row['НАЗВАНИЕ'] || row['name'] || '').trim(),
-          brand: String(row['Бренд'] || row['Brand'] || row['бренд'] || row['БРЕНД'] || row['brand'] || 'C.A.P').trim(),
-          price: String(row['NETT'] || row['Nett'] || row['nett'] || '').trim(),
-          weight: String(row['Вес'] || row['Weight'] || row['вес'] || row['ВЕС'] || row['weight'] || '0').trim(),
-          category: String(row['Категория'] || row['Category'] || row['категория'] || row['КАТЕГОРИЯ'] || row['category'] || '').trim(),
-          description: String(row['DISCRAPION'] || row['Discrapion'] || row['discrapion'] || row['DISCRAPTION'] || row['Discraption'] || row['discraption'] || row['DESCRIPTION'] || row['Description'] || row['description'] || row['Описание'] || row['описание'] || row['ОПИСАНИЕ'] || '').trim(),
-          availability: String(row['Наличие'] || row['Availability'] || row['наличие'] || row['НАЛИЧИЕ'] || row['availability'] || 'В наличии').trim()
-        })).filter(part => part.code && part.code !== ''); // Фильтруем пустые коды
-        
-        setPartsData(processedData);
-        setTotalParts(processedData.length);
-        setIsFileProcessed(true);
-        setIsLoading(false);
-        
-        if (processedData.length > 0) {
-          alert(`✅ Успешно загружено ${processedData.length} позиций из файла ${selectedFile.name}`);
-        } else {
-          alert(`⚠️ Файл обработан, но данные не найдены. Проверьте названия колонок в Excel файле.`);
-        }
-      } catch (error) {
-        console.error('Ошибка при обработке файла:', error);
-        alert('❌ Ошибка при обработке файла. Проверьте формат Excel файла.');
-        setIsLoading(false);
-      }
-    }
   };
 
   return (
@@ -266,7 +238,7 @@ export const CatalogRu: React.FC = () => {
         )}
 
         {/* No Results */}
-        {searchTerm && searchResults.length === 0 && !isLoading && isFileProcessed && (
+        {searchTerm && searchResults.length === 0 && !isLoading && (
           <div className="text-center py-12">
             <Package className="w-16 h-16 text-gray-600 mx-auto mb-4" />
             <h3 className="text-xl font-bold text-gray-400 mb-2">Ничего не найдено</h3>
@@ -277,7 +249,7 @@ export const CatalogRu: React.FC = () => {
         )}
 
         {/* Instructions */}
-        {!searchTerm && isFileProcessed && (
+        {!searchTerm && (
           <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
             <div className="text-center">
               <div className="bg-[#144374] p-4 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
@@ -305,37 +277,6 @@ export const CatalogRu: React.FC = () => {
               <p className="text-gray-400">
                 Свяжитесь с нами для оформления заказа
               </p>
-            </div>
-          </div>
-        )}
-        
-        {/* File Upload Instructions */}
-        {!isFileProcessed && (
-          <div className="relative z-10 mt-16">
-            <div className="bg-gradient-to-br from-gray-800/90 to-gray-900/90 backdrop-blur-sm rounded-2xl p-8 border border-[#144374]/20">
-              <h3 className="text-2xl font-bold text-white mb-6 text-center">
-                📋 Инструкция по загрузке каталога
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div>
-                  <h4 className="text-lg font-bold text-[#144374] mb-4">Поддерживаемые колонки Excel:</h4>
-                  <ul className="text-gray-300 space-y-2">
-                    <li>• <strong>PART NO</strong> - код запчасти</li>
-                    <li>• <strong>DISCRAPION</strong> - описание детали</li>
-                    <li>• <strong>NETT</strong> - цена</li>
-                    <li>• <em>Дополнительно:</em> Бренд, Вес, Категория</li>
-                  </ul>
-                </div>
-                <div>
-                  <h4 className="text-lg font-bold text-[#144374] mb-4">Как использовать:</h4>
-                  <ol className="text-gray-300 space-y-2">
-                    <li>1. Выберите ваш Excel файл (.xlsx/.xls)</li>
-                    <li>2. Нажмите "Обработать файл"</li>
-                    <li>3. Дождитесь загрузки данных</li>
-                    <li>4. Используйте поиск по коду или названию</li>
-                  </ol>
-                </div>
-              </div>
             </div>
           </div>
         )}
