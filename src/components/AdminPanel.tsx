@@ -17,18 +17,33 @@ interface AdminPanelProps {
   onCatalogUpdate: (data: PartData[]) => void;
   currentCatalogSize: number;
   showAdminButton: boolean;
+  currentFiles: string[];
 }
 
-export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, currentCatalogSize, showAdminButton }) => {
+export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, currentCatalogSize, showAdminButton, currentFiles }) => {
   const [isVisible, setIsVisible] = useState(false);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
   const [previewData, setPreviewData] = useState<PartData[]>([]);
+  const [allCatalogData, setAllCatalogData] = useState<PartData[]>([]);
   const [adminPassword, setAdminPassword] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   // Простой пароль для демо (в реальном проекте используйте более безопасную аутентификацию)
   const ADMIN_PASSWORD = 'cap2025';
+
+  // Загрузить существующие данные при открытии
+  useEffect(() => {
+    const savedCatalog = localStorage.getItem('capCatalog');
+    if (savedCatalog) {
+      try {
+        const catalogData = JSON.parse(savedCatalog);
+        setAllCatalogData(catalogData);
+      } catch (error) {
+        console.error('Ошибка загрузки каталога:', error);
+      }
+    }
+  }, [isVisible]);
 
   const handleLogin = () => {
     if (adminPassword === ADMIN_PASSWORD) {
@@ -38,75 +53,99 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, current
     }
   };
 
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      setSelectedFile(file);
-      processExcelFile(file);
+  const handleFilesUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(event.target.files || []);
+    if (files.length > 0) {
+      setSelectedFiles(files);
+      processMultipleExcelFiles(files);
     }
   };
 
-  const processExcelFile = (file: File) => {
+  const processMultipleExcelFiles = (files: File[]) => {
     setIsProcessing(true);
+    const allProcessedData: PartData[] = [...allCatalogData]; // Сохраняем существующие данные
     
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      try {
-        const data = new Uint8Array(e.target?.result as ArrayBuffer);
-        const workbook = XLSX.read(data, { type: 'array' });
-        const sheetName = workbook.SheetNames[0];
-        const worksheet = workbook.Sheets[sheetName];
-        const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+    let processedFiles = 0;
+    
+    files.forEach((file, fileIndex) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const data = new Uint8Array(e.target?.result as ArrayBuffer);
+          const workbook = XLSX.read(data, { type: 'array' });
+          const sheetName = workbook.SheetNames[0];
+          const worksheet = workbook.Sheets[sheetName];
+          const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
 
-        const processedData: PartData[] = [];
-        
-        // Найти индексы колонок
-        const headerRow = jsonData[0] as string[];
-        const partNoIndex = headerRow.findIndex(header => 
-          header && header.toString().toLowerCase().includes('part')
-        );
-        const descriptionIndex = headerRow.findIndex(header => 
-          header && (header.toString().toLowerCase().includes('description') || 
-                    header.toString().toLowerCase().includes('discrapion'))
-        );
-        const priceIndex = headerRow.findIndex(header => 
-          header && header.toString().toLowerCase().includes('nett')
-        );
+          // Найти индексы колонок
+          const headerRow = jsonData[0] as string[];
+          const partNoIndex = headerRow.findIndex(header => 
+            header && header.toString().toLowerCase().includes('part')
+          );
+          const descriptionIndex = headerRow.findIndex(header => 
+            header && (header.toString().toLowerCase().includes('description') || 
+                      header.toString().toLowerCase().includes('discrapion'))
+          );
+          const priceIndex = headerRow.findIndex(header => 
+            header && header.toString().toLowerCase().includes('nett')
+          );
 
-        // Обработать данные начиная со второй строки
-        for (let i = 1; i < jsonData.length; i++) {
-          const row = jsonData[i] as any[];
-          
-          if (row && row.length > 0) {
-            const partNo = row[partNoIndex]?.toString().trim() || '';
-            const description = row[descriptionIndex]?.toString().trim() || '';
-            const price = row[priceIndex]?.toString().trim() || '';
+          // Обработать данные начиная со второй строки
+          for (let i = 1; i < jsonData.length; i++) {
+            const row = jsonData[i] as any[];
+            
+            if (row && row.length > 0) {
+              const partNo = row[partNoIndex]?.toString().trim() || '';
+              const description = row[descriptionIndex]?.toString().trim() || '';
+              const price = row[priceIndex]?.toString().trim() || '';
 
-            if (partNo) {
-              processedData.push({
-                code: partNo,
-                name: description,
-                brand: 'C.A.P',
-                price: price,
-                weight: '',
-                category: 'Автозапчасти',
-                description: description,
-                availability: 'В наличии'
-              });
+              if (partNo) {
+                // Проверить, не существует ли уже такой код
+                const existingIndex = allProcessedData.findIndex(item => item.code === partNo);
+                const newItem = {
+                  code: partNo,
+                  name: description,
+                  brand: 'C.A.P',
+                  price: price,
+                  weight: '',
+                  category: `Файл ${fileIndex + 1}: ${file.name}`,
+                  description: description,
+                  availability: 'В наличии'
+                };
+                
+                if (existingIndex >= 0) {
+                  // Обновить существующий элемент
+                  allProcessedData[existingIndex] = newItem;
+                } else {
+                  // Добавить новый элемент
+                  allProcessedData.push(newItem);
+                }
+              }
             }
           }
+
+          processedFiles++;
+          
+          // Если все файлы обработаны
+          if (processedFiles === files.length) {
+            setPreviewData(allProcessedData);
+            setAllCatalogData(allProcessedData);
+            setIsProcessing(false);
+          }
+        } catch (error) {
+          console.error(`Ошибка обработки файла ${file.name}:`, error);
+          processedFiles++;
+          
+          if (processedFiles === files.length) {
+            setPreviewData(allProcessedData);
+            setAllCatalogData(allProcessedData);
+            setIsProcessing(false);
+          }
         }
+      };
 
-        setPreviewData(processedData);
-        setIsProcessing(false);
-      } catch (error) {
-        console.error('Ошибка обработки файла:', error);
-        alert('Ошибка при обработке файла Excel');
-        setIsProcessing(false);
-      }
-    };
-
-    reader.readAsArrayBuffer(file);
+      reader.readAsArrayBuffer(file);
+    });
   };
 
   const saveCatalog = () => {
@@ -119,6 +158,18 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, current
       setSelectedFile(null);
       setPreviewData([]);
       setIsVisible(false);
+    }
+  };
+
+  const clearCatalog = () => {
+    if (confirm('Вы уверены, что хотите очистить весь каталог? Это действие нельзя отменить.')) {
+      localStorage.removeItem('capCatalog');
+      localStorage.removeItem('capCatalogUploaded');
+      localStorage.removeItem('capCatalogFiles');
+      setAllCatalogData([]);
+      setPreviewData([]);
+      onCatalogUpdate([]);
+      alert('Каталог полностью очищен!');
     }
   };
 
@@ -177,6 +228,18 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, current
             <div className="mb-6">
               <p className="text-gray-300 mb-4">
                 Текущий каталог: <span className="text-green-400 font-bold">{currentCatalogSize} позиций</span>
+                {currentFiles.length > 0 && (
+                  <div className="mt-2">
+                    <p className="text-sm text-gray-400">Загруженные файлы:</p>
+                    <div className="flex flex-wrap gap-2 mt-1">
+                      {currentFiles.map((fileName, index) => (
+                        <span key={index} className="bg-blue-600 text-white px-2 py-1 rounded text-xs">
+                          {fileName}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </p>
               
               <div className="border-2 border-dashed border-gray-600 rounded-lg p-6 text-center">
@@ -215,28 +278,28 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, current
               </div>
             )}
 
-            {previewData.length > 0 && (
+            {allCatalogData.length > 0 && (
               <div className="mb-6">
                 <h3 className="text-xl font-bold text-white mb-4">
-                  Предварительный просмотр ({previewData.length} позиций)
+                  Весь каталог ({allCatalogData.length} позиций)
                 </h3>
                 <div className="bg-gray-800 rounded-lg p-4 max-h-60 overflow-y-auto">
                   <div className="grid grid-cols-3 gap-4 text-sm">
                     <div className="font-bold text-gray-300">Код</div>
                     <div className="font-bold text-gray-300">Название</div>
-                    <div className="font-bold text-gray-300">Цена</div>
+                    <div className="font-bold text-gray-300">Источник</div>
                     
-                    {previewData.slice(0, 10).map((item, index) => (
+                    {allCatalogData.slice(0, 15).map((item, index) => (
                       <React.Fragment key={index}>
                         <div className="text-blue-400">{item.code}</div>
                         <div className="text-white">{item.name}</div>
-                        <div className="text-green-400">{item.price}</div>
+                        <div className="text-gray-400 text-xs">{item.category}</div>
                       </React.Fragment>
                     ))}
                   </div>
-                  {previewData.length > 10 && (
+                  {allCatalogData.length > 15 && (
                     <p className="text-gray-400 mt-4 text-center">
-                      ... и еще {previewData.length - 10} позиций
+                      ... и еще {allCatalogData.length - 15} позиций
                     </p>
                   )}
                 </div>
@@ -246,7 +309,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, current
                   className="mt-4 w-full bg-green-600 hover:bg-green-700 text-white p-3 rounded-lg flex items-center justify-center"
                 >
                   <Save className="w-5 h-5 mr-2" />
-                  Сохранить каталог ({previewData.length} позиций)
+                  Сохранить каталог ({allCatalogData.length} позиций)
                 </button>
               </div>
             )}

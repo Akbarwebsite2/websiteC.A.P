@@ -133,7 +133,12 @@ export const CatalogRu: React.FC = () => {
           </h2>
           <div className="w-24 h-1 bg-[#144374] mx-auto mb-8"></div>
           <p className="text-xl text-gray-400 max-w-3xl mx-auto font-medium">
-            Найдите нужную запчасть по коду, названию или бренду из нашего каталога более 25,000 позиций
+            Найдите нужную запчасть по коду, названию или бренду из нашего объединенного каталога
+            {catalogFiles.length > 0 && (
+              <span className="block text-sm mt-2 text-gray-500">
+                Источники: {catalogFiles.join(', ')}
+              </span>
+            )}
           </p>
         </div>
 
