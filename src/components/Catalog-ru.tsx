@@ -117,7 +117,6 @@ export const CatalogRu: React.FC = () => {
   useEffect(() => {
     const savedCatalog = localStorage.getItem('capCatalog');
     const savedFiles = localStorage.getItem('capCatalogFiles');
-    const catalogUploaded = localStorage.getItem('capCatalogUploaded');
     
     if (savedFiles) {
       try {
@@ -133,14 +132,13 @@ export const CatalogRu: React.FC = () => {
       try {
         const catalogData = JSON.parse(savedCatalog);
         setPartsData(catalogData);
-        setShowAdminButton(false); // Скрыть кнопку если каталог уже загружен
       } catch (error) {
         console.error('Ошибка загрузки каталога:', error);
-        setShowAdminButton(true); // Показать кнопку при ошибке
       }
-    } else {
-      setShowAdminButton(true); // Показать кнопку если каталог не загружен
     }
+    
+    // Всегда показывать кнопку админ-панели
+    setShowAdminButton(true);
 
     // Показать кнопку при двойном клике на заголовок (для повторной загрузки)
     const handleDoubleClick = () => {
@@ -160,7 +158,7 @@ export const CatalogRu: React.FC = () => {
     if (fileNames) {
       setCatalogFiles(fileNames);
     }
-    setShowAdminButton(false); // Скрыть кнопку после обновления
+    // Оставить кнопку видимой после обновления
   };
 
   // Функция поиска
