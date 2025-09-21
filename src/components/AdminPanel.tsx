@@ -270,8 +270,8 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, current
                 </h3>
                 <p className="text-gray-400 mb-4">
                   Поддерживаемые колонки:<br/>
-                  • Код: PART NO, Part Name, PARTNO<br/>
-                  • Описание: DESCRIPTION, DESC<br/>
+                  • Код: PART NO, PARTNO, PART_NO<br/>
+                  • Описание: DESCRIPTION, Part Name, DESC<br/>
                   • Цена: Price in AED, U/P AED, NETT, PRICE
                 </p>
                 <input
