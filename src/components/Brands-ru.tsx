@@ -34,15 +34,16 @@ export const BrandsRu: React.FC = () => {
     { name: "Переключатель давление масла", category: "Моторные части", logo: "/20.png" },
     
     // Cards 21-25 with logos (21.png to 25.png)
-    { name: "Все компоненты двигателя", category: "Моторные части", logo: "/21.png" },
-    { name: "MUSASHI", category: "Моторные части", logo: "/musashi.png" },
+    { name: "Все компоненты двигателя", category: "Моторные части", logo: "/23.png" },
+    { name: "MUSASHI", category: "Моторные части", logo: "/24.png" },
+    { name: "MUSASHI", category: "Моторные части", logo: "/25.png" },
     { name: "MUSASHI", category: "Моторные части", logo: "/musashi.png" },
     { name: "Термостаты", category: "Моторные части", logo: "/27.png" },
     
     // Cards 26-30 with logos (26.png to 30.png)
     { name: "Сальники", category: "Моторные части", logo: "/26.png" },
     { name: "KOITO", category: "Моторные части", logo: "/koito.png" },
-    { name: "Цепь ГРМ", category: "Моторные части", logo: "/28.png" },
+    { name: "Цепь ГРМ", category: "Моторные части", logo: "/30.png" },
     { name: "Свечи зажигания", category: "Моторные части", logo: "/29.png" },
     { name: "Подшипники", category: "Моторные части", logo: "/32.png" },
     
