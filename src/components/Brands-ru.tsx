@@ -41,14 +41,14 @@ export const BrandsRu: React.FC = () => {
     
     // Cards 26-30 with logos (26.png to 30.png)
     { name: "Сальники", category: "Моторные части", logo: "/26.png" },
-    { name: "KOITO", category: "Моторные части", logo: "/koito.png" },
+    { name: "Термостаты", category: "Моторные части", logo: "/25.png" },
     { name: "Цепь ГРМ", category: "Моторные части", logo: "/28.png" },
     { name: "Свечи зажигания", category: "Моторные части", logo: "/29.png" },
     { name: "Подшипники", category: "Моторные части", logo: "/30.png" },
     
     // Remaining brands (text only) to make exactly 36 total
     { name: "Клапан двигателя", category: "Моторные части", logo: "/31.png" },
-    { name: "Ремкомплект цепи ГРМ", category: "Моторные части", logo: "/32.png" },
+    { name: "KOITO", category: "Моторные части", logo: "/koito.png" },
     { name: "Натяжитель цепи", category: "Моторные части", logo: "/33.png" },
     { name: "Ремень ГРМ", category: "Моторные части", logo: "/34.png" },
     { name: "Катушка зажигания", category: "Моторные части", logo: "/35.png" },
