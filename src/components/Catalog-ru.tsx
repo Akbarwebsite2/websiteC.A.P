@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Package, Weight, Info, Lock, LogOut, User, Eye } from 'lucide-react';
-import { AdminPanel } from './AdminPanel';
+import { Search, Package, Weight, Info, Lock, LogOut, User, Upload, FileText, Save } from 'lucide-react';
 import { AuthModal } from './AuthModal';
+import * as XLSX from 'xlsx';
 
 interface PartData {
   code: string;
@@ -34,7 +34,13 @@ export const CatalogRu: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [currentUser, setCurrentUser] = useState<AuthUser | null>(null);
   const [showAuthModal, setShowAuthModal] = useState(false);
-  const [showAdminPanel, setShowAdminPanel] = useState(false);
+  const [showUploadSection, setShowUploadSection] = useState(false);
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [uploadPassword, setUploadPassword] = useState('');
+  const [isUploadAuthenticated, setIsUploadAuthenticated] = useState(false);
+
+  const UPLOAD_PASSWORD = 'cap2025';
 
   // Создать тестового пользователя при первом запуске
   useEffect(() => {
@@ -73,6 +79,123 @@ export const CatalogRu: React.FC = () => {
     localStorage.removeItem('capCurrentUser');
     setSearchTerm('');
     setSearchResults([]);
+    setIsUploadAuthenticated(false);
+    setUploadPassword('');
+  };
+
+  const handleUploadLogin = () => {
+    if (uploadPassword === UPLOAD_PASSWORD) {
+      setIsUploadAuthenticated(true);
+    } else {
+      alert('Неверный пароль!');
+    }
+  };
+
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(event.target.files || []);
+    if (files.length > 0) {
+      setSelectedFiles(files);
+      processMultipleExcelFiles(files);
+    }
+  };
+
+  const processMultipleExcelFiles = (files: File[]) => {
+    setIsProcessing(true);
+    const allProcessedData: PartData[] = [...partsData];
+    
+    let processedFiles = 0;
+    
+    files.forEach((file, fileIndex) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const data = new Uint8Array(e.target?.result as ArrayBuffer);
+          const workbook = XLSX.read(data, { type: 'array' });
+          const sheetName = workbook.SheetNames[0];
+          const worksheet = workbook.Sheets[sheetName];
+          const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+
+          const headerRow = jsonData[0] as string[];
+          
+          const partNoIndex = headerRow.findIndex(header => {
+            if (!header) return false;
+            const headerLower = header.toString().toLowerCase();
+            return headerLower === 'part no' || 
+                   headerLower === 'part no.' ||
+                   headerLower === 'partno';
+          });
+          
+          const descriptionIndex = headerRow.findIndex(header => {
+            if (!header) return false;
+            const headerLower = header.toString().toLowerCase();
+            return headerLower === 'part name' ||
+                   headerLower.includes('description') || 
+                   headerLower === 'discrapion';
+          });
+          
+          const priceIndex = headerRow.findIndex(header => {
+            if (!header) return false;
+            const headerLower = header.toString().toLowerCase();
+            return headerLower === 'price in aed' ||
+                   headerLower === 'u/p aed' ||
+                   headerLower === 'nett';
+          });
+
+          for (let i = 1; i < jsonData.length; i++) {
+            const row = jsonData[i] as any[];
+            
+            if (row && row.length > 0 && partNoIndex !== -1) {
+              const partNo = row[partNoIndex]?.toString().trim() || '';
+              const description = descriptionIndex !== -1 ? (row[descriptionIndex]?.toString().trim() || '') : '';
+              const price = priceIndex !== -1 ? (row[priceIndex]?.toString().trim() || '') : '';
+
+              if (partNo && partNo !== '') {
+                const existingIndex = allProcessedData.findIndex(item => item.code === partNo);
+                const newItem = {
+                  code: partNo,
+                  name: description || partNo,
+                  brand: 'C.A.P',
+                  price: price && price !== '' ? `${price} AED` : 'Цена по запросу',
+                  weight: '',
+                  category: `Файл: ${file.name}`,
+                  description: description || partNo,
+                  availability: 'В наличии'
+                };
+                
+                if (existingIndex >= 0) {
+                  allProcessedData[existingIndex] = newItem;
+                } else {
+                  allProcessedData.push(newItem);
+                }
+              }
+            }
+          }
+
+          processedFiles++;
+          
+          if (processedFiles === files.length) {
+            setPartsData(allProcessedData);
+            localStorage.setItem('capCatalog', JSON.stringify(allProcessedData));
+            const fileNames = files.map(f => f.name);
+            setCatalogFiles(fileNames);
+            localStorage.setItem('capCatalogFiles', JSON.stringify(fileNames));
+            setIsProcessing(false);
+            alert(`Каталог обновлен! Загружено ${allProcessedData.length} позиций.`);
+            setSelectedFiles([]);
+            setShowUploadSection(false);
+          }
+        } catch (error) {
+          console.error(`Ошибка обработки файла ${file.name}:`, error);
+          processedFiles++;
+          
+          if (processedFiles === files.length) {
+            setIsProcessing(false);
+          }
+        }
+      };
+
+      reader.readAsArrayBuffer(file);
+    });
   };
 
   // Загрузить каталог из localStorage при запуске
@@ -111,11 +234,6 @@ export const CatalogRu: React.FC = () => {
     }
     // Добавьте больше данных здесь...
   ]);
-  }, []);
-  const totalParts = partsData.length;
-
-  // Загрузить каталог из localStorage при запуске
-  useEffect(() => {
     const savedCatalog = localStorage.getItem('capCatalog');
     const savedFiles = localStorage.getItem('capCatalogFiles');
     
@@ -137,30 +255,9 @@ export const CatalogRu: React.FC = () => {
         console.error('Ошибка загрузки каталога:', error);
       }
     }
-    
-    // Всегда показывать кнопку админ-панели
-    setShowAdminButton(true);
-
-    // Показать кнопку при двойном клике на заголовок (для повторной загрузки)
-    const handleDoubleClick = () => {
-      setShowAdminButton(true);
-    };
-
-    const titleElement = document.querySelector('h2');
-    if (titleElement) {
-      titleElement.addEventListener('dblclick', handleDoubleClick);
-      return () => titleElement.removeEventListener('dblclick', handleDoubleClick);
-    }
   }, []);
 
-  // Обновить каталог из админ-панели
-  const handleCatalogUpdate = (newData: PartData[], fileNames?: string[]) => {
-    setPartsData(newData);
-    if (fileNames) {
-      setCatalogFiles(fileNames);
-    }
-    // Оставить кнопку видимой после обновления
-  };
+  const totalParts = partsData.length;
 
   // Функция поиска
   const handleSearch = (term: string) => {
@@ -192,28 +289,7 @@ export const CatalogRu: React.FC = () => {
         onClose={() => setShowAuthModal(false)}
         onLogin={handleLogin}
       />
-      
-      {/* Admin Panel Button */}
-      <div>
-        <button
-          onClick={() => setShowAdminPanel(true)}
-          className="fixed top-4 left-4 bg-red-600 hover:bg-red-700 text-white p-3 rounded-full shadow-lg z-40 transition-all duration-300 hover:scale-110"
-          title="Админ-панель"
-        >
-          <Eye className="w-5 h-5" />
-        </button>
-      </div>
-      
-      {showAdminPanel && (
-        <AdminPanel 
-          onCatalogUpdate={handleCatalogUpdate}
-          currentCatalogSize={totalParts}
-          showAdminButton={showAdminButton}
-          currentFiles={catalogFiles}
-          onClose={() => setShowAdminPanel(false)}
-        />
-      )}
-      
+
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="relative z-10 text-center mb-16">
@@ -243,6 +319,19 @@ export const CatalogRu: React.FC = () => {
           <p className="text-xl text-gray-400 max-w-3xl mx-auto font-medium">
             Найдите нужную запчасть по коду, названию или бренду из нашего объединенного каталога
           </p>
+          
+          {/* Upload Excel Button - только для авторизованных пользователей */}
+          {isAuthenticated && (
+            <div className="mt-8">
+              <button
+                onClick={() => setShowUploadSection(!showUploadSection)}
+                className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors flex items-center mx-auto"
+              >
+                <Upload className="w-5 h-5 mr-2" />
+                Загрузить Excel файлы
+              </button>
+            </div>
+          )}
         </div>
 
         {!isAuthenticated ? (
@@ -270,6 +359,88 @@ export const CatalogRu: React.FC = () => {
           <>
             {/* Search Section */}
             <div className="relative z-10 mb-12">
+              {/* Upload Section */}
+              {showUploadSection && (
+                <div className="mb-8 p-6 bg-gray-800/90 rounded-2xl border border-gray-700">
+                  {!isUploadAuthenticated ? (
+                    <div className="text-center">
+                      <h3 className="text-xl text-white mb-4">Загрузка Excel файлов</h3>
+                      <div className="max-w-sm mx-auto">
+                        <input
+                          type="password"
+                          placeholder="Пароль для загрузки"
+                          value={uploadPassword}
+                          onChange={(e) => setUploadPassword(e.target.value)}
+                          className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white mb-4"
+                          onKeyPress={(e) => e.key === 'Enter' && handleUploadLogin()}
+                        />
+                        <button
+                          onClick={handleUploadLogin}
+                          className="w-full bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-lg"
+                        >
+                          Войти
+                        </button>
+                        <p className="text-gray-400 text-sm mt-2">
+                          Пароль: <code className="bg-gray-700 px-2 py-1 rounded">cap2025</code>
+                        </p>
+                      </div>
+                    </div>
+                  ) : (
+                    <div>
+                      <h3 className="text-xl text-white mb-4 text-center">Загрузить Excel файлы в каталог</h3>
+                      <div className="border-2 border-dashed border-gray-600 rounded-lg p-6 text-center">
+                        <Upload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                        <p className="text-gray-400 mb-4">
+                          Поддерживаемые колонки:<br/>
+                          • Код: PART NO, Part No, PARTNO<br/>
+                          • Описание: Part Name, DESCRIPTION<br/>
+                          • Цена: Price in AED, U/P AED, NETT
+                        </p>
+                        <input
+                          type="file"
+                          accept=".xlsx,.xls"
+                          multiple
+                          onChange={handleFileUpload}
+                          className="hidden"
+                          id="excel-upload"
+                        />
+                        <label
+                          htmlFor="excel-upload"
+                          className="inline-flex items-center px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg cursor-pointer"
+                        >
+                          <FileText className="w-5 h-5 mr-2" />
+                          Выбрать Excel файлы
+                        </label>
+                      </div>
+                      
+                      {selectedFiles.length > 0 && (
+                        <div className="mt-4 p-4 bg-gray-700 rounded-lg">
+                          <p className="text-green-400 mb-2">
+                            ✅ Файлы выбраны: {selectedFiles.map(f => f.name).join(', ')}
+                          </p>
+                          {isProcessing && (
+                            <p className="text-yellow-400">🔄 Обработка файлов...</p>
+                          )}
+                        </div>
+                      )}
+                      
+                      <div className="mt-4 text-center">
+                        <button
+                          onClick={() => {
+                            setShowUploadSection(false);
+                            setIsUploadAuthenticated(false);
+                            setUploadPassword('');
+                          }}
+                          className="text-gray-400 hover:text-white"
+                        >
+                          Закрыть
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+              
               <div className="max-w-2xl mx-auto">
                 <div className="relative">
                   <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-6 h-6" />
