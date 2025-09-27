@@ -3,6 +3,15 @@ import { Lock } from 'lucide-react';
 import { AuthModal } from './AuthModal';
 import { CatalogPage } from './CatalogPage';
 
+interface PartData {
+  partNo: string;
+  name: string;
+  price: string;
+  brand: string;
+  category: string;
+  availability: string;
+}
+
 interface AuthUser {
   email: string;
   password: string;
