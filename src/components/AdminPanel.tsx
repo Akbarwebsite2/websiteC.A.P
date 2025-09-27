@@ -255,6 +255,9 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, current
               >
                 Войти
               </button>
+              <p className="text-gray-400 text-sm mt-4">
+                Пароль для демо: <code className="bg-gray-700 px-2 py-1 rounded">cap2025</code>
+              </p>
             </div>
           </div>
         ) : (
@@ -279,9 +282,10 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, current
               <div className="border-2 border-dashed border-gray-600 rounded-lg p-6 text-center">
                 <Upload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
                 <h3 className="text-lg font-semibold text-white mb-2">
-                  Загрузить новый каталог Excel
+                  Загрузить файлы Excel для каталога
                 </h3>
                 <p className="text-gray-400 mb-4">
+                  Выберите один или несколько Excel файлов:<br/>
                   Поддерживаемые колонки:<br/>
                   • Код: PART NO, Part No, PARTNO<br/>
                   • Описание: Part Name, DESCRIPTION, DISCRAPION<br/>
@@ -290,6 +294,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, current
                 <input
                   type="file"
                   accept=".xlsx,.xls"
+                  multiple
                   onChange={handleFileUpload}
                   className="hidden"
                   id="admin-file-upload"
@@ -299,7 +304,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, current
                   className="inline-flex items-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg cursor-pointer"
                 >
                   <FileText className="w-5 h-5 mr-2" />
-                  Выбрать файл Excel
+                  Выбрать файлы Excel
                 </label>
               </div>
             </div>
