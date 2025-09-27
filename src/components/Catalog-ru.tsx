@@ -157,7 +157,7 @@ export const CatalogRu: React.FC = () => {
                   brand: 'C.A.P',
                   price: price && price !== '' ? `${price} AED` : 'Цена по запросу',
                   weight: '',
-                  category: `Файл: ${file.name}`,
+                  category: 'Автозапчасти',
                   description: description || partNo,
                   availability: 'В наличии'
                 };
@@ -496,7 +496,7 @@ export const CatalogRu: React.FC = () => {
 
                       {/* Part Info */}
                       <h4 className="text-lg font-bold text-white mb-2">{part.name}</h4>
-                      <p className="text-gray-400 text-sm mb-4">{part.brand}{part.category ? ` • ${part.category}` : ''}</p>
+                      <p className="text-gray-400 text-sm mb-4">{part.brand}</p>
                       
                       {part.description && part.description !== part.name && (
                         <p className="text-gray-300 text-sm mb-4 leading-relaxed">
