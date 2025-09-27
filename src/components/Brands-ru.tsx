@@ -9,12 +9,12 @@ export const BrandsRu: React.FC = () => {
   // Моторные части - 36 карточек
   const motorBrands = [
     // First 10 brands with logos (1.png to 10.png)
-    { name: "Вкладыши", category: "Моторные части", logo: "/1.png" },
+    { name: "NDC", category: "Моторные части", logo: "/ndc.png" },
     { name: "Поршневые кольца", category: "Моторные части", logo: "/2.png" },
     { name: "Водяной помпа", category: "Моторные части", logo: "/karta 3.png" },
     { name: "Фильтры", category: "Моторные части", logo: "/karta 4.png" },
     { name: "Подшипники", category: "Моторные части", logo: "/5.png" },
-    { name: "Комплект прокладок", category: "Моторные части", logo: "/6.png" },
+    { name: "ERISTIC Gasket", category: "Моторные части", logo: "/eristic.png" },
     { name: "Вкладыши", category: "Моторные части", logo: "/7.png" },
     { name: "Поршневые кольца", category: "Моторные части", logo: "/8.png" },
     { name: "Водяной помпа", category: "Моторные части", logo: "/9.png" },
@@ -30,18 +30,18 @@ export const BrandsRu: React.FC = () => {
     // Cards 16-20 with logos (16.png to 20.png)
     { name: "Фильтры", category: "Моторные части", logo: "/16.png" },
     { name: "Подшипники", category: "Моторные части", logo: "/17.png" },
-    { name: "Комплект прокладок", category: "Моторные части", logo: "/18.png" },
+    { name: "TONG HONG GASKETS", category: "Моторные части", logo: "/tong hong.png" },
     { name: "Переключатель давление масла", category: "Моторные части", logo: "/20.png" },
     
     // Cards 21-25 with logos (21.png to 25.png)
     { name: "Все компоненты двигателя", category: "Моторные части", logo: "/21.png" },
-    { name: "Диск сцепление", category: "Моторные части", logo: "/23.png" },
+    { name: "MUSASHI", category: "Моторные части", logo: "/musashi.png" },
     { name: "Все компоненты двигателя", category: "Моторные части", logo: "/24.png" },
     { name: "Термостаты", category: "Моторные части", logo: "/25.png" },
     
     // Cards 26-30 with logos (26.png to 30.png)
     { name: "Сальники", category: "Моторные части", logo: "/26.png" },
-    { name: "Ремень ГРМ", category: "Моторные части", logo: "/27.png" },
+    { name: "KOITO", category: "Моторные части", logo: "/koito.png" },
     { name: "Цепь ГРМ", category: "Моторные части", logo: "/28.png" },
     { name: "Свечи зажигания", category: "Моторные части", logo: "/29.png" },
     { name: "Подшипники", category: "Моторные части", logo: "/30.png" },
