@@ -65,6 +65,8 @@ export const CatalogRu: React.FC = () => {
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files || []);
     if (files.length > 0) {
+    }
+  }
   // Если пользователь авторизован, показываем отдельную страницу каталога
   if (isAuthenticated && currentUser) {
     return (
