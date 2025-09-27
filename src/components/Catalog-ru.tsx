@@ -197,7 +197,7 @@ export const CatalogRu: React.FC = () => {
       <div>
         <button
           onClick={() => setShowAdminPanel(true)}
-          className="fixed top-4 right-4 bg-red-600 hover:bg-red-700 text-white p-3 rounded-full shadow-lg z-40 transition-all duration-300 hover:scale-110"
+          className="fixed top-4 left-4 bg-red-600 hover:bg-red-700 text-white p-3 rounded-full shadow-lg z-40 transition-all duration-300 hover:scale-110"
           title="Админ-панель"
         >
           <Eye className="w-5 h-5" />
