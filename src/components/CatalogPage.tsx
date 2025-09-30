@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Search, Package, Weight, Info, LogOut, User, Upload, FileText, ArrowLeft } from 'lucide-react';
 import * as XLSX from 'xlsx';
+import { AdminPanel } from './AdminPanel';
 
 interface PartData {
   code: string;
@@ -50,6 +51,7 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
   const [hasSearchAccess, setHasSearchAccess] = useState(false);
   const [accessRequestSent, setAccessRequestSent] = useState(false);
   const [isCheckingAccess, setIsCheckingAccess] = useState(true);
+  const [showAdminPanel, setShowAdminPanel] = useState(false);
 
   const UPLOAD_PASSWORD = 'cap2025';
   const ADMIN_EMAIL = 't8.fd88@gmail.com';
@@ -328,6 +330,15 @@ ID запроса: ${newRequest.id}
           </button>
 
           <div className="flex items-center space-x-4">
+            {/* Admin Panel Button */}
+            <button
+              onClick={() => setShowAdminPanel(true)}
+              className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors text-sm"
+              title="Админ-панель"
+            >
+              Админ
+            </button>
+            
             <div className="flex items-center space-x-3 bg-green-500/20 border border-green-500 rounded-lg px-4 py-2">
               <User className="w-5 h-5 text-green-400" />
               <span className="text-green-400 font-semibold">
@@ -631,6 +642,19 @@ ID запроса: ${newRequest.id}
           </div>
         )}
       </div>
+      
+      {/* Admin Panel */}
+      {showAdminPanel && (
+        <AdminPanel
+          onCatalogUpdate={(data, fileNames) => {
+            setPartsData(data);
+          }}
+          currentCatalogSize={partsData.length}
+          showAdminButton={true}
+          currentFiles={[]}
+          onClose={() => setShowAdminPanel(false)}
+        />
+      )}
     </div>
   );
 };
