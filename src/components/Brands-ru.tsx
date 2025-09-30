@@ -34,7 +34,7 @@ export const BrandsRu: React.FC = () => {
     { name: "Переключатель давление масла", category: "Моторные части", logo: "/20.png" },
     
     // Cards 21-25 with logos (21.png to 25.png)
-    { name: "Все компоненты двигателя", category: "Моторные части", logo: "/23.png" },
+    { name: "Все компоненты двигателя", category: "Моторные части", logo: "/21.png" },
     { name: "MUSASHI", category: "Моторные части", logo: "/24.png" },
     { name: "MUSASHI", category: "Моторные части", logo: "/25.png" },
     { name: "MUSASHI", category: "Моторные части", logo: "" },
