@@ -42,7 +42,7 @@ export const BrandsRu: React.FC = () => {
     
     // Cards 26-30 with logos (26.png to 30.png)
     { name: "Сальники", category: "Моторные части", logo: "/26.png" },
-    { name: "MUSASHI", category: "Моторные части", logo: "/musashi.png" },
+    { name: "KOITO", category: "Моторные части", logo: "/koito.png" },
     { name: "Цепь ГРМ", category: "Моторные части", logo: "/30.png" },
     { name: "Свечи зажигания", category: "Моторные части", logo: "/29.png" },
     { name: "Подшипники", category: "Моторные части", logo: "/32.png" },
