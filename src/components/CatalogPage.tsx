@@ -81,6 +81,49 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
     setIsCheckingAccess(false);
   };
 
+  const handleEmailAction = (action: string, requestId: string, token: string) => {
+    const accessRequests = JSON.parse(localStorage.getItem('capAccessRequests') || '[]') as AccessRequest[];
+    const request = accessRequests.find(req => req.id === requestId);
+    
+    if (!request) {
+      alert('Запрос не найден!');
+      return;
+    }
+    
+    // Проверить токен безопасности
+    const expectedToken = btoa(request.userEmail + request.id);
+    if (token !== expectedToken) {
+      alert('Неверный токен безопасности!');
+      return;
+    }
+    
+    // Обновить статус запроса
+    const updatedRequests = accessRequests.map(req => {
+      if (req.id === requestId) {
+        return {
+          ...req,
+          status: action === 'approve' ? 'approved' as const : 'rejected' as const,
+          approvedDate: new Date().toLocaleString('ru-RU')
+        };
+      }
+      return req;
+    });
+    
+    localStorage.setItem('capAccessRequests', JSON.stringify(updatedRequests));
+    
+    // Показать результат
+    const actionText = action === 'approve' ? 'одобрен' : 'отклонен';
+    alert(`Запрос от ${request.userName} (${request.userEmail}) ${actionText}!`);
+    
+    // Очистить URL
+    window.history.replaceState({}, document.title, window.location.pathname);
+    
+    // Обновить состояние если это текущий пользователь
+    if (request.userEmail === user.email) {
+      checkUserAccess();
+    }
+  };
+
   const sendAccessRequest = () => {
     const accessRequests = JSON.parse(localStorage.getItem('capAccessRequests') || '[]') as AccessRequest[];
     
