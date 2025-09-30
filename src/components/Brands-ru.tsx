@@ -42,8 +42,15 @@ export const BrandsRu: React.FC = () => {
     { name: "Сальники", category: "Моторные части", logo: "/27.png" },
     { name: "Термостаты", category: "Моторные части", logo: "/28.png" },
     { name: "KOITO", category: "Моторные части", logo: "/koito.png" },
-    { name: "Цепь ГРМ", category: "Моторные части", logo: "/30.png" },
+    { name: "Свечи зажигания", category: "Моторные части", logo: "/30.png" },
     { name: "Термостаты", category: "Моторные части", logo: "/27.png" },
+    { name: "Клапан двигателя", category: "Моторные части", logo: "/32.png" },
+    { name: "Подшипники", category: "Моторные части", logo: "/32.png" },
+    { name: "KOITO", category: "Моторные части", logo: "/koito.png" },
+    { name: "Натяжитель цепи", category: "Моторные части", logo: "/33.png" },
+    { name: "Ремень ГРМ", category: "Моторные части", logo: "/34.png" },
+    { name: "Катушка зажигания", category: "Моторные части", logo: "/35.png" },
+    { name: "Цепь ГРМ", category: "Моторные части", logo: "/36.png" },
   ];
 
   // Ходовые части - 6 карточек
