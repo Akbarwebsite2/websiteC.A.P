@@ -21,6 +21,14 @@ interface AdminPanelProps {
   onClose: () => void;
 }
 
+interface AccessRequest {
+  id: string;
+  userEmail: string;
+  userName: string;
+  requestDate: string;
+  status: 'pending' | 'approved' | 'rejected';
+  approvedDate?: string;
+}
 export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, currentCatalogSize, showAdminButton, currentFiles, onClose }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
@@ -29,6 +37,8 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, current
   const [allCatalogData, setAllCatalogData] = useState<PartData[]>([]);
   const [adminPassword, setAdminPassword] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [accessRequests, setAccessRequests] = useState<AccessRequest[]>([]);
+  const [activeTab, setActiveTab] = useState<'catalog' | 'access'>('catalog');
 
   // Простой пароль для демо (в реальном проекте используйте более безопасную аутентификацию)
   const ADMIN_PASSWORD = 'cap2025';
@@ -44,8 +54,39 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, current
         console.error('Ошибка загрузки каталога:', error);
       }
     }
+    
+    // Загрузить запросы на доступ
+    const savedRequests = localStorage.getItem('capAccessRequests');
+    if (savedRequests) {
+      try {
+        const requests = JSON.parse(savedRequests);
+        setAccessRequests(requests);
+      } catch (error) {
+        console.error('Ошибка загрузки запросов:', error);
+      }
+    }
   }, [isVisible]);
 
+  const handleAccessRequest = (requestId: string, action: 'approve' | 'reject') => {
+    const updatedRequests = accessRequests.map(req => {
+      if (req.id === requestId) {
+        return {
+          ...req,
+          status: action === 'approve' ? 'approved' as const : 'rejected' as const,
+          approvedDate: new Date().toLocaleString('ru-RU')
+        };
+      }
+      return req;
+    });
+    
+    setAccessRequests(updatedRequests);
+    localStorage.setItem('capAccessRequests', JSON.stringify(updatedRequests));
+    
+    const request = accessRequests.find(req => req.id === requestId);
+    if (request) {
+      alert(`Запрос от ${request.userName} (${request.userEmail}) ${action === 'approve' ? 'одобрен' : 'отклонен'}!`);
+    }
+  };
   const handleLogin = () => {
     if (adminPassword === ADMIN_PASSWORD) {
       setIsAuthenticated(true);
@@ -263,7 +304,38 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, current
         ) : (
           <>
             <div className="mb-6">
-              <p className="text-gray-300 mb-4">
+              {/* Tabs */}
+              <div className="flex space-x-4 mb-6">
+                <button
+                  onClick={() => setActiveTab('catalog')}
+                  className={`px-4 py-2 rounded-lg font-semibold transition-colors ${
+                    activeTab === 'catalog' 
+                      ? 'bg-blue-600 text-white' 
+                      : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                  }`}
+                >
+                  Управление каталогом
+                </button>
+                <button
+                  onClick={() => setActiveTab('access')}
+                  className={`px-4 py-2 rounded-lg font-semibold transition-colors relative ${
+                    activeTab === 'access' 
+                      ? 'bg-green-600 text-white' 
+                      : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                  }`}
+                >
+                  Запросы доступа
+                  {accessRequests.filter(req => req.status === 'pending').length > 0 && (
+                    <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                      {accessRequests.filter(req => req.status === 'pending').length}
+                    </span>
+                  )}
+                </button>
+              </div>
+
+              {activeTab === 'catalog' ? (
+                <>
+                  <p className="text-gray-300 mb-4">
                 Текущий каталог: <span className="text-green-400 font-bold">{currentCatalogSize} позиций</span>
                 {currentFiles.length > 0 && (
                   <div className="mt-2">
@@ -307,9 +379,8 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, current
                   Выбрать файлы Excel
                 </label>
               </div>
-            </div>
 
-            {selectedFiles.length > 0 && (
+                  {selectedFiles.length > 0 && (
               <div className="mb-6 p-4 bg-gray-800 rounded-lg">
                 <p className="text-green-400 mb-2">
                   ✅ Файлы выбраны: {selectedFiles.map(f => f.name).join(', ')}
@@ -318,9 +389,10 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, current
                   <p className="text-yellow-400">🔄 Обработка файлов...</p>
                 )}
               </div>
-            )}
 
-            {allCatalogData.length > 0 && (
+                  )}
+
+                  {allCatalogData.length > 0 && (
               <div className="mb-6">
                 <h3 className="text-xl font-bold text-white mb-4">
                   Весь каталог ({allCatalogData.length} позиций)
@@ -354,7 +426,83 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, current
                   Сохранить каталог ({allCatalogData.length} позиций)
                 </button>
               </div>
-            )}
+                  )}
+                </>
+              ) : (
+                /* Access Requests Tab */
+                <div>
+                  <h3 className="text-xl font-bold text-white mb-4">
+                    Запросы на доступ к каталогу ({accessRequests.length})
+                  </h3>
+                  
+                  {accessRequests.length === 0 ? (
+                    <div className="text-center py-8">
+                      <p className="text-gray-400">Нет запросов на доступ</p>
+                    </div>
+                  ) : (
+                    <div className="space-y-4 max-h-96 overflow-y-auto">
+                      {accessRequests.map((request) => (
+                        <div 
+                          key={request.id}
+                          className={`p-4 rounded-lg border ${
+                            request.status === 'pending' 
+                              ? 'bg-yellow-500/10 border-yellow-500/30' 
+                              : request.status === 'approved'
+                              ? 'bg-green-500/10 border-green-500/30'
+                              : 'bg-red-500/10 border-red-500/30'
+                          }`}
+                        >
+                          <div className="flex justify-between items-start">
+                            <div className="flex-1">
+                              <h4 className="text-white font-semibold">{request.userName}</h4>
+                              <p className="text-gray-400 text-sm">{request.userEmail}</p>
+                              <p className="text-gray-500 text-xs mt-1">
+                                Запрос: {request.requestDate}
+                              </p>
+                              {request.approvedDate && (
+                                <p className="text-gray-500 text-xs">
+                                  Обработан: {request.approvedDate}
+                                </p>
+                              )}
+                            </div>
+                            
+                            <div className="flex items-center space-x-2">
+                              <span className={`px-2 py-1 rounded-full text-xs font-semibold ${
+                                request.status === 'pending' 
+                                  ? 'bg-yellow-500/20 text-yellow-400' 
+                                  : request.status === 'approved'
+                                  ? 'bg-green-500/20 text-green-400'
+                                  : 'bg-red-500/20 text-red-400'
+                              }`}>
+                                {request.status === 'pending' ? 'Ожидает' : 
+                                 request.status === 'approved' ? 'Одобрен' : 'Отклонен'}
+                              </span>
+                              
+                              {request.status === 'pending' && (
+                                <div className="flex space-x-2">
+                                  <button
+                                    onClick={() => handleAccessRequest(request.id, 'approve')}
+                                    className="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-xs font-semibold"
+                                  >
+                                    Одобрить
+                                  </button>
+                                  <button
+                                    onClick={() => handleAccessRequest(request.id, 'reject')}
+                                    className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-xs font-semibold"
+                                  >
+                                    Отклонить
+                                  </button>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
           </>
         )}
       </div>
