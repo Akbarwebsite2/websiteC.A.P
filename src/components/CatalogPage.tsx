@@ -148,18 +148,47 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
     
     // Отправить email (симуляция)
     const emailSubject = encodeURIComponent('Запрос доступа к каталогу C.A.P');
+    
+    // Создать токен безопасности
+    const securityToken = btoa(user.email + newRequest.id);
+    const baseUrl = window.location.origin;
+    
+    // Ссылки для одобрения и отклонения
+    const approveUrl = `${baseUrl}?action=approve&requestId=${newRequest.id}&token=${securityToken}`;
+    const rejectUrl = `${baseUrl}?action=reject&requestId=${newRequest.id}&token=${securityToken}`;
+    
     const emailBody = encodeURIComponent(`
-Новый запрос на доступ к каталогу автозапчастей:
+🔔 НОВЫЙ ЗАПРОС НА ДОСТУП К КАТАЛОГУ C.A.P
 
-Пользователь: ${user.name}
-Email: ${user.email}
-Дата запроса: ${newRequest.requestDate}
-ID запроса: ${newRequest.id}
+👤 Пользователь: ${user.name}
+📧 Email: ${user.email}
+📅 Дата запроса: ${newRequest.requestDate}
+🆔 ID запроса: ${newRequest.id}
 
-Для подтверждения доступа откройте админ-панель на сайте.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-С уважением,
-Система C.A.P
+⚡ БЫСТРЫЕ ДЕЙСТВИЯ (кликните на ссылку):
+
+✅ ОДОБРИТЬ ЗАПРОС:
+${approveUrl}
+
+❌ ОТКЛОНИТЬ ЗАПРОС:
+${rejectUrl}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📝 Инструкция:
+1. Просто кликните на одну из ссылок выше
+2. Система автоматически обработает запрос
+3. Пользователь получит уведомление о решении
+
+🔒 Безопасность: Каждая ссылка содержит уникальный токен безопасности
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🏢 С уважением,
+Система управления каталогом C.A.P
+🌐 ${baseUrl}
     `);
     
     // Открыть почтовый клиент
