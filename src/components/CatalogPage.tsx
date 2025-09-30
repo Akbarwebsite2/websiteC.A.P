@@ -330,15 +330,6 @@ ID запроса: ${newRequest.id}
           </button>
 
           <div className="flex items-center space-x-4">
-            {/* Admin Panel Button */}
-            <button
-              onClick={() => setShowAdminPanel(true)}
-              className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors text-sm"
-              title="Админ-панель"
-            >
-              Админ
-            </button>
-            
             <div className="flex items-center space-x-3 bg-green-500/20 border border-green-500 rounded-lg px-4 py-2">
               <User className="w-5 h-5 text-green-400" />
               <span className="text-green-400 font-semibold">
