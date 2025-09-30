@@ -56,6 +56,17 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
   const UPLOAD_PASSWORD = 'cap2025';
   const ADMIN_EMAIL = 't8.fd88@gmail.com';
 
+  // Обработка URL параметров при загрузке страницы
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const action = urlParams.get('action');
+    const requestId = urlParams.get('requestId');
+    const token = urlParams.get('token');
+
+    if (action && requestId && token) {
+      handleEmailAction(action, requestId, token);
+    }
+  }, []);
   // Проверить статус доступа пользователя
   useEffect(() => {
     checkUserAccess();
@@ -70,11 +81,18 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
     // Найти запрос текущего пользователя
     const userRequest = accessRequests.find(req => req.userEmail === user.email);
     
+    // Сбросить состояния
+    setHasSearchAccess(false);
+    setAccessRequestSent(false);
+    
     if (userRequest) {
       if (userRequest.status === 'approved') {
         setHasSearchAccess(true);
       } else if (userRequest.status === 'pending') {
         setAccessRequestSent(true);
+      } else if (userRequest.status === 'rejected') {
+        // Запрос отклонен - показать возможность отправить новый
+        setAccessRequestSent(false);
       }
     }
     
@@ -86,14 +104,21 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
     const request = accessRequests.find(req => req.id === requestId);
     
     if (!request) {
-      alert('Запрос не найден!');
+      alert('❌ Запрос не найден или уже был обработан!');
       return;
     }
     
     // Проверить токен безопасности
     const expectedToken = btoa(request.userEmail + request.id);
     if (token !== expectedToken) {
-      alert('Неверный токен безопасности!');
+      alert('❌ Неверный токен безопасности!');
+      return;
+    }
+    
+    // Проверить, не был ли запрос уже обработан
+    if (request.status !== 'pending') {
+      const statusText = request.status === 'approved' ? 'одобрен' : 'отклонен';
+      alert(`ℹ️ Этот запрос уже был ${statusText} ${request.approvedDate}`);
       return;
     }
     
@@ -112,16 +137,18 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
     localStorage.setItem('capAccessRequests', JSON.stringify(updatedRequests));
     
     // Показать результат
-    const actionText = action === 'approve' ? 'одобрен' : 'отклонен';
-    alert(`Запрос от ${request.userName} (${request.userEmail}) ${actionText}!`);
+    const actionText = action === 'approve' ? '✅ ОДОБРЕН' : '❌ ОТКЛОНЕН';
+    const emoji = action === 'approve' ? '🎉' : '🚫';
+    
+    alert(`${emoji} ЗАПРОС ${actionText}!\n\n👤 Пользователь: ${request.userName}\n📧 Email: ${request.userEmail}\n📅 Дата: ${new Date().toLocaleString('ru-RU')}`);
     
     // Очистить URL
     window.history.replaceState({}, document.title, window.location.pathname);
     
-    // Обновить состояние если это текущий пользователь
-    if (request.userEmail === user.email) {
+    // Принудительно обновить состояние доступа
+    setTimeout(() => {
       checkUserAccess();
-    }
+    }, 500);
   };
 
   const sendAccessRequest = () => {
@@ -484,12 +511,17 @@ ${rejectUrl}
                     Ваш запрос на доступ к каталогу отправлен администратору. 
                     Ожидайте подтверждения по email или обновите страницу через несколько минут.
                   </p>
-                  <button
-                    onClick={checkUserAccess}
-                    className="bg-green-600 hover:bg-green-700 text-white py-3 px-8 rounded-lg font-semibold transition-colors"
-                  >
-                    Проверить статус
-                  </button>
+                  <div className="space-y-3">
+                    <button
+                      onClick={checkUserAccess}
+                      className="w-full bg-green-600 hover:bg-green-700 text-white py-3 px-8 rounded-lg font-semibold transition-colors"
+                    >
+                      🔄 Проверить статус
+                    </button>
+                    <p className="text-gray-500 text-sm">
+                      Если ваш запрос был одобрен, нажмите "Проверить статус"
+                    </p>
+                  </div>
                 </>
               )}
             </div>
