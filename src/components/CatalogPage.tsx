@@ -55,6 +55,10 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
 
   const UPLOAD_PASSWORD = 'cap2025';
   const ADMIN_EMAIL = 't8.fd88@gmail.com';
+  const ADMIN_EMAILS = ['t8.fd88@gmail.com', 'admin@cap.com']; // Список админов
+
+  // Проверка является ли пользователь админом
+  const isAdmin = ADMIN_EMAILS.includes(user.email.toLowerCase());
 
   // Обработка URL параметров при загрузке страницы
   useEffect(() => {
@@ -261,6 +265,11 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
           if (processedFiles === files.length) {
             setPartsData(allProcessedData);
             localStorage.setItem('capCatalog', JSON.stringify(allProcessedData));
+            // Также сохраняем в sessionStorage для дополнительной надежности
+            sessionStorage.setItem('capCatalog', JSON.stringify(allProcessedData));
+            // Создаем резервную копию с timestamp
+            const backupKey = `capCatalog_backup_${Date.now()}`;
+            localStorage.setItem(backupKey, JSON.stringify(allProcessedData));
             setIsProcessing(false);
             alert(`Каталог обновлен! Загружено ${allProcessedData.length} позиций.`);
             setSelectedFiles([]);
@@ -282,51 +291,53 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
 
   // Загрузить каталог из localStorage при запуске
   useEffect(() => {
-    // Примеры данных
-    const defaultData = [
-      {
-        code: "15208-65F0C",
-        name: "Фильтр масляный",
-        brand: "C.A.P",
-        price: "63,81 AED",
-        weight: "0.5",
-        category: "Автозапчасти",
-        description: "Фильтр масляный для двигателя",
-        availability: "В наличии"
-      },
-      {
-        code: "16546-0W020",
-        name: "Фильтр топливный",
-        brand: "C.A.P",
-        price: "125,50 AED",
-        weight: "0.3",
-        category: "Автозапчасти",
-        description: "Фильтр топливный высокого качества",
-        availability: "В наличии"
-      },
-      {
-        code: "90915-YZZD4",
-        name: "Фильтр масляный Toyota",
-        brand: "Toyota",
-        price: "89,99 AED",
-        weight: "0.4",
-        category: "Автозапчасти",
-        description: "Оригинальный масляный фильтр Toyota",
-        availability: "В наличии"
-      }
-    ];
+    // Загрузить каталог из localStorage
+    let catalogData: PartData[] = [];
 
     const savedCatalog = localStorage.getItem('capCatalog');
     if (savedCatalog) {
       try {
-        const catalogData = JSON.parse(savedCatalog);
+        catalogData = JSON.parse(savedCatalog);
         setPartsData(catalogData);
+        console.log(`Загружен каталог: ${catalogData.length} позиций`);
       } catch (error) {
         console.error('Ошибка загрузки каталога:', error);
-        setPartsData(defaultData);
+        // Попробовать загрузить из sessionStorage
+        const sessionCatalog = sessionStorage.getItem('capCatalog');
+        if (sessionCatalog) {
+          try {
+            catalogData = JSON.parse(sessionCatalog);
+            setPartsData(catalogData);
+            // Восстановить в localStorage
+            localStorage.setItem('capCatalog', sessionCatalog);
+            console.log(`Восстановлен каталог из sessionStorage: ${catalogData.length} позиций`);
+          } catch (sessionError) {
+            console.error('Ошибка загрузки из sessionStorage:', sessionError);
+            setPartsData([]);
+          }
+        } else {
+          setPartsData([]);
+        }
       }
     } else {
-      setPartsData(defaultData);
+      // Попробовать загрузить из sessionStorage
+      const sessionCatalog = sessionStorage.getItem('capCatalog');
+      if (sessionCatalog) {
+        try {
+          catalogData = JSON.parse(sessionCatalog);
+          setPartsData(catalogData);
+          // Восстановить в localStorage
+          localStorage.setItem('capCatalog', sessionCatalog);
+          console.log(`Восстановлен каталог из sessionStorage: ${catalogData.length} позиций`);
+        } catch (error) {
+          console.error('Ошибка загрузки из sessionStorage:', error);
+          setPartsData([]);
+        }
+      } else {
+        // Если нет сохраненного каталога, показать пустой каталог
+        setPartsData([]);
+        console.log('Каталог пуст - ожидается загрузка Excel файлов');
+      }
     }
   }, []);
 
@@ -393,8 +404,9 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
             Найдите нужную запчасть по коду, названию или бренду из нашего каталога
           </p>
           
-          {/* Upload Excel Button */}
-          <div className="mt-8">
+          {/* Upload Excel Button - только для админов */}
+          {isAdmin && (
+            <div className="mt-8">
             <button
               onClick={() => setShowUploadSection(!showUploadSection)}
               className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors flex items-center mx-auto"
@@ -402,7 +414,8 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
               <Upload className="w-5 h-5 mr-2" />
               Загрузить Excel файлы
             </button>
-          </div>
+            </div>
+          )}
         </div>
 
         {/* Access Request Section */}
@@ -451,7 +464,7 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
                   </p>
                   <div className="space-y-3">
                     <button
-                      onClick={checkUserAccess}
+                      onClick={checkStatusWithAlert}
                       className="w-full bg-green-600 hover:bg-green-700 text-white py-3 px-8 rounded-lg font-semibold transition-colors"
                     >
                       🔄 Проверить статус
@@ -643,7 +656,7 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
         )}
 
         {/* Instructions */}
-        {hasSearchAccess && !searchTerm && (
+        {hasSearchAccess && !searchTerm && totalParts > 0 && (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16 max-w-4xl mx-auto">
             <div className="text-center">
               <div className="bg-[#144374] p-4 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
@@ -672,6 +685,34 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
                 Более {totalParts.toLocaleString()} позиций в наличии
               </p>
             </div>
+          </div>
+        )}
+
+        {/* Empty Catalog Message - только для админов */}
+        {hasSearchAccess && !searchTerm && totalParts === 0 && isAdmin && (
+          <div className="text-center py-12">
+            <Package className="w-16 h-16 text-gray-600 mx-auto mb-4" />
+            <h3 className="text-xl font-bold text-gray-400 mb-2">Каталог пуст</h3>
+            <p className="text-gray-500 mb-6">
+              Загрузите Excel файлы для заполнения каталога запчастей
+            </p>
+            <button
+              onClick={() => setShowUploadSection(true)}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+            >
+              Загрузить Excel файлы
+            </button>
+          </div>
+        )}
+
+        {/* Empty Catalog Message - для обычных пользователей */}
+        {hasSearchAccess && !searchTerm && totalParts === 0 && !isAdmin && (
+          <div className="text-center py-12">
+            <Package className="w-16 h-16 text-gray-600 mx-auto mb-4" />
+            <h3 className="text-xl font-bold text-gray-400 mb-2">Каталог временно недоступен</h3>
+            <p className="text-gray-500">
+              Каталог запчастей обновляется. Попробуйте позже.
+            </p>
           </div>
         )}
       </div>
