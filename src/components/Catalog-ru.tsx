@@ -140,3 +140,4 @@ export const CatalogRu: React.FC = () => {
       </div>
     </section>
   );
+}
