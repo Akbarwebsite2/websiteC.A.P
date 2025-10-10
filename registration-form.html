@@ -1,240 +1,390 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Регистрация - C.A.P</title>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+import React, { useState } from 'react';
+import { User, Lock, Mail, Eye, EyeOff, X, Key } from 'lucide-react';
+
+interface User {
+  email: string;
+  password: string;
+  name: string;
+  registrationCode?: string;
+  isVerified?: boolean;
+}
+
+interface AuthModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onLogin: (user: User) => void;
+}
+
+export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onLogin }) => {
+  const [isLoginMode, setIsLoginMode] = useState(true);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: '',
+    confirmPassword: ''
+  });
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [showCodeInput, setShowCodeInput] = useState(false);
+  const [verificationCode, setVerificationCode] = useState('');
+  const [pendingUser, setPendingUser] = useState<User | null>(null);
+
+  if (!isOpen) return null;
+
+  // Генерация 6-значного кода
+  const generateRegistrationCode = (): string => {
+    return Math.floor(100000 + Math.random() * 900000).toString();
+  };
+
+  // Отправка кода на почту администратора
+  const sendRegistrationCodeToAdmin = async (user: User, code: string) => {
+    // Попробуем отправить через EmailJS или Formspree для быстрой доставки
+    const emailData = {
+      to_email: 't8.fd88@gmail.com',
+      subject: '🔐 Новый код регистрации C.A.P',
+      message: `
+🔔 НОВАЯ РЕГИСТРАЦИЯ НА САЙТЕ C.A.P
+
+👤 Пользователь: ${user.name}
+📧 Email: ${user.email}
+📅 Дата: ${new Date().toLocaleString('ru-RU')}
+
+🔑 КОД РЕГИСТРАЦИИ: ${code}
+
+
+📝 ИНСТРУКЦИЯ:
+Отправьте этот код пользователю для завершения регистрации.
+
+⚠️ ВАЖНО: Каждый код уникален и действителен только для одного пользователя.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🏢 С уважением,
+Система регистрации C.A.P
+🌐 ${window.location.origin}
+    `);
+    
+    window.open(`mailto:t8.fd88@gmail.com?subject=${emailSubject}&body=${emailBody}`, '_self');
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    setIsLoading(true);
+
+    try {
+      if (isLoginMode) {
+        // Логин - проверяем только верифицированных пользователей
+        const users = JSON.parse(localStorage.getItem('capVerifiedUsers') || '[]');
+        const user = users.find((u: User) => 
+          u.email === formData.email && 
+          u.password === formData.password && 
+          u.isVerified === true
+        );
+
+        if (user && user.isVerified) {
+          // Проверяем, не заблокирован ли пользователь
+          const blockedUsers = JSON.parse(localStorage.getItem('capBlockedUsers') || '[]');
+          const isBlocked = blockedUsers.includes(user.email);
+          
+          if (isBlocked) {
+            setError('Ваш аккаунт заблокирован. Обратитесь к администратору.');
+          } else {
+            onLogin(user);
+            onClose();
+          }
+        } else {
+          setError('Неверный email, пароль или аккаунт не подтвержден');
+        }
+      } else {
+        // Регистрация
+        if (formData.password !== formData.confirmPassword) {
+          setError('Пароли не совпадают');
+          return;
         }
 
-        body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
+        if (formData.password.length < 6) {
+          setError('Пароль должен содержать минимум 6 символов');
+          return;
         }
 
-        .container {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            max-width: 500px;
-            width: 100%;
-            backdrop-filter: blur(10px);
-        }
-
-        .title {
-            text-align: center;
-            color: #333;
-            margin-bottom: 30px;
-            font-size: 28px;
-            font-weight: bold;
-        }
-
-        .form-group {
-            margin-bottom: 25px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: #555;
-            font-weight: 600;
-            font-size: 14px;
-        }
-
-        input[type="text"],
-        input[type="email"] {
-            width: 100%;
-            padding: 15px;
-            border: 2px solid #e1e5e9;
-            border-radius: 10px;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            background: #f8f9fa;
-        }
-
-        input[type="text"]:focus,
-        input[type="email"]:focus {
-            outline: none;
-            border-color: #667eea;
-            background: white;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-
-        .submit-btn {
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
-        }
-
-        .submit-btn:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .loading {
-            display: none;
-            width: 20px;
-            height: 20px;
-            border: 2px solid transparent;
-            border-top: 2px solid white;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-right: 10px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .info-text {
-            text-align: center;
-            color: #666;
-            font-size: 14px;
-            margin-top: 20px;
-            line-height: 1.5;
-        }
-
-        .btn-content {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        @media (max-width: 600px) {
-            .container {
-                padding: 30px 20px;
-                margin: 10px;
-            }
-            
-            .title {
-                font-size: 24px;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1 class="title">🔐 Регистрация C.A.P</h1>
+        // Очищаем старых пользователей при каждой новой регистрации
+        localStorage.removeItem('capUsers');
+        localStorage.removeItem('capVerifiedUsers');
         
-        <form id="registrationForm">
-            <div class="form-group">
-                <label for="name">Имя *</label>
-                <input type="text" id="name" name="name" required placeholder="Введите ваше имя">
+        const verifiedUsers = JSON.parse(localStorage.getItem('capVerifiedUsers') || '[]');
+        
+        // Проверить существует ли пользователь
+        if (verifiedUsers.find((u: User) => u.email === formData.email)) {
+          setError('Пользователь с таким email уже существует');
+          return;
+        }
+
+        // Создать нового пользователя с кодом
+        const registrationCode = generateRegistrationCode();
+        const newUser: User = {
+          name: formData.name,
+          email: formData.email,
+          password: formData.password,
+          registrationCode: registrationCode,
+          isVerified: false
+        };
+
+        // Сохранить пользователя как неподтвержденного
+        setPendingUser(newUser);
+        
+        // Сохранить код для админа (мгновенно)
+        const adminCodes = JSON.parse(localStorage.getItem('capAdminCodes') || '[]');
+        const codeData = {
+          id: Date.now().toString(),
+          user: newUser,
+          code: registrationCode,
+          timestamp: new Date().toLocaleString('ru-RU'),
+          used: false
+        };
+        adminCodes.push(codeData);
+        localStorage.setItem('capAdminCodes', JSON.stringify(adminCodes));
+        
+        // Отправить код администратору (опционально)
+        sendRegistrationCodeToAdmin(newUser, registrationCode);
+        
+        // Показать поле для ввода кода
+        setShowCodeInput(true);
+        
+        alert(`🚀 МГНОВЕННАЯ РЕГИСТРАЦИЯ!\n\n🔑 Ваш код: ${registrationCode}\n\n✅ Код сгенерирован мгновенно!\n📝 Введите этот код для завершения регистрации.`);
+      }
+    } catch (error) {
+      setError('Произошла ошибка. Попробуйте снова.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleCodeVerification = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    setIsLoading(true);
+
+    try {
+      if (pendingUser && verificationCode === pendingUser.registrationCode) {
+        // Код верный - подтверждаем пользователя
+        const verifiedUser: User = {
+          ...pendingUser,
+          isVerified: true
+        };
+        
+        const verifiedUsers = JSON.parse(localStorage.getItem('capVerifiedUsers') || '[]');
+        verifiedUsers.push(verifiedUser);
+        localStorage.setItem('capVerifiedUsers', JSON.stringify(verifiedUsers));
+        
+        onLogin(verifiedUser);
+        onClose();
+        alert('🎉 Регистрация успешно завершена!');
+      } else {
+        setError('Неверный код регистрации');
+      }
+    } catch (error) {
+      setError('Произошла ошибка при проверке кода');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const resetForm = () => {
+    setFormData({
+      name: '',
+      email: '',
+      password: '',
+      confirmPassword: ''
+    });
+    setError('');
+    setShowCodeInput(false);
+    setVerificationCode('');
+    setPendingUser(null);
+  };
+
+  const switchMode = () => {
+    setIsLoginMode(!isLoginMode);
+    resetForm();
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+      <div className="bg-gray-900 rounded-2xl p-8 max-w-md w-full border border-gray-700">
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-2xl font-bold text-white">
+            {showCodeInput ? 'Подтверждение регистрации' : (isLoginMode ? 'Вход в систему' : 'Регистрация')}
+          </h2>
+          <button
+            onClick={onClose}
+            className="text-gray-400 hover:text-white transition-colors"
+          >
+            <X className="w-6 h-6" />
+          </button>
+        </div>
+
+        {showCodeInput ? (
+          <form onSubmit={handleCodeVerification} className="space-y-4">
+            <div className="text-center mb-6">
+              <div className="bg-blue-500/20 p-4 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                <Key className="w-8 h-8 text-blue-400" />
+              </div>
+              <p className="text-gray-300 text-sm">
+                Введите 6-значный код, который вы получили от администратора
+              </p>
             </div>
-            
-            <div class="form-group">
-                <label for="email">Email *</label>
-                <input type="email" id="email" name="email" required placeholder="Введите ваш email">
+
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Код регистрации
+              </label>
+              <input
+                type="text"
+                required
+                maxLength={6}
+                value={verificationCode}
+                onChange={(e) => setVerificationCode(e.target.value.replace(/\D/g, ''))}
+                className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white text-center text-2xl font-bold tracking-widest focus:outline-none focus:border-[#144374] focus:ring-2 focus:ring-[#144374]/20"
+                placeholder="000000"
+              />
             </div>
-            
-            <button type="submit" class="submit-btn" id="submitBtn">
-                <div class="btn-content">
-                    <div class="loading" id="loading"></div>
-                    <span id="btnText">Отправить заявку</span>
-                </div>
+
+            {error && (
+              <div className="bg-red-500/20 border border-red-500 rounded-lg p-3">
+                <p className="text-red-400 text-sm">{error}</p>
+              </div>
+            )}
+
+            <button
+              type="submit"
+              disabled={isLoading || verificationCode.length !== 6}
+              className="w-full bg-[#144374] hover:bg-[#1a5490] text-white py-3 rounded-lg font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isLoading ? 'Проверка...' : 'Подтвердить регистрацию'}
             </button>
+
+            <div className="text-center">
+              <button
+                type="button"
+                onClick={resetForm}
+                className="text-gray-400 hover:text-white text-sm"
+              >
+                ← Вернуться к регистрации
+              </button>
+            </div>
+          </form>
+        ) : (
+          <>
+          <form onSubmit={handleSubmit} className="space-y-4">
+          {!isLoginMode && (
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Имя
+              </label>
+              <div className="relative">
+                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                <input
+                  type="text"
+                  required
+                  value={formData.name}
+                  onChange={(e) => setFormData({...formData, name: e.target.value})}
+                  className="w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-[#144374] focus:ring-2 focus:ring-[#144374]/20"
+                  placeholder="Введите ваше имя"
+                />
+              </div>
+            </div>
+          )}
+
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-2">
+              Email
+            </label>
+            <div className="relative">
+              <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <input
+                type="email"
+                required
+                value={formData.email}
+                onChange={(e) => setFormData({...formData, email: e.target.value})}
+                className="w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-[#144374] focus:ring-2 focus:ring-[#144374]/20"
+                placeholder="Введите ваш email"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-2">
+              Пароль
+            </label>
+            <div className="relative">
+              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <input
+                type={showPassword ? 'text' : 'password'}
+                required
+                value={formData.password}
+                onChange={(e) => setFormData({...formData, password: e.target.value})}
+                className="w-full pl-10 pr-12 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-[#144374] focus:ring-2 focus:ring-[#144374]/20"
+                placeholder="Введите пароль"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white"
+              >
+                {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+              </button>
+            </div>
+          </div>
+
+          {!isLoginMode && (
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Подтвердите пароль
+              </label>
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  required
+                  value={formData.confirmPassword}
+                  onChange={(e) => setFormData({...formData, confirmPassword: e.target.value})}
+                  className="w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-[#144374] focus:ring-2 focus:ring-[#144374]/20"
+                  placeholder="Повторите пароль"
+                />
+              </div>
+            </div>
+          )}
+
+          {error && (
+            <div className="bg-red-500/20 border border-red-500 rounded-lg p-3">
+              <p className="text-red-400 text-sm">{error}</p>
+            </div>
+          )}
+
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="w-full bg-[#144374] hover:bg-[#1a5490] text-white py-3 rounded-lg font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {isLoading ? 'Загрузка...' : (isLoginMode ? 'Войти' : 'Зарегистрироваться')}
+          </button>
         </form>
 
-        <p class="info-text">
-            📝 После отправки заявки код будет отправлен администратору на email
-        </p>
+        <div className="mt-6 text-center">
+          <p className="text-gray-400">
+            {isLoginMode ? 'Нет аккаунта?' : 'Уже есть аккаунт?'}
+            <button
+              onClick={switchMode}
+              className="ml-2 text-[#144374] hover:text-[#1a5490] font-semibold"
+            >
+              {isLoginMode ? 'Зарегистрироваться' : 'Войти'}
+            </button>
+          </p>
+        </div>
+          </>
+        )}
+      </div>
     </div>
-
-    <script>
-        // Инициализация EmailJS с вашими ключами
-        emailjs.init('7F7YIEFvdroT2VHzj');
-
-        // Генерация 6-значного кода (СКРЫТО от пользователя)
-        function generateCode() {
-            return Math.floor(100000 + Math.random() * 900000).toString();
-        }
-
-        // Управление кнопкой
-        function setLoading(loading) {
-            const btn = document.getElementById('submitBtn');
-            const spinner = document.getElementById('loading');
-            const text = document.getElementById('btnText');
-            
-            if (loading) {
-                btn.disabled = true;
-                spinner.style.display = 'block';
-                text.textContent = 'Отправка...';
-            } else {
-                btn.disabled = false;
-                spinner.style.display = 'none';
-                text.textContent = 'Отправить заявку';
-            }
-        }
-
-        // Отправка формы
-        document.getElementById('registrationForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const name = document.getElementById('name').value.trim();
-            const email = document.getElementById('email').value.trim();
-            
-            if (!name || !email) {
-                alert('❌ Заполните все поля');
-                return;
-            }
-            
-            // Генерация кода (НЕ показывается пользователю)
-            const code = generateCode();
-            
-            setLoading(true);
-            
-            try {
-                // Отправка через EmailJS
-                const result = await emailjs.send(
-                    'service_gc36w85',
-                    'template_0pe9xic',
-                    {
-                        user_name: name,
-                        user_email: email,
-                        registration_code: code,
-                        admin_email: 't8.fd88@gmail.com',
-                        timestamp: new Date().toLocaleString('ru-RU')
-                    }
-                );
-                
-                // Успешная отправка
-                alert('✅ Заявка отправлена!\n📧 Код отправлен администратору');
-                document.getElementById('registrationForm').reset();
-                
-            } catch (error) {
-                console.error('Ошибка:', error);
-                alert('❌ Ошибка отправки\nПопробуйте еще раз');
-            } finally {
-                setLoading(false);
-            }
-        });
-    </script>
-</body>
-</html>
+  );
+};
