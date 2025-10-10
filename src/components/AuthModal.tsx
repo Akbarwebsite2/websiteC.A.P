@@ -261,6 +261,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onLogin }
             </div>
           </form>
         ) : (
+          <>
           <form onSubmit={handleSubmit} className="space-y-4">
           {!isLoginMode && (
             <div>
@@ -367,6 +368,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onLogin }
             </button>
           </p>
         </div>
+          </>
         )}
       </div>
     </div>
