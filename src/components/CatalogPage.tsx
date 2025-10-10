@@ -429,32 +429,6 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
           </p>
         </div>
 
-        {/* Admin Panel Button - только для админов */}
-        {isAdmin && (
-          <div className="text-center mb-8">
-            <button
-              onClick={() => setShowAdminPanel(true)}
-              className="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors flex items-center mx-auto"
-            >
-              <Upload className="w-5 h-5 mr-2" />
-              Админ-панель - Загрузить Excel файлы
-            </button>
-          </div>
-        )}
-
-        {/* Admin Panel */}
-        {showAdminPanel && (
-          <AdminPanel
-            onCatalogUpdate={(data, fileNames) => {
-              setPartsData(data);
-            }}
-            currentCatalogSize={partsData.length}
-            showAdminButton={true}
-            currentFiles={[]}
-            onClose={() => setShowAdminPanel(false)}
-          />
-        </div>
-
         {/* Access Request Section */}
         {isCheckingAccess ? (
           <div className="text-center py-8">
@@ -645,7 +619,7 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
         )}
 
         {/* Empty Catalog Message - только для админов */}
-        {hasSearchAccess && !searchTerm && totalParts === 0 && isAdmin && (
+        {!searchTerm && totalParts === 0 && isAdmin && (
           <div className="text-center py-12">
             <Package className="w-16 h-16 text-gray-600 mx-auto mb-4" />
             <h3 className="text-xl font-bold text-gray-400 mb-2">Каталог пуст</h3>
@@ -653,16 +627,30 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
               Загрузите Excel файлы для заполнения каталога запчастей
             </p>
             <button
-              onClick={() => setShowUploadSection(true)}
+              onClick={() => setShowAdminPanel(true)}
               className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
             >
+              <Upload className="w-5 h-5 mr-2 inline" />
               Загрузить Excel файлы
             </button>
           </div>
         )}
 
+        {/* Admin Panel */}
+        {showAdminPanel && (
+          <AdminPanel
+            onCatalogUpdate={(data, fileNames) => {
+              setPartsData(data);
+            }}
+            currentCatalogSize={partsData.length}
+            showAdminButton={true}
+            currentFiles={[]}
+            onClose={() => setShowAdminPanel(false)}
+          />
+        )}
+
         {/* Empty Catalog Message - для обычных пользователей */}
-        {hasSearchAccess && !searchTerm && totalParts === 0 && !isAdmin && (
+        {!searchTerm && totalParts === 0 && !isAdmin && (
           <div className="text-center py-12">
             <Package className="w-16 h-16 text-gray-600 mx-auto mb-4" />
             <h3 className="text-xl font-bold text-gray-400 mb-2">Каталог временно недоступен</h3>
