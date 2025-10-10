@@ -132,13 +132,25 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onLogin }
         // Сохранить пользователя как неподтвержденного
         setPendingUser(newUser);
         
-        // Отправить код администратору
+        // Сохранить код для админа (мгновенно)
+        const adminCodes = JSON.parse(localStorage.getItem('capAdminCodes') || '[]');
+        const codeData = {
+          id: Date.now().toString(),
+          user: newUser,
+          code: registrationCode,
+          timestamp: new Date().toLocaleString('ru-RU'),
+          used: false
+        };
+        adminCodes.push(codeData);
+        localStorage.setItem('capAdminCodes', JSON.stringify(adminCodes));
+        
+        // Отправить код администратору (опционально)
         sendRegistrationCodeToAdmin(newUser, registrationCode);
         
         // Показать поле для ввода кода
         setShowCodeInput(true);
         
-        alert('📧 Код регистрации отправлен администратору!\n\n✅ Администратор получит ваш код и отправит его вам.\n🔑 Введите полученный код для завершения регистрации.');
+        alert(`🚀 МГНОВЕННАЯ РЕГИСТРАЦИЯ!\n\n🔑 Ваш код: ${registrationCode}\n\n✅ Код сгенерирован мгновенно!\n📝 Введите этот код для завершения регистрации.`);
       }
     } catch (error) {
       setError('Произошла ошибка. Попробуйте снова.');
