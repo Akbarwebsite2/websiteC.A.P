@@ -427,19 +427,32 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
           <p className="text-xl text-gray-400 max-w-3xl mx-auto font-medium">
             Найдите нужную запчасть по коду, названию или бренду из нашего каталога
           </p>
-          
-          {/* Upload Excel Button - только для админов */}
-          {isAdmin && (
-            <div className="mt-8">
+        </div>
+
+        {/* Admin Panel Button - только для админов */}
+        {isAdmin && (
+          <div className="text-center mb-8">
             <button
-              onClick={() => setShowUploadSection(!showUploadSection)}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors flex items-center mx-auto"
+              onClick={() => setShowAdminPanel(true)}
+              className="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors flex items-center mx-auto"
             >
               <Upload className="w-5 h-5 mr-2" />
-              Загрузить Excel файлы
+              Админ-панель - Загрузить Excel файлы
             </button>
-            </div>
-          )}
+          </div>
+        )}
+
+        {/* Admin Panel */}
+        {showAdminPanel && (
+          <AdminPanel
+            onCatalogUpdate={(data, fileNames) => {
+              setPartsData(data);
+            }}
+            currentCatalogSize={partsData.length}
+            showAdminButton={true}
+            currentFiles={[]}
+            onClose={() => setShowAdminPanel(false)}
+          />
         </div>
 
         {/* Access Request Section */}
@@ -503,87 +516,6 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
           </div>
         ) : null}
 
-        {/* Upload Section */}
-        {hasSearchAccess && showUploadSection && (
-          <div className="mb-8 p-6 bg-gray-800/90 rounded-2xl border border-gray-700 max-w-4xl mx-auto">
-            {!isUploadAuthenticated ? (
-              <div className="text-center">
-                <h3 className="text-xl text-white mb-4">Загрузка Excel файлов</h3>
-                <div className="max-w-sm mx-auto">
-                  <input
-                    type="password"
-                    placeholder="Пароль для загрузки"
-                    value={uploadPassword}
-                    onChange={(e) => setUploadPassword(e.target.value)}
-                    className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white mb-4"
-                    onKeyPress={(e) => e.key === 'Enter' && handleUploadLogin()}
-                  />
-                  <button
-                    onClick={handleUploadLogin}
-                    className="w-full bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-lg"
-                  >
-                    Войти
-                  </button>
-                  <p className="text-gray-400 text-sm mt-2">
-                    Пароль: <code className="bg-gray-700 px-2 py-1 rounded">cap2025</code>
-                  </p>
-                </div>
-              </div>
-            ) : (
-              <div>
-                <h3 className="text-xl text-white mb-4 text-center">Загрузить Excel файлы в каталог</h3>
-                <div className="border-2 border-dashed border-gray-600 rounded-lg p-6 text-center">
-                  <Upload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                  <p className="text-gray-400 mb-4">
-                    Поддерживаемые колонки:<br/>
-                    • Код: PART NO, Part No, PARTNO<br/>
-                    • Описание: Part Name, DESCRIPTION<br/>
-                    • Цена: Price in AED, U/P AED, NETT
-                  </p>
-                  <input
-                    type="file"
-                    accept=".xlsx,.xls"
-                    multiple
-                    onChange={handleFileUpload}
-                    className="hidden"
-                    id="excel-upload"
-                  />
-                  <label
-                    htmlFor="excel-upload"
-                    className="inline-flex items-center px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg cursor-pointer"
-                  >
-                    <FileText className="w-5 h-5 mr-2" />
-                    Выбрать Excel файлы
-                  </label>
-                </div>
-                
-                {selectedFiles.length > 0 && (
-                  <div className="mt-4 p-4 bg-gray-700 rounded-lg">
-                    <p className="text-green-400 mb-2">
-                      ✅ Файлы выбраны: {selectedFiles.map(f => f.name).join(', ')}
-                    </p>
-                    {isProcessing && (
-                      <p className="text-yellow-400">🔄 Обработка файлов...</p>
-                    )}
-                  </div>
-                )}
-                
-                <div className="mt-4 text-center">
-                  <button
-                    onClick={() => {
-                      setShowUploadSection(false);
-                      setIsUploadAuthenticated(false);
-                      setUploadPassword('');
-                    }}
-                    className="text-gray-400 hover:text-white"
-                  >
-                    Закрыть
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
-        )}
 
         {/* Search Section */}
         {hasSearchAccess && (
@@ -741,18 +673,6 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
         )}
       </div>
       
-      {/* Admin Panel */}
-      {showAdminPanel && (
-        <AdminPanel
-          onCatalogUpdate={(data, fileNames) => {
-            setPartsData(data);
-          }}
-          currentCatalogSize={partsData.length}
-          showAdminButton={true}
-          currentFiles={[]}
-          onClose={() => setShowAdminPanel(false)}
-        />
-      )}
     </div>
   );
 };
