@@ -105,6 +105,30 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
     setIsCheckingAccess(false);
   };
 
+  const checkStatusWithAlert = () => {
+    // Получить все запросы на доступ
+    const accessRequests = JSON.parse(localStorage.getItem('capAccessRequests') || '[]') as AccessRequest[];
+    
+    // Найти запрос текущего пользователя
+    const userRequest = accessRequests.find(req => req.userEmail === user.email);
+    
+    if (userRequest) {
+      if (userRequest.status === 'approved') {
+        alert(`🎉 ДОСТУП ОДОБРЕН!\n\n✅ Ваш запрос был одобрен ${userRequest.approvedDate || 'недавно'}\n🔍 Теперь вы можете искать по каталогу запчастей!`);
+        // Обновить состояние
+        setHasSearchAccess(true);
+        setAccessRequestSent(false);
+      } else if (userRequest.status === 'pending') {
+        alert(`⏳ ЗАПРОС В ОЖИДАНИИ\n\n📋 Ваш запрос отправлен: ${userRequest.requestDate}\n⏰ Ожидайте подтверждения от администратора`);
+      } else if (userRequest.status === 'rejected') {
+        alert(`❌ ЗАПРОС ОТКЛОНЕН\n\n🚫 Ваш запрос был отклонен\n💡 Вы можете отправить новый запрос`);
+        setAccessRequestSent(false);
+      }
+    } else {
+      alert(`📝 ЗАПРОС НЕ НАЙДЕН\n\n❓ У вас нет активных запросов на доступ\n💡 Отправьте запрос для получения доступа к каталогу`);
+    }
+  };
+
   const handleEmailAction = (action: string, requestId: string, token: string) => {
     // Отключено для безопасности - обработка только через админ-панель
     alert('🔒 Обработка запросов доступна только администратору через админ-панель.');
