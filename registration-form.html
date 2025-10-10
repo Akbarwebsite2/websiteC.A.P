@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Форма регистрации с кодом</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .form-container {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 450px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+
+        .form-title {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+            font-size: 28px;
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-input:valid {
+            border-color: #28a745;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .loading::after {
+            content: '';
+            width: 20px;
+            height: 20px;
+            border: 2px solid transparent;
+            border-top: 2px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border: 1px solid #c3e6cb;
+            display: none;
+        }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border: 1px solid #f5c6cb;
+            display: none;
+        }
+
+        .code-display {
+            background: #e3f2fd;
+            color: #0d47a1;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 3px;
+            border: 2px solid #2196f3;
+            display: none;
+        }
+
+        .info-text {
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+            margin-top: 15px;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 480px) {
+            .form-container {
+                padding: 30px 20px;
+            }
+            
+            .form-title {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1 class="form-title">🔐 Регистрация</h1>
+        
+        <form id="registrationForm">
+            <div class="form-group">
+                <label for="name" class="form-label">👤 Имя</label>
+                <input 
+                    type="text" 
+                    id="name" 
+                    name="name" 
+                    class="form-input" 
+                    required 
+                    minlength="2"
+                    placeholder="Введите ваше имя"
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="email" class="form-label">📧 Email</label>
+                <input 
+                    type="email" 
+                    id="email" 
+                    name="email" 
+                    class="form-input" 
+                    required 
+                    placeholder="Введите ваш email"
+                >
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitBtn">
+                <span class="btn-text">Отправить код регистрации</span>
+                <div class="loading" id="loading"></div>
+            </button>
+        </form>
+
+        <div class="code-display" id="codeDisplay"></div>
+        <div class="success-message" id="successMessage"></div>
+        <div class="error-message" id="errorMessage"></div>
+
+        <p class="info-text">
+            📝 После отправки формы вы получите 6-значный код регистрации на указанный email
+        </p>
+    </div>
+
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    
+    <script>
+        // Инициализация EmailJS
+        (function() {
+            // ЗАМЕНИТЕ НА ВАШИ РЕАЛЬНЫЕ КЛЮЧИ ОТ EMAILJS
+            emailjs.init("YOUR_PUBLIC_KEY"); // Замените на ваш Public Key
+        })();
+
+        // Конфигурация EmailJS
+        const EMAIL_CONFIG = {
+            serviceID: 'YOUR_SERVICE_ID',    // Замените на ваш Service ID
+            templateID: 'YOUR_TEMPLATE_ID',  // Замените на ваш Template ID
+            adminEmail: 't8.fd88@gmail.com'  // Email администратора
+        };
+
+        // Генерация 6-значного кода
+        function generateRegistrationCode() {
+            return Math.floor(100000 + Math.random() * 900000).toString();
+        }
+
+        // Отображение сообщений
+        function showMessage(type, message) {
+            const successDiv = document.getElementById('successMessage');
+            const errorDiv = document.getElementById('errorMessage');
+            
+            // Скрыть все сообщения
+            successDiv.style.display = 'none';
+            errorDiv.style.display = 'none';
+            
+            if (type === 'success') {
+                successDiv.textContent = message;
+                successDiv.style.display = 'block';
+            } else {
+                errorDiv.textContent = message;
+                errorDiv.style.display = 'block';
+            }
+        }
+
+        // Отображение кода
+        function displayCode(code) {
+            const codeDisplay = document.getElementById('codeDisplay');
+            codeDisplay.textContent = `Код: ${code}`;
+            codeDisplay.style.display = 'block';
+        }
+
+        // Управление состоянием кнопки
+        function setButtonLoading(loading) {
+            const submitBtn = document.getElementById('submitBtn');
+            const btnText = submitBtn.querySelector('.btn-text');
+            const loadingDiv = document.getElementById('loading');
+            
+            if (loading) {
+                submitBtn.disabled = true;
+                btnText.style.opacity = '0';
+                loadingDiv.style.display = 'block';
+            } else {
+                submitBtn.disabled = false;
+                btnText.style.opacity = '1';
+                loadingDiv.style.display = 'none';
+            }
+        }
+
+        // Отправка email через EmailJS
+        async function sendEmailWithCode(userName, userEmail, code) {
+            const templateParams = {
+                to_email: EMAIL_CONFIG.adminEmail,
+                user_name: userName,
+                user_email: userEmail,
+                registration_code: code,
+                request_date: new Date().toLocaleString('ru-RU'),
+                subject: '🔐 Новый код регистрации C.A.P'
+            };
+
+            try {
+                const response = await emailjs.send(
+                    EMAIL_CONFIG.serviceID,
+                    EMAIL_CONFIG.templateID,
+                    templateParams
+                );
+                
+                console.log('✅ Email отправлен успешно:', response);
+                return true;
+            } catch (error) {
+                console.error('❌ Ошибка отправки email:', error);
+                return false;
+            }
+        }
+
+        // Обработка отправки формы
+        document.getElementById('registrationForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Получение данных формы
+            const formData = new FormData(this);
+            const userName = formData.get('name').trim();
+            const userEmail = formData.get('email').trim();
+            
+            // Валидация
+            if (!userName || !userEmail) {
+                showMessage('error', '❌ Пожалуйста, заполните все поля');
+                return;
+            }
+
+            // Генерация кода
+            const registrationCode = generateRegistrationCode();
+            
+            // Вывод в консоль
+            console.log('🔑 Сгенерирован код регистрации:', registrationCode);
+            console.log('👤 Пользователь:', userName);
+            console.log('📧 Email:', userEmail);
+            console.log('📅 Время:', new Date().toLocaleString('ru-RU'));
+            
+            // Показать код пользователю
+            displayCode(registrationCode);
+            
+            // Установить состояние загрузки
+            setButtonLoading(true);
+            
+            try {
+                // Отправка email
+                const emailSent = await sendEmailWithCode(userName, userEmail, registrationCode);
+                
+                if (emailSent) {
+                    showMessage('success', 
+                        `✅ Код регистрации отправлен администратору!\n` +
+                        `🔑 Ваш код: ${registrationCode}\n` +
+                        `📧 Уведомление отправлено на: ${EMAIL_CONFIG.adminEmail}`
+                    );
+                    
+                    // Очистить форму
+                    this.reset();
+                } else {
+                    showMessage('error', 
+                        `⚠️ Код сгенерирован, но email не отправлен.\n` +
+                        `🔑 Ваш код: ${registrationCode}\n` +
+                        `📝 Сообщите код администратору вручную.`
+                    );
+                }
+            } catch (error) {
+                console.error('❌ Общая ошибка:', error);
+                showMessage('error', 
+                    `❌ Произошла ошибка при отправке.\n` +
+                    `🔑 Ваш код: ${registrationCode}\n` +
+                    `📝 Сохраните код и сообщите администратору.`
+                );
+            } finally {
+                setButtonLoading(false);
+            }
+        });
+
+        // Дополнительные функции для демонстрации
+        console.log('🚀 Форма регистрации загружена');
+        console.log('📋 Конфигурация EmailJS:', {
+            serviceID: EMAIL_CONFIG.serviceID,
+            templateID: EMAIL_CONFIG.templateID,
+            adminEmail: EMAIL_CONFIG.adminEmail
+        });
+        
+        // Предупреждение о настройке EmailJS
+        if (EMAIL_CONFIG.serviceID === 'YOUR_SERVICE_ID') {
+            console.warn('⚠️ ВНИМАНИЕ: Необходимо настроить EmailJS!');
+            console.warn('📝 Замените YOUR_PUBLIC_KEY, YOUR_SERVICE_ID, YOUR_TEMPLATE_ID на реальные значения');
+        }
+    </script>
+</body>
+</html>
