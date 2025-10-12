@@ -60,25 +60,6 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
   // Проверка является ли пользователь админом
   const isAdmin = ADMIN_EMAILS.includes(user.email.toLowerCase());
 
-  // Состояние для показа кодов регистрации
-  const [showRegistrationCodes, setShowRegistrationCodes] = useState(false);
-  const [registrationCodes, setRegistrationCodes] = useState<any[]>([]);
-
-  // Загрузить коды регистрации для админа
-  useEffect(() => {
-    if (isAdmin) {
-      const codes = JSON.parse(localStorage.getItem('capAdminCodes') || '[]');
-      setRegistrationCodes(codes);
-    }
-  }, [isAdmin]);
-
-  const markCodeAsUsed = (codeId: string) => {
-    const updatedCodes = registrationCodes.map(code => 
-      code.id === codeId ? { ...code, used: true } : code
-    );
-    setRegistrationCodes(updatedCodes);
-    localStorage.setItem('capAdminCodes', JSON.stringify(updatedCodes));
-  };
 
   // Обработка URL параметров при загрузке страницы
   useEffect(() => {
@@ -422,21 +403,6 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
           <div></div>
 
           <div className="flex items-center space-x-4">
-            {/* Кнопка кодов регистрации для админа */}
-            {isAdmin && (
-              <button
-                onClick={() => setShowRegistrationCodes(!showRegistrationCodes)}
-                className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors relative"
-              >
-                🔑 Коды регистрации
-                {registrationCodes.filter(code => !code.used).length > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                    {registrationCodes.filter(code => !code.used).length}
-                  </span>
-                )}
-              </button>
-            )}
-            
             <div className="flex items-center space-x-3 bg-green-500/20 border border-green-500 rounded-lg px-4 py-2">
               <User className="w-5 h-5 text-green-400" />
               <span className="text-green-400 font-semibold">
@@ -453,64 +419,6 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
           </div>
         </div>
 
-        {/* Панель кодов регистрации для админа */}
-        {isAdmin && showRegistrationCodes && (
-          <div className="mb-8 bg-gray-800/90 rounded-2xl p-6 border border-gray-700">
-            <h3 className="text-xl font-bold text-white mb-4 flex items-center">
-              🔑 Коды регистрации ({registrationCodes.length})
-            </h3>
-            
-            {registrationCodes.length === 0 ? (
-              <p className="text-gray-400 text-center py-4">Нет кодов регистрации</p>
-            ) : (
-              <div className="space-y-3 max-h-60 overflow-y-auto">
-                {registrationCodes.reverse().map((codeData) => (
-                  <div 
-                    key={codeData.id}
-                    className={`p-4 rounded-lg border ${
-                      codeData.used 
-                        ? 'bg-gray-700/50 border-gray-600' 
-                        : 'bg-green-500/10 border-green-500/30'
-                    }`}
-                  >
-                    <div className="flex justify-between items-start">
-                      <div className="flex-1">
-                        <div className="flex items-center space-x-3 mb-2">
-                          <span className={`text-2xl font-bold ${
-                            codeData.used ? 'text-gray-400' : 'text-green-400'
-                          }`}>
-                            {codeData.code}
-                          </span>
-                          <span className={`px-2 py-1 rounded-full text-xs font-semibold ${
-                            codeData.used 
-                              ? 'bg-gray-500/20 text-gray-400' 
-                              : 'bg-green-500/20 text-green-400'
-                          }`}>
-                            {codeData.used ? 'Использован' : 'Активен'}
-                          </span>
-                        </div>
-                        <p className="text-white font-semibold">{codeData.user.name}</p>
-                        <p className="text-gray-400 text-sm">{codeData.user.email}</p>
-                        <p className="text-gray-500 text-xs mt-1">
-                          Создан: {codeData.timestamp}
-                        </p>
-                      </div>
-                      
-                      {!codeData.used && (
-                        <button
-                          onClick={() => markCodeAsUsed(codeData.id)}
-                          className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-1 rounded text-xs font-semibold"
-                        >
-                          Отметить использованным
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        )}
 
         {/* Page Title */}
         <div className="text-center mb-12">
