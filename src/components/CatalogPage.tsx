@@ -294,17 +294,6 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
 
         {/* Search Section */}
         <div className="mb-12 max-w-4xl mx-auto">
-            {/* Excel Upload Button */}
-            <div className="text-center mb-8">
-              <button
-                onClick={() => setShowAdminPanel(true)}
-                className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors inline-flex items-center"
-              >
-                <Upload className="w-5 h-5 mr-2" />
-                Загрузить Excel файлы
-              </button>
-            </div>
-            
           <div className="relative">
             <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-6 h-6" />
             <input
