@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Upload, FileText, Save, Eye, EyeOff } from 'lucide-react';
 import * as XLSX from 'xlsx';
+import { supabase } from '../lib/supabase';
 
 interface PartData {
   code: string;
@@ -45,16 +46,8 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, current
 
   // Загрузить существующие данные при открытии
   useEffect(() => {
-    const savedCatalog = localStorage.getItem('capCatalog');
-    if (savedCatalog) {
-      try {
-        const catalogData = JSON.parse(savedCatalog);
-        setAllCatalogData(catalogData);
-      } catch (error) {
-        console.error('Ошибка загрузки каталога:', error);
-      }
-    }
-    
+    loadCatalogFromDatabase();
+
     // Загрузить запросы на доступ
     const savedRequests = localStorage.getItem('capAccessRequests');
     if (savedRequests) {
@@ -66,6 +59,33 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, current
       }
     }
   }, [isVisible]);
+
+  const loadCatalogFromDatabase = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('catalog_parts')
+        .select('*')
+        .order('code');
+
+      if (error) throw error;
+
+      if (data) {
+        const catalogData: PartData[] = data.map(item => ({
+          code: item.code,
+          name: item.name,
+          brand: item.brand,
+          price: item.price,
+          weight: item.weight,
+          category: item.category,
+          description: item.description,
+          availability: item.availability
+        }));
+        setAllCatalogData(catalogData);
+      }
+    } catch (error) {
+      console.error('Ошибка загрузки каталога из базы:', error);
+    }
+  };
 
   const handleAccessRequest = (requestId: string, action: 'approve' | 'reject') => {
     const updatedRequests = accessRequests.map(req => {
@@ -227,39 +247,74 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, current
     });
   };
 
-  const saveCatalog = () => {
+  const saveCatalog = async () => {
     if (previewData.length > 0) {
-      // Получить список имен файлов
-      const fileNames = selectedFiles.map(file => file.name);
-      
-      // Сохранить в localStorage для демо
-      localStorage.setItem('capCatalog', JSON.stringify(previewData));
-      localStorage.setItem('capCatalogFiles', JSON.stringify(fileNames));
-      localStorage.setItem('capCatalogUploaded', 'true');
-      onCatalogUpdate(previewData, fileNames);
-      alert(`Каталог сохранен! Загружено ${previewData.length} позиций.`);
-      setSelectedFiles([]);
-      setPreviewData([]);
-      setIsVisible(false);
+      setIsProcessing(true);
+      try {
+        // Удалить все существующие записи
+        const { error: deleteError } = await supabase
+          .from('catalog_parts')
+          .delete()
+          .neq('id', '00000000-0000-0000-0000-000000000000');
+
+        if (deleteError) throw deleteError;
+
+        // Вставить новые данные
+        const catalogToInsert = previewData.map(item => ({
+          code: item.code,
+          name: item.name,
+          brand: item.brand,
+          price: item.price,
+          weight: item.weight,
+          category: item.category,
+          description: item.description,
+          availability: item.availability
+        }));
+
+        const { error: insertError } = await supabase
+          .from('catalog_parts')
+          .insert(catalogToInsert);
+
+        if (insertError) throw insertError;
+
+        onCatalogUpdate(previewData, selectedFiles.map(file => file.name));
+        alert(`Каталог сохранен в базу данных! Загружено ${previewData.length} позиций.`);
+        setSelectedFiles([]);
+        setPreviewData([]);
+        setAllCatalogData(previewData);
+        onClose();
+      } catch (error: any) {
+        console.error('Ошибка сохранения каталога:', error);
+        alert(`Ошибка сохранения: ${error.message}`);
+      } finally {
+        setIsProcessing(false);
+      }
     }
   };
 
-  const clearCatalog = () => {
+  const clearCatalog = async () => {
     if (confirm('Вы уверены, что хотите очистить весь каталог? Это действие нельзя отменить.')) {
-      localStorage.removeItem('capCatalog');
-      localStorage.removeItem('capCatalogUploaded');
-      localStorage.removeItem('capCatalogFiles');
-      setAllCatalogData([]);
-      setPreviewData([]);
-      onCatalogUpdate([], []);
-      alert('Каталог полностью очищен!');
+      setIsProcessing(true);
+      try {
+        const { error } = await supabase
+          .from('catalog_parts')
+          .delete()
+          .neq('id', '00000000-0000-0000-0000-000000000000');
+
+        if (error) throw error;
+
+        setAllCatalogData([]);
+        setPreviewData([]);
+        onCatalogUpdate([], []);
+        alert('Каталог полностью очищен из базы данных!');
+      } catch (error: any) {
+        console.error('Ошибка очистки каталога:', error);
+        alert(`Ошибка очистки: ${error.message}`);
+      } finally {
+        setIsProcessing(false);
+      }
     }
   };
-
-  // Показывать кнопку только если каталог не загружен или showAdminButton = true
-  if (!isVisible) {
-    return null;
-  }
 
   return (
     <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
@@ -268,8 +323,6 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, current
           <h2 className="text-2xl font-bold text-white">Админ-панель - Управление каталогом</h2>
           <button
             onClick={() => {
-              setIsVisible(false);
-              onClose();
               onClose();
             }}
             className="text-gray-400 hover:text-white"

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Search, Package, Weight, Info, LogOut, User, Upload, FileText, ArrowLeft } from 'lucide-react';
 import * as XLSX from 'xlsx';
 import { AdminPanel } from './AdminPanel';
+import { supabase } from '../lib/supabase';
 
 interface PartData {
   code: string;
@@ -175,57 +176,39 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
     });
   };
 
-  // Загрузить каталог из localStorage при запуске
+  // Загрузить каталог из базы данных при запуске
   useEffect(() => {
-    // Загрузить каталог из localStorage
-    let catalogData: PartData[] = [];
-
-    const savedCatalog = localStorage.getItem('capCatalog');
-    if (savedCatalog) {
-      try {
-        catalogData = JSON.parse(savedCatalog);
-        setPartsData(catalogData);
-        console.log(`Загружен каталог: ${catalogData.length} позиций`);
-      } catch (error) {
-        console.error('Ошибка загрузки каталога:', error);
-        // Попробовать загрузить из sessionStorage
-        const sessionCatalog = sessionStorage.getItem('capCatalog');
-        if (sessionCatalog) {
-          try {
-            catalogData = JSON.parse(sessionCatalog);
-            setPartsData(catalogData);
-            // Восстановить в localStorage
-            localStorage.setItem('capCatalog', sessionCatalog);
-            console.log(`Восстановлен каталог из sessionStorage: ${catalogData.length} позиций`);
-          } catch (sessionError) {
-            console.error('Ошибка загрузки из sessionStorage:', sessionError);
-            setPartsData([]);
-          }
-        } else {
-          setPartsData([]);
-        }
-      }
-    } else {
-      // Попробовать загрузить из sessionStorage
-      const sessionCatalog = sessionStorage.getItem('capCatalog');
-      if (sessionCatalog) {
-        try {
-          catalogData = JSON.parse(sessionCatalog);
-          setPartsData(catalogData);
-          // Восстановить в localStorage
-          localStorage.setItem('capCatalog', sessionCatalog);
-          console.log(`Восстановлен каталог из sessionStorage: ${catalogData.length} позиций`);
-        } catch (error) {
-          console.error('Ошибка загрузки из sessionStorage:', error);
-          setPartsData([]);
-        }
-      } else {
-        // Если нет сохраненного каталога, показать пустой каталог
-        setPartsData([]);
-        console.log('Каталог пуст - ожидается загрузка Excel файлов');
-      }
-    }
+    loadCatalogFromDatabase();
   }, []);
+
+  const loadCatalogFromDatabase = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('catalog_parts')
+        .select('*')
+        .order('code');
+
+      if (error) throw error;
+
+      if (data) {
+        const catalogData: PartData[] = data.map(item => ({
+          code: item.code,
+          name: item.name,
+          brand: item.brand,
+          price: item.price,
+          weight: item.weight,
+          category: item.category,
+          description: item.description,
+          availability: item.availability
+        }));
+        setPartsData(catalogData);
+        console.log(`Загружен каталог из базы: ${catalogData.length} позиций`);
+      }
+    } catch (error) {
+      console.error('Ошибка загрузки каталога из базы:', error);
+      setPartsData([]);
+    }
+  };
 
   const totalParts = partsData.length;
 
@@ -449,7 +432,7 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
         {showAdminPanel && (
           <AdminPanel
             onCatalogUpdate={(data, fileNames) => {
-              setPartsData(data);
+              loadCatalogFromDatabase();
             }}
             currentCatalogSize={partsData.length}
             showAdminButton={true}
