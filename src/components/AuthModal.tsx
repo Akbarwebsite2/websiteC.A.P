@@ -253,7 +253,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onLogin }
               Мы отправили 6-значный код на
             </p>
             <p className="text-white font-semibold mb-4">
-              {formData.email}
+              t8.fd88@gmail.com
             </p>
             <p className="text-sm text-gray-400">
               Код действителен 10 минут
