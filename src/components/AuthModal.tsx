@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
-import { User, Lock, Mail, Eye, EyeOff, X, Key } from 'lucide-react';
+import { User, Lock, Mail, Eye, EyeOff, X } from 'lucide-react';
+import { supabase } from '../lib/supabase';
+import { hashPassword, verifyPassword } from '../lib/crypto';
 
-interface User {
+interface AuthUser {
+  id: string;
   email: string;
-  password: string;
   name: string;
-  registrationCode?: string;
-  isVerified?: boolean;
 }
 
 interface AuthModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onLogin: (user: User) => void;
+  onLogin: (user: AuthUser) => void;
 }
 
 export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onLogin }) => {
@@ -26,45 +26,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onLogin }
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [showCodeInput, setShowCodeInput] = useState(false);
-  const [verificationCode, setVerificationCode] = useState('');
-  const [pendingUser, setPendingUser] = useState<User | null>(null);
 
   if (!isOpen) return null;
-
-  // Генерация 6-значного кода
-  const generateRegistrationCode = (): string => {
-    return Math.floor(100000 + Math.random() * 900000).toString();
-  };
-
-  // Отправка кода на почту администратора
-  const sendRegistrationCodeToAdmin = (user: User, code: string) => {
-    const emailSubject = encodeURIComponent('🔐 Новый код регистрации C.A.P');
-    const emailBody = encodeURIComponent(`
-🔔 НОВАЯ РЕГИСТРАЦИЯ НА САЙТЕ C.A.P
-
-👤 Пользователь: ${user.name}
-📧 Email: ${user.email}
-📅 Дата: ${new Date().toLocaleString('ru-RU')}
-
-🔑 КОД РЕГИСТРАЦИИ: ${code}
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-📝 ИНСТРУКЦИЯ:
-Отправьте этот код пользователю для завершения регистрации.
-
-⚠️ ВАЖНО: Каждый код уникален и действителен только для одного пользователя.
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-🏢 С уважением,
-Система регистрации C.A.P
-🌐 ${window.location.origin}
-    `);
-    
-    window.open(`mailto:t8.fd88@gmail.com?subject=${emailSubject}&body=${emailBody}`, '_self');
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -73,30 +36,32 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onLogin }
 
     try {
       if (isLoginMode) {
-        // Логин - проверяем только верифицированных пользователей
-        const users = JSON.parse(localStorage.getItem('capVerifiedUsers') || '[]');
-        const user = users.find((u: User) => 
-          u.email === formData.email && 
-          u.password === formData.password && 
-          u.isVerified === true
-        );
+        const { data: users, error: fetchError } = await supabase
+          .from('catalog_users')
+          .select('*')
+          .eq('email', formData.email)
+          .maybeSingle();
 
-        if (user && user.isVerified) {
-          // Проверяем, не заблокирован ли пользователь
-          const blockedUsers = JSON.parse(localStorage.getItem('capBlockedUsers') || '[]');
-          const isBlocked = blockedUsers.includes(user.email);
-          
-          if (isBlocked) {
-            setError('Ваш аккаунт заблокирован. Обратитесь к администратору.');
-          } else {
-            onLogin(user);
+        if (fetchError) throw fetchError;
+
+        if (users) {
+          const isPasswordValid = await verifyPassword(formData.password, users.password_hash);
+
+          if (isPasswordValid) {
+            const authUser: AuthUser = {
+              id: users.id,
+              email: users.email,
+              name: users.name
+            };
+            onLogin(authUser);
             onClose();
+          } else {
+            setError('Неверный email или пароль');
           }
         } else {
-          setError('Неверный email, пароль или аккаунт не подтвержден');
+          setError('Неверный email или пароль');
         }
       } else {
-        // Регистрация
         if (formData.password !== formData.confirmPassword) {
           setError('Пароли не совпадают');
           return;
@@ -107,83 +72,44 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onLogin }
           return;
         }
 
-        // Очищаем старых пользователей при каждой новой регистрации
-        localStorage.removeItem('capUsers');
-        localStorage.removeItem('capVerifiedUsers');
-        
-        const verifiedUsers = JSON.parse(localStorage.getItem('capVerifiedUsers') || '[]');
-        
-        // Проверить существует ли пользователь
-        if (verifiedUsers.find((u: User) => u.email === formData.email)) {
+        const { data: existingUser } = await supabase
+          .from('catalog_users')
+          .select('id')
+          .eq('email', formData.email)
+          .maybeSingle();
+
+        if (existingUser) {
           setError('Пользователь с таким email уже существует');
           return;
         }
 
-        // Создать нового пользователя с кодом
-        const registrationCode = generateRegistrationCode();
-        const newUser: User = {
-          name: formData.name,
-          email: formData.email,
-          password: formData.password,
-          registrationCode: registrationCode,
-          isVerified: false
-        };
+        const passwordHash = await hashPassword(formData.password);
 
-        // Сохранить пользователя как неподтвержденного
-        setPendingUser(newUser);
-        
-        // Сохранить код для админа (мгновенно)
-        const adminCodes = JSON.parse(localStorage.getItem('capAdminCodes') || '[]');
-        const codeData = {
-          id: Date.now().toString(),
-          user: newUser,
-          code: registrationCode,
-          timestamp: new Date().toLocaleString('ru-RU'),
-          used: false
-        };
-        adminCodes.push(codeData);
-        localStorage.setItem('capAdminCodes', JSON.stringify(adminCodes));
-        
-        // Отправить код администратору (опционально)
-        sendRegistrationCodeToAdmin(newUser, registrationCode);
-        
-        // Показать поле для ввода кода
-        setShowCodeInput(true);
-        
-        alert(`🚀 МГНОВЕННАЯ РЕГИСТРАЦИЯ!\n\n🔑 Ваш код: ${registrationCode}\n\n✅ Код сгенерирован мгновенно!\n📝 Введите этот код для завершения регистрации.`);
+        const { data: newUser, error: insertError } = await supabase
+          .from('catalog_users')
+          .insert([{
+            email: formData.email,
+            password_hash: passwordHash,
+            name: formData.name
+          }])
+          .select()
+          .single();
+
+        if (insertError) throw insertError;
+
+        if (newUser) {
+          const authUser: AuthUser = {
+            id: newUser.id,
+            email: newUser.email,
+            name: newUser.name
+          };
+          onLogin(authUser);
+          onClose();
+          alert('Регистрация успешно завершена!');
+        }
       }
-    } catch (error) {
-      setError('Произошла ошибка. Попробуйте снова.');
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleCodeVerification = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError('');
-    setIsLoading(true);
-
-    try {
-      if (pendingUser && verificationCode === pendingUser.registrationCode) {
-        // Код верный - подтверждаем пользователя
-        const verifiedUser: User = {
-          ...pendingUser,
-          isVerified: true
-        };
-        
-        const verifiedUsers = JSON.parse(localStorage.getItem('capVerifiedUsers') || '[]');
-        verifiedUsers.push(verifiedUser);
-        localStorage.setItem('capVerifiedUsers', JSON.stringify(verifiedUsers));
-        
-        onLogin(verifiedUser);
-        onClose();
-        alert('🎉 Регистрация успешно завершена!');
-      } else {
-        setError('Неверный код регистрации');
-      }
-    } catch (error) {
-      setError('Произошла ошибка при проверке кода');
+    } catch (error: any) {
+      setError(error.message || 'Произошла ошибка. Попробуйте снова.');
     } finally {
       setIsLoading(false);
     }
@@ -197,9 +123,6 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onLogin }
       confirmPassword: ''
     });
     setError('');
-    setShowCodeInput(false);
-    setVerificationCode('');
-    setPendingUser(null);
   };
 
   const switchMode = () => {
@@ -212,7 +135,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onLogin }
       <div className="bg-gray-900 rounded-2xl p-8 max-w-md w-full border border-gray-700">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold text-white">
-            {showCodeInput ? 'Подтверждение регистрации' : (isLoginMode ? 'Вход в систему' : 'Регистрация')}
+            {isLoginMode ? 'Вход в систему' : 'Регистрация'}
           </h2>
           <button
             onClick={onClose}
@@ -222,59 +145,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onLogin }
           </button>
         </div>
 
-        {showCodeInput ? (
-          <form onSubmit={handleCodeVerification} className="space-y-4">
-            <div className="text-center mb-6">
-              <div className="bg-blue-500/20 p-4 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-                <Key className="w-8 h-8 text-blue-400" />
-              </div>
-              <p className="text-gray-300 text-sm">
-                Введите 6-значный код, который вы получили от администратора
-              </p>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
-                Код регистрации
-              </label>
-              <input
-                type="text"
-                required
-                maxLength={6}
-                value={verificationCode}
-                onChange={(e) => setVerificationCode(e.target.value.replace(/\D/g, ''))}
-                className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white text-center text-2xl font-bold tracking-widest focus:outline-none focus:border-[#144374] focus:ring-2 focus:ring-[#144374]/20"
-                placeholder="000000"
-              />
-            </div>
-
-            {error && (
-              <div className="bg-red-500/20 border border-red-500 rounded-lg p-3">
-                <p className="text-red-400 text-sm">{error}</p>
-              </div>
-            )}
-
-            <button
-              type="submit"
-              disabled={isLoading || verificationCode.length !== 6}
-              className="w-full bg-[#144374] hover:bg-[#1a5490] text-white py-3 rounded-lg font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {isLoading ? 'Проверка...' : 'Подтвердить регистрацию'}
-            </button>
-
-            <div className="text-center">
-              <button
-                type="button"
-                onClick={resetForm}
-                className="text-gray-400 hover:text-white text-sm"
-              >
-                ← Вернуться к регистрации
-              </button>
-            </div>
-          </form>
-        ) : (
-          <>
-          <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4">
           {!isLoginMode && (
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">
@@ -367,21 +238,20 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onLogin }
           >
             {isLoading ? 'Загрузка...' : (isLoginMode ? 'Войти' : 'Зарегистрироваться')}
           </button>
-        </form>
 
-        <div className="mt-6 text-center">
-          <p className="text-gray-400">
-            {isLoginMode ? 'Нет аккаунта?' : 'Уже есть аккаунт?'}
-            <button
-              onClick={switchMode}
-              className="ml-2 text-[#144374] hover:text-[#1a5490] font-semibold"
-            >
-              {isLoginMode ? 'Зарегистрироваться' : 'Войти'}
-            </button>
-          </p>
-        </div>
-          </>
-        )}
+          <div className="mt-6 text-center">
+            <p className="text-gray-400">
+              {isLoginMode ? 'Нет аккаунта?' : 'Уже есть аккаунт?'}
+              <button
+                type="button"
+                onClick={switchMode}
+                className="ml-2 text-[#144374] hover:text-[#1a5490] font-semibold"
+              >
+                {isLoginMode ? 'Зарегистрироваться' : 'Войти'}
+              </button>
+            </p>
+          </div>
+        </form>
       </div>
     </div>
   );
