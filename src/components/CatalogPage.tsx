@@ -48,9 +48,6 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
   const [isProcessing, setIsProcessing] = useState(false);
   const [uploadPassword, setUploadPassword] = useState('');
   const [isUploadAuthenticated, setIsUploadAuthenticated] = useState(false);
-  const [hasSearchAccess, setHasSearchAccess] = useState(false);
-  const [accessRequestSent, setAccessRequestSent] = useState(false);
-  const [isCheckingAccess, setIsCheckingAccess] = useState(true);
   const [showAdminPanel, setShowAdminPanel] = useState(false);
 
   const UPLOAD_PASSWORD = 'cap2025';
@@ -61,142 +58,6 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
   const isAdmin = ADMIN_EMAILS.includes(user.email.toLowerCase());
 
 
-  // Обработка URL параметров при загрузке страницы
-  useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const action = urlParams.get('action');
-    const requestId = urlParams.get('requestId');
-    const token = urlParams.get('token');
-
-    if (action && requestId && token) {
-      handleEmailAction(action, requestId, token);
-    }
-  }, []);
-  // Проверить статус доступа пользователя
-  useEffect(() => {
-    checkUserAccess();
-  }, [user.email]);
-
-  const checkUserAccess = () => {
-    setIsCheckingAccess(true);
-    
-    // Получить все запросы на доступ
-    const accessRequests = JSON.parse(localStorage.getItem('capAccessRequests') || '[]') as AccessRequest[];
-    
-    // Найти запрос текущего пользователя
-    const userRequest = accessRequests.find(req => req.userEmail === user.email);
-    
-    // Сбросить состояния
-    setHasSearchAccess(false);
-    setAccessRequestSent(false);
-    
-    if (userRequest) {
-      if (userRequest.status === 'approved') {
-        setHasSearchAccess(true);
-      } else if (userRequest.status === 'pending') {
-        setAccessRequestSent(true);
-      } else if (userRequest.status === 'rejected') {
-        // Запрос отклонен - показать возможность отправить новый
-        setAccessRequestSent(false);
-      }
-    } else {
-      // Нет запроса - просто устанавливаем состояние
-    }
-    
-    setIsCheckingAccess(false);
-  };
-
-  const checkStatusWithAlert = () => {
-    // Получить все запросы на доступ
-    const accessRequests = JSON.parse(localStorage.getItem('capAccessRequests') || '[]') as AccessRequest[];
-    
-    // Найти запрос текущего пользователя
-    const userRequest = accessRequests.find(req => req.userEmail === user.email);
-    
-    if (userRequest) {
-      if (userRequest.status === 'approved') {
-        alert(`🎉 ДОСТУП ОДОБРЕН!\n\n✅ Ваш запрос был одобрен ${userRequest.approvedDate || 'недавно'}\n🔍 Теперь вы можете искать по каталогу запчастей!`);
-        // Обновить состояние
-        setHasSearchAccess(true);
-        setAccessRequestSent(false);
-      } else if (userRequest.status === 'pending') {
-        alert(`⏳ ЗАПРОС В ОЖИДАНИИ\n\n📋 Ваш запрос отправлен: ${userRequest.requestDate}\n⏰ Ожидайте подтверждения от администратора`);
-      } else if (userRequest.status === 'rejected') {
-        alert(`❌ ЗАПРОС ОТКЛОНЕН\n\n🚫 Ваш запрос был отклонен\n💡 Вы можете отправить новый запрос`);
-        setAccessRequestSent(false);
-      }
-    } else {
-      alert(`📝 ЗАПРОС НЕ НАЙДЕН\n\n❓ У вас нет активных запросов на доступ\n💡 Отправьте запрос для получения доступа к каталогу`);
-    }
-  };
-
-  const handleEmailAction = (action: string, requestId: string, token: string) => {
-    // Отключено для безопасности - обработка только через админ-панель
-    alert('🔒 Обработка запросов доступна только администратору через админ-панель.');
-    window.history.replaceState({}, document.title, window.location.pathname);
-  };
-
-  const sendAccessRequest = () => {
-    const accessRequests = JSON.parse(localStorage.getItem('capAccessRequests') || '[]') as AccessRequest[];
-    
-    // Проверить, не отправлял ли уже пользователь запрос
-    const existingRequest = accessRequests.find(req => req.userEmail === user.email);
-    if (existingRequest) {
-      alert('Запрос уже отправлен! Ожидайте подтверждения.');
-      return;
-    }
-    
-    // Создать новый запрос
-    const newRequest: AccessRequest = {
-      id: Date.now().toString(),
-      userEmail: user.email,
-      userName: user.name,
-      requestDate: new Date().toLocaleString('ru-RU'),
-      status: 'pending'
-    };
-    
-    accessRequests.push(newRequest);
-    localStorage.setItem('capAccessRequests', JSON.stringify(accessRequests));
-    
-    // Отправить email (симуляция)
-    const emailSubject = encodeURIComponent('Запрос доступа к каталогу C.A.P');
-    
-    // Создать токен безопасности
-    const securityToken = btoa(user.email + newRequest.id);
-    const baseUrl = window.location.origin;
-    
-    // Ссылки для одобрения и отклонения
-    const approveUrl = `${baseUrl}?action=approve&requestId=${newRequest.id}&token=${securityToken}`;
-    const rejectUrl = `${baseUrl}?action=reject&requestId=${newRequest.id}&token=${securityToken}`;
-    
-    const emailBody = encodeURIComponent(`
-🔔 НОВЫЙ ЗАПРОС НА ДОСТУП К КАТАЛОГУ C.A.P
-
-👤 Пользователь: ${user.name}
-📧 Email: ${user.email}
-📅 Дата запроса: ${newRequest.requestDate}
-🆔 ID запроса: ${newRequest.id}
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-📝 ДЕЙСТВИЯ АДМИНИСТРАТОРА:
-Для обработки этого запроса войдите в админ-панель на сайте.
-
-🔐 Безопасность: Обработка запросов доступна только через админ-панель
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-🏢 С уважением,
-Система управления каталогом C.A.P
-🌐 ${baseUrl}
-    `);
-    
-    // Открыть почтовый клиент
-    window.open(`mailto:${ADMIN_EMAIL}?subject=${emailSubject}&body=${emailBody}`, '_self');
-    
-    setAccessRequestSent(true);
-    alert('✅ Запрос отправлен администратору!\n\n📧 Администратор получит уведомление и обработает ваш запрос через админ-панель.\n\n⏰ Проверьте статус через несколько минут, нажав кнопку "Проверить статус".');
-  };
   const handleUploadLogin = () => {
     if (uploadPassword === UPLOAD_PASSWORD) {
       setIsUploadAuthenticated(true);
@@ -431,71 +292,8 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
           </p>
         </div>
 
-        {/* Access Request Section */}
-        {isCheckingAccess ? (
-          <div className="text-center py-8">
-            <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#144374]"></div>
-            <p className="text-gray-400 mt-2">Проверка доступа...</p>
-          </div>
-        ) : !hasSearchAccess ? (
-          <div className="max-w-2xl mx-auto mb-12">
-            <div className="bg-gradient-to-br from-gray-800/90 to-gray-900/90 backdrop-blur-sm rounded-2xl p-8 border border-gray-700 text-center">
-              {!accessRequestSent ? (
-                <>
-                  <div className="bg-yellow-500/20 p-4 rounded-full w-20 h-20 mx-auto mb-6 flex items-center justify-center">
-                    <svg className="w-10 h-10 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                    </svg>
-                  </div>
-                  <h3 className="text-2xl font-bold text-white mb-4">
-                    Требуется подтверждение доступа
-                  </h3>
-                  <p className="text-gray-400 mb-6 leading-relaxed">
-                    Для поиска по каталогу необходимо получить подтверждение от администратора. 
-                    Ваш запрос будет отправлен на email: <span className="text-[#144374] font-semibold">{ADMIN_EMAIL}</span>
-                  </p>
-                  <button
-                    onClick={sendAccessRequest}
-                    className="bg-[#144374] hover:bg-[#1a5490] text-white py-3 px-8 rounded-lg font-semibold transition-colors"
-                  >
-                    Отправить запрос на доступ
-                  </button>
-                </>
-              ) : (
-                <>
-                  <div className="bg-blue-500/20 p-4 rounded-full w-20 h-20 mx-auto mb-6 flex items-center justify-center">
-                    <svg className="w-10 h-10 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                  </div>
-                  <h3 className="text-2xl font-bold text-white mb-4">
-                    Запрос отправлен
-                  </h3>
-                  <p className="text-gray-400 mb-6 leading-relaxed">
-                    Ваш запрос на доступ к каталогу отправлен администратору. 
-                    Ожидайте подтверждения по email или обновите страницу через несколько минут.
-                  </p>
-                  <div className="space-y-3">
-                    <button
-                      onClick={checkStatusWithAlert}
-                      className="w-full bg-green-600 hover:bg-green-700 text-white py-3 px-8 rounded-lg font-semibold transition-colors"
-                    >
-                      🔄 Проверить статус
-                    </button>
-                    <p className="text-gray-500 text-sm">
-                      Если ваш запрос был одобрен, нажмите "Проверить статус"
-                    </p>
-                  </div>
-                </>
-              )}
-            </div>
-          </div>
-        ) : null}
-
-
         {/* Search Section */}
-        {hasSearchAccess && (
-          <div className="mb-12 max-w-4xl mx-auto">
+        <div className="mb-12 max-w-4xl mx-auto">
             {/* Excel Upload Button */}
             <div className="text-center mb-8">
               <button
@@ -522,11 +320,10 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
               Доступно для поиска: {totalParts.toLocaleString()} позиций
             </p>
           )}
-          </div>
-        )}
+        </div>
 
         {/* Loading */}
-        {hasSearchAccess && isLoading && (
+        {isLoading && (
           <div className="text-center py-8">
             <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-[#144374]"></div>
             <p className="text-gray-400 mt-2">Поиск...</p>
@@ -534,7 +331,7 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
         )}
 
         {/* Search Results */}
-        {hasSearchAccess && searchResults.length > 0 && !isLoading && (
+        {searchResults.length > 0 && !isLoading && (
           <div className="max-w-6xl mx-auto">
             <h3 className="text-2xl font-bold text-white mb-6 text-center">
               Результаты поиска ({searchResults.length})
@@ -588,7 +385,7 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
         )}
 
         {/* No Results */}
-        {hasSearchAccess && searchTerm && searchResults.length === 0 && !isLoading && (
+        {searchTerm && searchResults.length === 0 && !isLoading && (
           <div className="text-center py-12">
             <Package className="w-16 h-16 text-gray-600 mx-auto mb-4" />
             <h3 className="text-xl font-bold text-gray-400 mb-2">Ничего не найдено</h3>
@@ -599,7 +396,7 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
         )}
 
         {/* Instructions */}
-        {hasSearchAccess && !searchTerm && totalParts > 0 && (
+        {!searchTerm && totalParts > 0 && (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16 max-w-4xl mx-auto">
             <div className="text-center">
               <div className="bg-[#144374] p-4 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
