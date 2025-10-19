@@ -26,6 +26,9 @@ interface AccessRequest {
   id: string;
   userEmail: string;
   userName: string;
+  phone?: string;
+  address?: string;
+  companyName?: string;
   requestDate: string;
   status: 'pending' | 'approved' | 'rejected';
   approvedDate?: string;
@@ -44,21 +47,38 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, current
   // Простой пароль для демо (в реальном проекте используйте более безопасную аутентификацию)
   const ADMIN_PASSWORD = 'cap2025';
 
-  // Загрузить существующие данные при открытии
   useEffect(() => {
     loadCatalogFromDatabase();
-
-    // Загрузить запросы на доступ
-    const savedRequests = localStorage.getItem('capAccessRequests');
-    if (savedRequests) {
-      try {
-        const requests = JSON.parse(savedRequests);
-        setAccessRequests(requests);
-      } catch (error) {
-        console.error('Ошибка загрузки запросов:', error);
-      }
-    }
+    loadPendingUsers();
   }, [isVisible]);
+
+  const loadPendingUsers = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('catalog_users')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+
+      if (data) {
+        const requests: AccessRequest[] = data.map(user => ({
+          id: user.id.toString(),
+          userEmail: user.email,
+          userName: user.name,
+          phone: user.phone,
+          address: user.address,
+          companyName: user.company_name,
+          requestDate: new Date(user.created_at).toLocaleString('ru-RU'),
+          status: user.status,
+          approvedDate: user.status !== 'pending' ? new Date(user.created_at).toLocaleString('ru-RU') : undefined
+        }));
+        setAccessRequests(requests);
+      }
+    } catch (error) {
+      console.error('Ошибка загрузки запросов:', error);
+    }
+  };
 
   const loadCatalogFromDatabase = async () => {
     try {
@@ -87,24 +107,26 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, current
     }
   };
 
-  const handleAccessRequest = (requestId: string, action: 'approve' | 'reject') => {
-    const updatedRequests = accessRequests.map(req => {
-      if (req.id === requestId) {
-        return {
-          ...req,
-          status: action === 'approve' ? 'approved' as const : 'rejected' as const,
-          approvedDate: new Date().toLocaleString('ru-RU')
-        };
+  const handleAccessRequest = async (requestId: string, action: 'approve' | 'reject') => {
+    try {
+      const newStatus = action === 'approve' ? 'approved' : 'rejected';
+
+      const { error } = await supabase
+        .from('catalog_users')
+        .update({ status: newStatus })
+        .eq('id', requestId);
+
+      if (error) throw error;
+
+      const request = accessRequests.find(req => req.id === requestId);
+      if (request) {
+        alert(`Запрос от ${request.userName} (${request.userEmail}) ${action === 'approve' ? 'одобрен' : 'отклонен'}!`);
       }
-      return req;
-    });
-    
-    setAccessRequests(updatedRequests);
-    localStorage.setItem('capAccessRequests', JSON.stringify(updatedRequests));
-    
-    const request = accessRequests.find(req => req.id === requestId);
-    if (request) {
-      alert(`Запрос от ${request.userName} (${request.userEmail}) ${action === 'approve' ? 'одобрен' : 'отклонен'}!`);
+
+      loadPendingUsers();
+    } catch (error) {
+      console.error('Ошибка обновления статуса:', error);
+      alert('Ошибка при обработке запроса');
     }
   };
   const handleLogin = () => {
@@ -495,11 +517,11 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, current
                   ) : (
                     <div className="space-y-4 max-h-96 overflow-y-auto">
                       {accessRequests.map((request) => (
-                        <div 
+                        <div
                           key={request.id}
                           className={`p-4 rounded-lg border ${
-                            request.status === 'pending' 
-                              ? 'bg-yellow-500/10 border-yellow-500/30' 
+                            request.status === 'pending'
+                              ? 'bg-yellow-500/10 border-yellow-500/30'
                               : request.status === 'approved'
                               ? 'bg-green-500/10 border-green-500/30'
                               : 'bg-red-500/10 border-red-500/30'
@@ -507,9 +529,28 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, current
                         >
                           <div className="flex justify-between items-start">
                             <div className="flex-1">
-                              <h4 className="text-white font-semibold">{request.userName}</h4>
-                              <p className="text-gray-400 text-sm">{request.userEmail}</p>
-                              <p className="text-gray-500 text-xs mt-1">
+                              <h4 className="text-white font-semibold text-lg">{request.userName}</h4>
+                              <div className="mt-2 space-y-1">
+                                <p className="text-gray-400 text-sm">
+                                  <span className="text-gray-500">Email:</span> {request.userEmail}
+                                </p>
+                                {request.phone && (
+                                  <p className="text-gray-400 text-sm">
+                                    <span className="text-gray-500">Телефон:</span> {request.phone}
+                                  </p>
+                                )}
+                                {request.companyName && (
+                                  <p className="text-gray-400 text-sm">
+                                    <span className="text-gray-500">Компания:</span> {request.companyName}
+                                  </p>
+                                )}
+                                {request.address && (
+                                  <p className="text-gray-400 text-sm">
+                                    <span className="text-gray-500">Адрес:</span> {request.address}
+                                  </p>
+                                )}
+                              </div>
+                              <p className="text-gray-500 text-xs mt-2">
                                 Запрос: {request.requestDate}
                               </p>
                               {request.approvedDate && (

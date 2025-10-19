@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Вход / Регистрация - Common Auto Parts</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50">
+  <div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full space-y-8">
+      <div>
+        <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+          Common Auto Parts
+        </h2>
+      </div>
+
+      <div class="bg-white rounded-lg shadow-lg p-8">
+        <div class="flex border-b border-gray-200 mb-6">
+          <button id="loginTab" class="flex-1 py-2 px-4 text-center font-medium text-blue-600 border-b-2 border-blue-600">
+            Вход
+          </button>
+          <button id="registerTab" class="flex-1 py-2 px-4 text-center font-medium text-gray-500 hover:text-gray-700">
+            Регистрация
+          </button>
+        </div>
+
+        <div id="loginForm" class="space-y-6">
+          <div>
+            <label for="loginEmail" class="block text-sm font-medium text-gray-700">Email</label>
+            <input type="email" id="loginEmail" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+          </div>
+          <div>
+            <label for="loginPassword" class="block text-sm font-medium text-gray-700">Пароль</label>
+            <input type="password" id="loginPassword" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+          </div>
+          <div id="loginError" class="text-red-600 text-sm hidden"></div>
+          <button id="loginBtn" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+            Войти
+          </button>
+        </div>
+
+        <div id="registerForm" class="space-y-6 hidden">
+          <div>
+            <label for="registerName" class="block text-sm font-medium text-gray-700">Имя</label>
+            <input type="text" id="registerName" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+          </div>
+          <div>
+            <label for="registerEmail" class="block text-sm font-medium text-gray-700">Email</label>
+            <input type="email" id="registerEmail" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+          </div>
+          <div>
+            <label for="registerPassword" class="block text-sm font-medium text-gray-700">Пароль</label>
+            <input type="password" id="registerPassword" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+          </div>
+          <div>
+            <label for="registerPhone" class="block text-sm font-medium text-gray-700">Номер телефона</label>
+            <input type="tel" id="registerPhone" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+          </div>
+          <div>
+            <label for="registerAddress" class="block text-sm font-medium text-gray-700">Адрес</label>
+            <input type="text" id="registerAddress" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+          </div>
+          <div>
+            <label for="registerCompany" class="block text-sm font-medium text-gray-700">Название компании</label>
+            <input type="text" id="registerCompany" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+          </div>
+          <div id="registerError" class="text-red-600 text-sm hidden"></div>
+          <div id="registerSuccess" class="text-green-600 text-sm hidden"></div>
+          <button id="registerBtn" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+            Отправить запрос на регистрацию
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { supabase } from './src/lib/supabase.ts';
+    import { hashPassword } from './src/lib/crypto.ts';
+
+    const loginTab = document.getElementById('loginTab');
+    const registerTab = document.getElementById('registerTab');
+    const loginForm = document.getElementById('loginForm');
+    const registerForm = document.getElementById('registerForm');
+
+    loginTab.addEventListener('click', () => {
+      loginTab.classList.add('text-blue-600', 'border-b-2', 'border-blue-600');
+      loginTab.classList.remove('text-gray-500');
+      registerTab.classList.remove('text-blue-600', 'border-b-2', 'border-blue-600');
+      registerTab.classList.add('text-gray-500');
+      loginForm.classList.remove('hidden');
+      registerForm.classList.add('hidden');
+    });
+
+    registerTab.addEventListener('click', () => {
+      registerTab.classList.add('text-blue-600', 'border-b-2', 'border-blue-600');
+      registerTab.classList.remove('text-gray-500');
+      loginTab.classList.remove('text-blue-600', 'border-b-2', 'border-blue-600');
+      loginTab.classList.add('text-gray-500');
+      registerForm.classList.remove('hidden');
+      loginForm.classList.add('hidden');
+    });
+
+    document.getElementById('loginBtn').addEventListener('click', async () => {
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
+      const errorDiv = document.getElementById('loginError');
+
+      try {
+        const hashedPassword = await hashPassword(password);
+        const { data, error } = await supabase
+          .from('catalog_users')
+          .select('*')
+          .eq('email', email)
+          .eq('password', hashedPassword)
+          .maybeSingle();
+
+        if (error) throw error;
+
+        if (!data) {
+          errorDiv.textContent = 'Неверный email или пароль';
+          errorDiv.classList.remove('hidden');
+          return;
+        }
+
+        if (data.status === 'pending') {
+          errorDiv.textContent = 'Ваш запрос на регистрацию ожидает одобрения администратором';
+          errorDiv.classList.remove('hidden');
+          return;
+        }
+
+        if (data.status === 'rejected') {
+          errorDiv.textContent = 'Ваш запрос на регистрацию был отклонен';
+          errorDiv.classList.remove('hidden');
+          return;
+        }
+
+        localStorage.setItem('catalogUser', JSON.stringify(data));
+        window.location.href = '/catalog.html';
+      } catch (error) {
+        errorDiv.textContent = 'Ошибка входа: ' + error.message;
+        errorDiv.classList.remove('hidden');
+      }
+    });
+
+    document.getElementById('registerBtn').addEventListener('click', async () => {
+      const name = document.getElementById('registerName').value;
+      const email = document.getElementById('registerEmail').value;
+      const password = document.getElementById('registerPassword').value;
+      const phone = document.getElementById('registerPhone').value;
+      const address = document.getElementById('registerAddress').value;
+      const company = document.getElementById('registerCompany').value;
+      const errorDiv = document.getElementById('registerError');
+      const successDiv = document.getElementById('registerSuccess');
+
+      errorDiv.classList.add('hidden');
+      successDiv.classList.add('hidden');
+
+      if (!name || !email || !password || !phone || !address || !company) {
+        errorDiv.textContent = 'Пожалуйста, заполните все поля';
+        errorDiv.classList.remove('hidden');
+        return;
+      }
+
+      try {
+        const { data: existingUser } = await supabase
+          .from('catalog_users')
+          .select('email')
+          .eq('email', email)
+          .maybeSingle();
+
+        if (existingUser) {
+          errorDiv.textContent = 'Пользователь с таким email уже существует';
+          errorDiv.classList.remove('hidden');
+          return;
+        }
+
+        const hashedPassword = await hashPassword(password);
+
+        const { error } = await supabase
+          .from('catalog_users')
+          .insert([{
+            name,
+            email,
+            password: hashedPassword,
+            phone,
+            address,
+            company_name: company,
+            status: 'pending'
+          }]);
+
+        if (error) throw error;
+
+        successDiv.textContent = 'Запрос на регистрацию отправлен! Ожидайте одобрения администратора.';
+        successDiv.classList.remove('hidden');
+
+        document.getElementById('registerName').value = '';
+        document.getElementById('registerEmail').value = '';
+        document.getElementById('registerPassword').value = '';
+        document.getElementById('registerPhone').value = '';
+        document.getElementById('registerAddress').value = '';
+        document.getElementById('registerCompany').value = '';
+      } catch (error) {
+        errorDiv.textContent = 'Ошибка регистрации: ' + error.message;
+        errorDiv.classList.remove('hidden');
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Package, Weight, Info, LogOut, User, Upload, FileText, ArrowLeft } from 'lucide-react';
+import { Search, Package, Weight, Info, LogOut, User, Upload, Menu, ChevronDown } from 'lucide-react';
 import * as XLSX from 'xlsx';
 import { AdminPanel } from './AdminPanel';
+import { SidebarMenu } from './SidebarMenu';
 import { supabase } from '../lib/supabase';
 
 interface PartData {
@@ -50,6 +51,9 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
   const [uploadPassword, setUploadPassword] = useState('');
   const [isUploadAuthenticated, setIsUploadAuthenticated] = useState(false);
   const [showAdminPanel, setShowAdminPanel] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [showUserMenu, setShowUserMenu] = useState(false);
+  const [currentLanguage, setCurrentLanguage] = useState<'ru' | 'en'>('ru');
 
   const UPLOAD_PASSWORD = 'cap2025';
   const ADMIN_EMAIL = 't8.fd88@gmail.com';
@@ -242,67 +246,90 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
       </div>
 
       <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header */}
-        <div className="flex items-center justify-between mb-8">
-          <div>
-            {isAdmin && (
-              <button
-                onClick={() => setShowAdminPanel(true)}
-                className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors"
-              >
-                <Upload className="w-5 h-5" />
-                <span>Управление каталогом</span>
-              </button>
-            )}
-          </div>
+        {/* Sidebar Menu */}
+        <SidebarMenu
+          isOpen={sidebarOpen}
+          onClose={() => setSidebarOpen(false)}
+          currentLanguage={currentLanguage}
+          onLanguageChange={setCurrentLanguage}
+        />
 
-          <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-3 bg-green-500/20 border border-green-500 rounded-lg px-4 py-2">
-              <User className="w-5 h-5 text-green-400" />
-              <span className="text-green-400 font-semibold">
-                {user.name}
-              </span>
+        {/* Header */}
+        <div className="bg-gradient-to-r from-gray-900/95 to-gray-800/95 backdrop-blur-sm border-2 border-blue-600/30 rounded-2xl p-4 mb-8 shadow-xl">
+          <div className="flex items-center justify-between">
+            <button
+              onClick={() => setSidebarOpen(true)}
+              className="flex items-center space-x-2 text-white hover:text-blue-400 transition-colors px-3 py-2 rounded-lg hover:bg-blue-600/10"
+            >
+              <Menu className="w-6 h-6" />
+              <span className="font-medium">Меню</span>
+            </button>
+
+            <div className="flex-1 max-w-2xl mx-6">
+              <div className="relative">
+                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                <input
+                  type="text"
+                  placeholder="Поиск по коду, названию или бренду..."
+                  value={searchTerm}
+                  onChange={(e) => handleSearch(e.target.value)}
+                  className="w-full pl-12 pr-16 py-3 bg-gray-800/90 border border-gray-600 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
+                />
+                <button
+                  onClick={() => handleSearch(searchTerm)}
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-lg transition-colors"
+                >
+                  <Search className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+
+            <div className="relative">
               <button
-                onClick={onLogout}
-                className="text-green-400 hover:text-green-300 ml-2"
-                title="Выйти"
+                onClick={() => setShowUserMenu(!showUserMenu)}
+                className="flex items-center space-x-2 bg-blue-600/20 border border-blue-500 rounded-xl px-4 py-3 hover:bg-blue-600/30 transition-colors"
               >
-                <LogOut className="w-4 h-4" />
+                <User className="w-5 h-5 text-blue-400" />
+                <span className="text-white font-medium">{user.name}</span>
+                <ChevronDown className="w-4 h-4 text-blue-400" />
               </button>
+
+              {showUserMenu && (
+                <div className="absolute right-0 mt-2 w-48 bg-gray-800 border border-gray-700 rounded-lg shadow-xl z-50">
+                  {isAdmin && (
+                    <button
+                      onClick={() => {
+                        setShowAdminPanel(true);
+                        setShowUserMenu(false);
+                      }}
+                      className="w-full flex items-center space-x-2 px-4 py-3 text-white hover:bg-gray-700 transition-colors border-b border-gray-700"
+                    >
+                      <Upload className="w-4 h-4" />
+                      <span>Управление каталогом</span>
+                    </button>
+                  )}
+                  <button
+                    onClick={() => {
+                      onLogout();
+                      setShowUserMenu(false);
+                    }}
+                    className="w-full flex items-center space-x-2 px-4 py-3 text-red-400 hover:bg-gray-700 transition-colors rounded-b-lg"
+                  >
+                    <LogOut className="w-4 h-4" />
+                    <span>Выход</span>
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>
 
 
-        {/* Page Title */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl lg:text-6xl font-black text-white mb-6 tracking-tight">
-            КАТАЛОГ <span className="text-[#144374]">ЗАПЧАСТЕЙ</span>
-          </h1>
-          <div className="w-24 h-1 bg-[#144374] mx-auto mb-8"></div>
-          <p className="text-xl text-gray-400 max-w-3xl mx-auto font-medium">
-            Найдите нужную запчасть по коду, названию или бренду из нашего каталога
+        {totalParts > 0 && (
+          <p className="text-center text-gray-400 mb-8 text-sm">
+            Доступно для поиска: {totalParts.toLocaleString()} позиций
           </p>
-        </div>
-
-        {/* Search Section */}
-        <div className="mb-12 max-w-4xl mx-auto">
-          <div className="relative">
-            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-6 h-6" />
-            <input
-              type="text"
-              placeholder="Введите код запчасти, название или бренд..."
-              value={searchTerm}
-              onChange={(e) => handleSearch(e.target.value)}
-              className="w-full pl-12 pr-4 py-4 bg-gray-800/90 border border-gray-600 rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:border-[#144374] focus:ring-2 focus:ring-[#144374]/20 transition-all duration-200 text-lg"
-            />
-          </div>
-          {totalParts > 0 && (
-            <p className="text-center text-gray-400 mt-2 text-sm">
-              Доступно для поиска: {totalParts.toLocaleString()} позиций
-            </p>
-          )}
-        </div>
+        )}
 
         {/* Loading */}
         {isLoading && (
