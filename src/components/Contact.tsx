@@ -99,7 +99,7 @@ export const Contact: React.FC = () => {
               className="h-10 w-10 rounded-full object-cover border border-blue-600"
             />
             <div>
-              <h4 className="text-xl font-bold text-white">C.A.P</h4>
+              <h4 className="text-lg font-bold text-white">C.A.P</h4>
               <p className="text-sm text-gray-400 font-normal">Common Auto Parts</p>
             </div>
           </div>
