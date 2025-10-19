@@ -110,15 +110,6 @@ export const HeaderRu: React.FC = () => {
             ))}
           </div>
 
-          {/* Footer */}
-          <div className="p-6 border-t border-[#144374]/30 bg-gradient-to-t from-[#144374]/10">
-            <div className="text-sm text-[#144374]/80 text-center font-semibold tracking-wider">
-              COMMON AUTO PARTS
-            </div>
-            <div className="text-xs text-gray-600 text-center mt-1">
-              © 2024 C.A.P.
-            </div>
-          </div>
         </div>
       </div>
     </>
