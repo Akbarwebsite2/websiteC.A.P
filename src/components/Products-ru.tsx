@@ -95,10 +95,10 @@ export const ProductsRu: React.FC = () => {
 
               {/* Content */}
               <div className="p-6">
-                <h3 className="text-xl font-bold text-black mb-3 group-hover:text-[#144374] transition-colors duration-300">
+                <h3 className="text-xl font-bold text-white mb-3 group-hover:text-[#144374] transition-colors duration-300">
                   {product.title}
                 </h3>
-                <p className="text-black leading-relaxed">
+                <p className="text-gray-400 leading-relaxed">
                   {product.description}
                 </p>
               </div>
@@ -129,10 +129,10 @@ export const ProductsRu: React.FC = () => {
 
                 {/* Content */}
                 <div className="md:w-1/2 p-6 flex flex-col justify-center">
-                  <h3 className="text-2xl font-bold text-black mb-4 group-hover:text-blue-400 transition-colors duration-300">
+                  <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-blue-400 transition-colors duration-300">
                     {product.title}
                   </h3>
-                  <p className="text-black leading-relaxed">
+                  <p className="text-gray-400 leading-relaxed">
                     {product.description}
                   </p>
                 </div>
