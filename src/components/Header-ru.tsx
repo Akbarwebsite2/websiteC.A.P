@@ -38,32 +38,16 @@ export const HeaderRu: React.FC = () => {
     }`}>
       <nav className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
-          {/* Logo */}
-          <div className="flex items-center space-x-2 header-logo-animated">
-            <img 
-              src="/cap logotip.jpg" 
-              alt="C.A.P. Logo" 
-              className="h-16 w-16 rounded-full object-cover border-2 border-[#144374] shadow-lg brightness-110 contrast-125 saturate-110 filter drop-shadow-lg"
-              style={{ 
-                imageRendering: 'crisp-edges',
-                WebkitImageRendering: 'crisp-edges',
-                msImageRendering: 'crisp-edges'
-              }}
-            />
-            <img 
-              src="/Parts 2.png" 
-              alt="C.A.P" 
-              className="h-16 sm:h-18 lg:h-20 object-contain filter brightness-110 contrast-125 saturate-110"
-              style={{ 
-                imageRendering: 'crisp-edges',
-                WebkitImageRendering: 'crisp-edges',
-                msImageRendering: 'crisp-edges'
-              }}
-            />
-          </div>
+          {/* Mobile Menu Button - Left Corner */}
+          <button
+            className="lg:hidden p-2 rounded-md text-gray-300 hover:text-white hover:bg-gray-800 transition-colors duration-200"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </button>
 
           {/* Desktop Navigation - Centered */}
-          <div className="hidden lg:flex items-center space-x-8 absolute left-1/2 transform -translate-x-1/2">
+          <div className="hidden lg:flex items-center space-x-8 mx-auto">
             {navLinks.map((link) => (
               <a
                 key={link.name}
@@ -76,13 +60,8 @@ export const HeaderRu: React.FC = () => {
             ))}
           </div>
 
-          {/* Mobile Menu Button */}
-          <button
-            className="lg:hidden p-2 rounded-md text-gray-300 hover:text-white hover:bg-gray-800 transition-colors duration-200"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-          </button>
+          {/* Empty spacer for mobile to center content */}
+          <div className="lg:hidden w-10"></div>
         </div>
 
         {/* Mobile Menu */}
