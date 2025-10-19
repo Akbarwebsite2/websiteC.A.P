@@ -66,37 +66,40 @@ export const Header: React.FC = () => {
         {/* Mobile Menu Overlay */}
         {isMenuOpen && (
           <div
-            className="lg:hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-40"
+            className="lg:hidden fixed inset-0 bg-black/80 z-[100]"
             onClick={() => setIsMenuOpen(false)}
           />
         )}
 
         {/* Mobile Menu Sidebar */}
-        <div className={`lg:hidden fixed left-0 top-0 bottom-0 w-72 bg-gradient-to-b from-gray-900 via-gray-800 to-black border-r-2 border-blue-600/30 shadow-2xl transform transition-transform duration-300 ease-out z-50 ${
+        <div className={`lg:hidden fixed left-0 top-0 bottom-0 w-80 bg-black border-r border-blue-500 shadow-[0_0_30px_rgba(59,130,246,0.3)] transform transition-transform duration-300 ease-out z-[101] ${
           isMenuOpen ? 'translate-x-0' : '-translate-x-full'
         }`}>
           <div className="flex flex-col h-full">
             {/* Header */}
-            <div className="p-6 border-b border-blue-600/20">
+            <div className="p-8 border-b border-blue-500/30">
               <div className="flex items-center justify-between">
-                <h2 className="text-2xl font-bold text-blue-400">Menu</h2>
+                <h2 className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">MENU</h2>
                 <button
                   onClick={() => setIsMenuOpen(false)}
-                  className="p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-700 transition-colors"
+                  className="p-2 text-blue-400 hover:text-blue-300 hover:rotate-90 transition-all duration-200"
                 >
-                  <X className="h-6 w-6" />
+                  <X className="h-7 w-7" />
                 </button>
               </div>
             </div>
 
             {/* Navigation Links */}
-            <div className="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
-              {navLinks.map((link) => (
+            <div className="flex-1 px-6 py-8 space-y-1 overflow-y-auto">
+              {navLinks.map((link, index) => (
                 <a
                   key={link.name}
                   href={link.href}
-                  className="block px-4 py-3 text-gray-300 hover:text-blue-400 hover:bg-blue-600/10 font-semibold rounded-lg transition-all duration-200 border border-transparent hover:border-blue-600/30"
+                  className="block px-6 py-4 text-lg text-gray-300 hover:text-white hover:bg-blue-600/20 font-bold tracking-wide border-l-4 border-transparent hover:border-blue-500 transition-all duration-200"
                   onClick={() => setIsMenuOpen(false)}
+                  style={{
+                    animationDelay: `${index * 50}ms`
+                  }}
                 >
                   {link.name}
                 </a>
@@ -104,8 +107,11 @@ export const Header: React.FC = () => {
             </div>
 
             {/* Footer */}
-            <div className="p-6 border-t border-blue-600/20">
-              <div className="text-sm text-gray-500 text-center">
+            <div className="p-6 border-t border-blue-500/30 bg-gradient-to-t from-blue-950/20">
+              <div className="text-sm text-blue-400/60 text-center font-semibold tracking-wider">
+                COMMON AUTO PARTS
+              </div>
+              <div className="text-xs text-gray-600 text-center mt-1">
                 © 2024 C.A.P.
               </div>
             </div>
