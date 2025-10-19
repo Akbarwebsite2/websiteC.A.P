@@ -64,23 +64,54 @@ export const HeaderRu: React.FC = () => {
           <div className="lg:hidden w-10"></div>
         </div>
 
-        {/* Mobile Menu */}
+        {/* Mobile Menu Overlay */}
         {isMenuOpen && (
-          <div className="lg:hidden absolute top-full left-0 right-0 bg-black/95 backdrop-blur-sm border-t border-gray-800">
-            <div className="px-4 py-6 space-y-4">
+          <div
+            className="lg:hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-40"
+            onClick={() => setIsMenuOpen(false)}
+          />
+        )}
+
+        {/* Mobile Menu Sidebar */}
+        <div className={`lg:hidden fixed left-0 top-0 bottom-0 w-72 bg-gradient-to-b from-gray-900 via-gray-800 to-black border-r-2 border-[#144374]/30 shadow-2xl transform transition-transform duration-300 ease-out z-50 ${
+          isMenuOpen ? 'translate-x-0' : '-translate-x-full'
+        }`}>
+          <div className="flex flex-col h-full">
+            {/* Header */}
+            <div className="p-6 border-b border-[#144374]/20">
+              <div className="flex items-center justify-between">
+                <h2 className="text-2xl font-bold text-[#144374]">Меню</h2>
+                <button
+                  onClick={() => setIsMenuOpen(false)}
+                  className="p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-700 transition-colors"
+                >
+                  <X className="h-6 w-6" />
+                </button>
+              </div>
+            </div>
+
+            {/* Navigation Links */}
+            <div className="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
               {navLinks.map((link) => (
                 <a
                   key={link.name}
                   href={link.href}
-                  className="block text-gray-300 hover:text-[#144374] font-semibold py-2 transition-colors duration-200"
+                  className="block px-4 py-3 text-gray-300 hover:text-[#144374] hover:bg-[#144374]/10 font-semibold rounded-lg transition-all duration-200 border border-transparent hover:border-[#144374]/30"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {link.name}
                 </a>
               ))}
             </div>
+
+            {/* Footer */}
+            <div className="p-6 border-t border-[#144374]/20">
+              <div className="text-sm text-gray-500 text-center">
+                © 2024 C.A.P.
+              </div>
+            </div>
           </div>
-        )}
+        </div>
       </nav>
     </header>
   );
