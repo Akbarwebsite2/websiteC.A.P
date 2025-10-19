@@ -13,20 +13,6 @@ export const Hero: React.FC = () => {
 
   return (
     <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background Image */}
-      <div className="absolute inset-0 z-0">
-        <img 
-          src="/bolt background.jpg"
-          alt="C.A.P Auto Parts Background"
-          className="w-full h-full object-cover brightness-110 contrast-125 saturate-110 filter"
-          style={{ 
-            imageRendering: 'crisp-edges',
-            WebkitImageRendering: 'crisp-edges',
-            msImageRendering: 'crisp-edges'
-          }}
-        />
-        <div className="absolute inset-0 bg-black/70"></div>
-      </div>
 
       <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 text-center">
         {/* Main Heading */}
