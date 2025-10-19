@@ -13,37 +13,6 @@ import { WhatsAppFloat } from './components/WhatsAppFloat';
  */
 function App() {
   useEffect(() => {
-    // Mouse movement effect
-    const handleMouseMove = (e: MouseEvent) => {
-      const x = (e.clientX / window.innerWidth) * 100;
-      const y = (e.clientY / window.innerHeight) * 100;
-      document.documentElement.style.setProperty('--mouse-x', `${x}%`);
-      document.documentElement.style.setProperty('--mouse-y', `${y}%`);
-    };
-
-    // Click ripple effect
-    const handleClick = (e: MouseEvent) => {
-      const ripple = document.createElement('div');
-      ripple.className = 'click-ripple';
-      ripple.style.left = `${e.clientX - 50}px`;
-      ripple.style.top = `${e.clientY - 50}px`;
-      ripple.style.width = '100px';
-      ripple.style.height = '100px';
-      
-      document.body.appendChild(ripple);
-      
-      setTimeout(() => {
-        document.body.removeChild(ripple);
-      }, 800);
-    };
-
-    document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('click', handleClick);
-
-    return () => {
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('click', handleClick);
-    };
   }, []);
 
   return (
