@@ -93,18 +93,17 @@ export const Contact: React.FC = () => {
         {/* Footer */}
         <div className="border-t border-gray-800 mt-16 pt-8 text-center">
           <div className="flex items-center justify-center space-x-4 mb-4">
-            <img 
-              src="/cap logotip.jpg" 
-              alt="C.A.P. Logo" 
+            <img
+              src="/cap logotip.jpg"
+              alt="C.A.P. Logo"
               className="h-10 w-10 rounded-full object-cover border border-blue-600"
             />
             <div>
-              <h4 className="text-xl font-bold text-white">C.A.P</h4>
-              <p className="text-sm text-gray-400">Common Auto Parts</p>
+              <h4 className="text-xl font-normal text-white">Common Auto Parts</h4>
             </div>
           </div>
           <p className="text-gray-500 text-sm">
-            © 2025 Common Auto Parts. All rights reserved. | Engineered to Perform. Built to Last.
+            © 2025 Common Auto Parts. All rights reserved.
           </p>
         </div>
       </div>
