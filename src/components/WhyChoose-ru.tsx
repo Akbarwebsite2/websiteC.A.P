@@ -58,10 +58,10 @@ export const WhyChooseRu: React.FC = () => {
               </div>
               
               {/* Content */}
-              <h3 className="text-xl font-bold text-white mb-4 group-hover:text-[#144374] transition-colors duration-300">
+              <h3 className="text-xl font-bold text-black mb-4 group-hover:text-[#144374] transition-colors duration-300">
                 {reason.title}
               </h3>
-              <p className="text-gray-400 leading-relaxed">
+              <p className="text-black leading-relaxed">
                 {reason.description}
               </p>
             </div>

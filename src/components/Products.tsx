@@ -87,10 +87,10 @@ export const Products: React.FC = () => {
               
               {/* Product Content */}
               <div className="p-6">
-                <h3 className="text-xl font-bold text-white mb-3 group-hover:text-blue-400 transition-colors">
+                <h3 className="text-xl font-bold text-black mb-3 group-hover:text-blue-400 transition-colors">
                   {product.title}
                 </h3>
-                <p className="text-gray-300 text-sm leading-relaxed">
+                <p className="text-black text-sm leading-relaxed">
                   {product.description}
                 </p>
               </div>
@@ -120,10 +120,10 @@ export const Products: React.FC = () => {
               
               {/* Product Content */}
               <div className="p-8">
-                <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-blue-400 transition-colors">
+                <h3 className="text-2xl font-bold text-black mb-4 group-hover:text-blue-400 transition-colors">
                   {product.title}
                 </h3>
-                <p className="text-gray-300 leading-relaxed">
+                <p className="text-black leading-relaxed">
                   {product.description}
                 </p>
               </div>
