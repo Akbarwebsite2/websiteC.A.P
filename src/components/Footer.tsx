@@ -15,20 +15,15 @@ export const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
           <div className="lg:col-span-2">
-            <div className="flex items-center space-x-3 mb-6">
-              <img 
-                src="/C.A.P logo.jpg" 
-                alt="Common Auto Parts" 
+            <div className="flex items-center justify-center space-x-3 mb-6">
+              <img
+                src="/C.A.P logo.jpg"
+                alt="Common Auto Parts"
                 className="h-12 w-12 rounded-full object-cover"
               />
-              <h3 className="text-2xl font-bold">Common Auto Parts</h3>
+              <h3 className="text-2xl font-normal">Common Auto Parts</h3>
             </div>
-            <p className="text-blue-200 mb-6 leading-relaxed max-w-md">
-              Your trusted partner for quality automotive parts. We provide OEM and 
-              aftermarket parts for all major car brands with fast shipping and 
-              competitive pricing.
-            </p>
-            <div className="flex space-x-4">
+            <div className="flex justify-center space-x-4">
               <a href="#" className="text-blue-200 hover:text-white transition-colors duration-200">
                 <Facebook className="h-6 w-6" />
               </a>
