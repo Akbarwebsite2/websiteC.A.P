@@ -254,9 +254,80 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
           onLanguageChange={setCurrentLanguage}
         />
 
-        {/* Header */}
-        <div className="bg-gradient-to-r from-gray-900/95 to-gray-800/95 backdrop-blur-sm border-2 border-blue-600/30 rounded-2xl p-4 mb-8 shadow-xl">
-          <div className="flex items-center justify-between">
+        {/* Header - Mobile Responsive */}
+        <div className="bg-gradient-to-r from-gray-900/95 to-gray-800/95 backdrop-blur-sm border-2 border-blue-600/30 rounded-2xl p-3 md:p-4 mb-6 md:mb-8 shadow-xl">
+          {/* Mobile Layout - Stacked */}
+          <div className="lg:hidden">
+            {/* Top Row - Menu and User */}
+            <div className="flex items-center justify-between mb-3">
+              <button
+                onClick={() => setSidebarOpen(true)}
+                className="flex items-center space-x-2 text-white hover:text-blue-400 transition-colors px-2 py-2 rounded-lg hover:bg-blue-600/10"
+              >
+                <Menu className="w-6 h-6" />
+                <span className="font-medium text-sm">Меню</span>
+              </button>
+
+              <div className="relative">
+                <button
+                  onClick={() => setShowUserMenu(!showUserMenu)}
+                  className="flex items-center space-x-2 bg-blue-600/20 border border-blue-500 rounded-xl px-3 py-2 hover:bg-blue-600/30 transition-colors"
+                >
+                  <User className="w-5 h-5 text-blue-400" />
+                  <span className="text-white font-medium text-sm">{user.name}</span>
+                  <ChevronDown className="w-4 h-4 text-blue-400" />
+                </button>
+
+                {showUserMenu && (
+                  <div className="absolute right-0 mt-2 w-48 bg-gray-800 border border-gray-700 rounded-lg shadow-xl z-50">
+                    {isAdmin && (
+                      <button
+                        onClick={() => {
+                          setShowAdminPanel(true);
+                          setShowUserMenu(false);
+                        }}
+                        className="w-full flex items-center space-x-2 px-4 py-3 text-white hover:bg-gray-700 transition-colors border-b border-gray-700"
+                      >
+                        <Upload className="w-4 h-4" />
+                        <span>Управление каталогом</span>
+                      </button>
+                    )}
+                    <button
+                      onClick={() => {
+                        onLogout();
+                        setShowUserMenu(false);
+                      }}
+                      className="w-full flex items-center space-x-2 px-4 py-3 text-red-400 hover:bg-gray-700 transition-colors rounded-b-lg"
+                    >
+                      <LogOut className="w-4 h-4" />
+                      <span>Выход</span>
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Bottom Row - Search */}
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <input
+                type="text"
+                placeholder="Поиск..."
+                value={searchTerm}
+                onChange={(e) => handleSearch(e.target.value)}
+                className="w-full pl-10 pr-12 py-2.5 bg-gray-800/90 border border-gray-600 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all text-sm"
+              />
+              <button
+                onClick={() => handleSearch(searchTerm)}
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-blue-600 hover:bg-blue-700 text-white p-1.5 rounded-lg transition-colors"
+              >
+                <Search className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+
+          {/* Desktop Layout - Single Row */}
+          <div className="hidden lg:flex items-center justify-between">
             <button
               onClick={() => setSidebarOpen(true)}
               className="flex items-center space-x-2 text-white hover:text-blue-400 transition-colors px-3 py-2 rounded-lg hover:bg-blue-600/10"
