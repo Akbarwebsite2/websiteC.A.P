@@ -99,7 +99,8 @@ export const ContactRu: React.FC = () => {
               className="h-10 w-10 rounded-full object-cover border border-[#144374] brightness-110 contrast-125 saturate-110"
             />
             <div>
-              <h4 className="text-xl font-normal text-white">Common Auto Parts</h4>
+              <h4 className="text-xl font-bold text-white">C.A.P</h4>
+              <p className="text-sm text-gray-400 font-normal">Common Auto Parts</p>
             </div>
           </div>
           <p className="text-gray-500 text-sm">
