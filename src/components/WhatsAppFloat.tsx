@@ -14,7 +14,7 @@ export const WhatsAppFloat: React.FC = () => {
   return (
     <button
       onClick={handleWhatsAppClick}
-      className="fixed bottom-4 right-4 bg-green-500 hover:bg-green-600 text-white px-3 py-2 sm:p-4 rounded-2xl sm:rounded-full shadow-2xl transition-all duration-300 transform hover:scale-110 z-50 flex items-center space-x-2 content-reveal delay-4"
+      className="fixed bottom-4 right-4 bg-green-500 hover:bg-green-600 text-white px-4 py-2.5 sm:p-4 rounded-2xl sm:rounded-full shadow-2xl transition-all duration-300 transform hover:scale-110 z-50 flex items-center space-x-2 content-reveal delay-4"
       aria-label="WhatsApp"
     >
       <MessageCircle className="h-5 w-5 sm:h-6 sm:w-6" />
