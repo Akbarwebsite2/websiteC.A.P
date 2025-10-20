@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, MessageCircle } from 'lucide-react';
+import { Menu, X, MessageCircle, LogIn } from 'lucide-react';
 
 /**
  * Header Component
@@ -21,7 +21,6 @@ export const Header: React.FC = () => {
   const navLinks = [
     { name: 'Home', href: '#home' },
     { name: 'Products', href: '#products' },
-    { name: 'Catalog', href: '/catalog.html' },
     { name: 'About', href: '#about' },
     { name: 'Contact', href: '#contact' }
   ];
@@ -60,8 +59,23 @@ export const Header: React.FC = () => {
               ))}
             </div>
 
-            {/* Empty spacer for mobile to center content */}
-            <div className="lg:hidden w-10"></div>
+            {/* Login/Register Button - Desktop */}
+            <a
+              href="/catalog.html"
+              className="hidden lg:flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg font-semibold transition-colors shadow-lg"
+            >
+              <LogIn className="w-5 h-5" />
+              <span>Login/Register</span>
+            </a>
+
+            {/* Login/Register Button - Mobile */}
+            <a
+              href="/catalog.html"
+              className="lg:hidden flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-semibold transition-colors text-sm"
+            >
+              <LogIn className="w-4 h-4" />
+              <span>Login</span>
+            </a>
           </div>
         </nav>
       </header>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, MessageCircle } from 'lucide-react';
+import { Menu, X, MessageCircle, LogIn } from 'lucide-react';
 
 /**
  * Header Component - Russian Version
@@ -22,7 +22,6 @@ export const HeaderRu: React.FC = () => {
     { name: 'Главная', href: '#home' },
     { name: 'Продукты', href: '#products' },
     { name: 'Бренды', href: '#brands' },
-    { name: 'Каталог', href: '#catalog' },
     { name: 'О нас', href: '#about' },
     { name: 'Контакты', href: '#contact' }
   ];
@@ -61,8 +60,23 @@ export const HeaderRu: React.FC = () => {
               ))}
             </div>
 
-            {/* Empty spacer for mobile to center content */}
-            <div className="lg:hidden w-10"></div>
+            {/* Login/Register Button - Desktop */}
+            <a
+              href="/catalog.html"
+              className="hidden lg:flex items-center space-x-2 bg-[#144374] hover:bg-[#1e5ba8] text-white px-5 py-2.5 rounded-lg font-semibold transition-colors shadow-lg"
+            >
+              <LogIn className="w-5 h-5" />
+              <span>Вход/Регистрация</span>
+            </a>
+
+            {/* Login/Register Button - Mobile */}
+            <a
+              href="/catalog.html"
+              className="lg:hidden flex items-center space-x-2 bg-[#144374] hover:bg-[#1e5ba8] text-white px-4 py-2 rounded-lg font-semibold transition-colors text-sm"
+            >
+              <LogIn className="w-4 h-4" />
+              <span>Вход</span>
+            </a>
           </div>
         </nav>
       </header>
