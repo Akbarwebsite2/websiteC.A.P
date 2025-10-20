@@ -3,7 +3,6 @@ import { HeaderRu } from './components/Header-ru';
 import { HeroRu } from './components/Hero-ru';
 import { ProductsRu } from './components/Products-ru';
 import { BrandsRu } from './components/Brands-ru';
-import { CatalogRu } from './components/Catalog-ru';
 import { WhyChooseRu } from './components/WhyChoose-ru';
 import { ContactRu } from './components/Contact-ru';
 import { WhatsAppFloat } from './components/WhatsAppFloat';
@@ -24,7 +23,6 @@ function AppRu() {
         <HeroRu />
         <ProductsRu />
         <BrandsRu />
-        <CatalogRu />
         <WhyChooseRu />
         <ContactRu />
       </main>
