@@ -406,12 +406,12 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
               <div className="flex items-center space-x-2">
                 <button
                   onClick={() => setShowCart(true)}
-                  className="relative bg-blue-600/20 border border-blue-500 rounded-xl px-3 py-2 hover:bg-blue-600/30 transition-colors flex items-center space-x-2"
+                  className="relative bg-blue-600/20 border border-blue-500 rounded-xl px-3 py-2 hover:bg-blue-600/30 transition-colors flex items-center space-x-2 min-w-[120px] max-w-[120px]"
                 >
-                  <ShoppingCart className="w-5 h-5 text-blue-400" />
+                  <ShoppingCart className="w-5 h-5 text-blue-400 flex-shrink-0" />
                   {cartItems.length > 0 && (
                     <>
-                      <span className="text-white font-semibold text-sm">
+                      <span className="text-white font-semibold text-sm truncate">
                         {calculateCartTotal().toFixed(2)} AED
                       </span>
                       <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold">
@@ -424,7 +424,7 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
                 <div className="relative">
                 <button
                   onClick={() => setShowUserMenu(!showUserMenu)}
-                  className="flex items-center space-x-2 bg-blue-600/20 border border-blue-500 rounded-xl px-3 py-2 hover:bg-blue-600/30 transition-colors max-w-[160px]"
+                  className="flex items-center space-x-2 bg-blue-600/20 border border-blue-500 rounded-xl px-3 py-2 hover:bg-blue-600/30 transition-colors min-w-[120px] max-w-[120px]"
                 >
                   <User className="w-5 h-5 text-blue-400 flex-shrink-0" />
                   <span className="text-white font-medium text-sm truncate">{user.name}</span>
