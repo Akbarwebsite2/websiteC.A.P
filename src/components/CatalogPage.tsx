@@ -424,10 +424,10 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
                 <div className="relative">
                 <button
                   onClick={() => setShowUserMenu(!showUserMenu)}
-                  className="flex items-center space-x-2 bg-blue-600/20 border border-blue-500 rounded-xl px-3 py-2 hover:bg-blue-600/30 transition-colors min-w-[120px] max-w-[120px]"
+                  className="flex items-center bg-blue-600/20 border border-blue-500 rounded-xl px-2 py-2 hover:bg-blue-600/30 transition-colors w-[110px]"
                 >
                   <User className="w-5 h-5 text-blue-400 flex-shrink-0" />
-                  <span className="text-white font-medium text-sm truncate">{user.name}</span>
+                  <span className="text-white font-medium text-sm truncate flex-1 mx-1">{user.name}</span>
                   <ChevronDown className="w-4 h-4 text-blue-400 flex-shrink-0" />
                 </button>
 
@@ -533,10 +533,10 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
               <div className="relative">
                 <button
                   onClick={() => setShowUserMenu(!showUserMenu)}
-                  className="flex items-center space-x-2 bg-blue-600/20 border border-blue-500 rounded-xl px-4 py-3 hover:bg-blue-600/30 transition-colors max-w-[200px]"
+                  className="flex items-center bg-blue-600/20 border border-blue-500 rounded-xl px-3 py-3 hover:bg-blue-600/30 transition-colors w-[180px]"
                 >
                 <User className="w-5 h-5 text-blue-400 flex-shrink-0" />
-                <span className="text-white font-medium truncate">{user.name}</span>
+                <span className="text-white font-medium truncate flex-1 mx-2">{user.name}</span>
                 <ChevronDown className="w-4 h-4 text-blue-400 flex-shrink-0" />
               </button>
 
