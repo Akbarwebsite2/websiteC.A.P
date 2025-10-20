@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Search, Package, Weight, Info, LogOut, User, Upload, Menu, ChevronDown, ShoppingCart, Plus } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Search, Package, Weight, Info, LogOut, User, Upload, Menu, ChevronDown, ShoppingCart, Plus, FileUp } from 'lucide-react';
 import * as XLSX from 'xlsx';
 import { AdminPanel } from './AdminPanel';
 import { SidebarMenu } from './SidebarMenu';
@@ -66,6 +66,7 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
   const [currentLanguage, setCurrentLanguage] = useState<'ru' | 'en'>('ru');
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [showCart, setShowCart] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const UPLOAD_PASSWORD = 'cap2025';
   const ADMIN_EMAIL = 't8.fd88@gmail.com';
@@ -432,18 +433,30 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
                 </button>
 
                 {showUserMenu && (
-                  <div className="absolute right-0 mt-2 w-48 bg-gray-800 border border-gray-700 rounded-lg shadow-xl z-50">
+                  <div className="absolute right-0 mt-2 w-56 bg-gray-800 border border-gray-700 rounded-lg shadow-xl z-50">
                     {isAdmin && (
-                      <button
-                        onClick={() => {
-                          setShowAdminPanel(true);
-                          setShowUserMenu(false);
-                        }}
-                        className="w-full flex items-center space-x-2 px-4 py-3 text-white hover:bg-gray-700 transition-colors border-b border-gray-700"
-                      >
-                        <Upload className="w-4 h-4" />
-                        <span>Управление каталогом</span>
-                      </button>
+                      <>
+                        <button
+                          onClick={() => {
+                            setShowAdminPanel(true);
+                            setShowUserMenu(false);
+                          }}
+                          className="w-full flex items-center space-x-2 px-4 py-3 text-white hover:bg-gray-700 transition-colors border-b border-gray-700"
+                        >
+                          <Upload className="w-4 h-4" />
+                          <span>Управление каталогом</span>
+                        </button>
+                        <button
+                          onClick={() => {
+                            fileInputRef.current?.click();
+                            setShowUserMenu(false);
+                          }}
+                          className="w-full flex items-center space-x-2 px-4 py-3 text-green-400 hover:bg-gray-700 transition-colors border-b border-gray-700"
+                        >
+                          <FileUp className="w-4 h-4" />
+                          <span>Загрузить Excel файлы</span>
+                        </button>
+                      </>
                     )}
                     <button
                       onClick={() => {
@@ -541,18 +554,30 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
               </button>
 
               {showUserMenu && (
-                <div className="absolute right-0 mt-2 w-48 bg-gray-800 border border-gray-700 rounded-lg shadow-xl z-50">
+                <div className="absolute right-0 mt-2 w-64 bg-gray-800 border border-gray-700 rounded-lg shadow-xl z-50">
                   {isAdmin && (
-                    <button
-                      onClick={() => {
-                        setShowAdminPanel(true);
-                        setShowUserMenu(false);
-                      }}
-                      className="w-full flex items-center space-x-2 px-4 py-3 text-white hover:bg-gray-700 transition-colors border-b border-gray-700"
-                    >
-                      <Upload className="w-4 h-4" />
-                      <span>Управление каталогом</span>
-                    </button>
+                    <>
+                      <button
+                        onClick={() => {
+                          setShowAdminPanel(true);
+                          setShowUserMenu(false);
+                        }}
+                        className="w-full flex items-center space-x-2 px-4 py-3 text-white hover:bg-gray-700 transition-colors border-b border-gray-700"
+                      >
+                        <Upload className="w-4 h-4" />
+                        <span>Управление каталогом</span>
+                      </button>
+                      <button
+                        onClick={() => {
+                          fileInputRef.current?.click();
+                          setShowUserMenu(false);
+                        }}
+                        className="w-full flex items-center space-x-2 px-4 py-3 text-green-400 hover:bg-gray-700 transition-colors border-b border-gray-700"
+                      >
+                        <FileUp className="w-4 h-4" />
+                        <span>Загрузить Excel файлы</span>
+                      </button>
+                    </>
                   )}
                   <button
                     onClick={() => {
@@ -743,6 +768,16 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
         items={cartItems}
         onRemoveItem={removeFromCart}
         onClearCart={clearCart}
+      />
+
+      {/* Hidden File Input for Quick Upload */}
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept=".xlsx,.xls"
+        multiple
+        onChange={handleFileUpload}
+        className="hidden"
       />
 
     </div>
