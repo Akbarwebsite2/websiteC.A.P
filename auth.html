@@ -77,7 +77,7 @@
 
   <script type="module">
     import { supabase } from './src/lib/supabase.ts';
-    import { hashPassword } from './src/lib/crypto.ts';
+    import { hashPassword, verifyPassword } from './src/lib/crypto.ts';
 
     const loginTab = document.getElementById('loginTab');
     const registerTab = document.getElementById('registerTab');
@@ -108,12 +108,10 @@
       const errorDiv = document.getElementById('loginError');
 
       try {
-        const hashedPassword = await hashPassword(password);
         const { data, error } = await supabase
           .from('catalog_users')
           .select('*')
           .eq('email', email)
-          .eq('password', hashedPassword)
           .maybeSingle();
 
         if (error) throw error;
@@ -132,6 +130,14 @@
 
         if (data.status === 'rejected') {
           errorDiv.textContent = 'Ваш запрос на регистрацию был отклонен';
+          errorDiv.classList.remove('hidden');
+          return;
+        }
+
+        const isPasswordValid = await verifyPassword(password, data.password_hash);
+
+        if (!isPasswordValid) {
+          errorDiv.textContent = 'Неверный email или пароль';
           errorDiv.classList.remove('hidden');
           return;
         }
@@ -183,8 +189,8 @@
           .insert([{
             name,
             email,
-            password: hashedPassword,
-            phone,
+            password_hash: hashedPassword,
+            phone_number: phone,
             address,
             company_name: company,
             status: 'pending'

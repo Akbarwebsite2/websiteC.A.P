@@ -29,14 +29,7 @@ function CatalogApp() {
         window.location.href = '/auth.html';
       }
     } else {
-      const demoUser = {
-        email: 'demo@test.com',
-        password: 'demo',
-        name: 'Демо пользователь',
-        status: 'approved'
-      };
-      localStorage.setItem('catalogUser', JSON.stringify(demoUser));
-      setUser(demoUser);
+      window.location.href = '/auth.html';
     }
   }, []);
 
