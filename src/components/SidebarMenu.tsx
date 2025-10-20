@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, Home, Package, Award, FolderOpen, Mail, Phone } from 'lucide-react';
+import { X, Home, Package, Award, Mail, Phone } from 'lucide-react';
 
 interface SidebarMenuProps {
   isOpen: boolean;
@@ -18,14 +18,12 @@ export const SidebarMenu: React.FC<SidebarMenuProps> = ({
     { label: 'Главная', icon: Home, href: '/' },
     { label: 'Продукты', icon: Package, href: '/#products' },
     { label: 'Бренды', icon: Award, href: '/#brands' },
-    { label: 'Каталог', icon: FolderOpen, href: '/catalog.html' },
     { label: 'О нас', icon: Mail, href: '/#about' },
     { label: 'Контакты', icon: Phone, href: '/#contact' },
   ] : [
     { label: 'Home', icon: Home, href: '/' },
     { label: 'Products', icon: Package, href: '/#products' },
     { label: 'Brands', icon: Award, href: '/#brands' },
-    { label: 'Catalog', icon: FolderOpen, href: '/catalog.html' },
     { label: 'About', icon: Mail, href: '/#about' },
     { label: 'Contact', icon: Phone, href: '/#contact' },
   ];
