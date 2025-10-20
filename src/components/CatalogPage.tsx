@@ -78,7 +78,7 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
     if (!price) return 'Цена по запросу';
     const numPrice = parseFloat(price);
     if (isNaN(numPrice)) return price;
-    return numPrice.toFixed(2);
+    return `${numPrice.toFixed(2)} AED`;
   };
 
   const calculateCartTotal = (): number => {
