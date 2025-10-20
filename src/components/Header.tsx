@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, MessageCircle, LogIn } from 'lucide-react';
+import { Menu, X, MessageCircle, LogIn, Home, Package, Mail, Phone } from 'lucide-react';
 
 /**
  * Header Component
@@ -19,10 +19,10 @@ export const Header: React.FC = () => {
   }, []);
 
   const navLinks = [
-    { name: 'Home', href: '#home' },
-    { name: 'Products', href: '#products' },
-    { name: 'About', href: '#about' },
-    { name: 'Contact', href: '#contact' }
+    { name: 'Home', href: '#home', icon: Home },
+    { name: 'Products', href: '#products', icon: Package },
+    { name: 'About', href: '#about', icon: Mail },
+    { name: 'Contact', href: '#contact', icon: Phone }
   ];
 
   const handleWhatsAppClick = () => {
@@ -114,6 +114,7 @@ export const Header: React.FC = () => {
                     className="flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-300 hover:bg-blue-600/20 hover:text-white transition-all duration-200"
                     onClick={() => setIsMenuOpen(false)}
                   >
+                    <link.icon className="w-5 h-5" />
                     <span className="font-medium">{link.name}</span>
                   </a>
                 </li>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, MessageCircle, LogIn } from 'lucide-react';
+import { Menu, X, MessageCircle, LogIn, Home, Package, Award, Mail, Phone } from 'lucide-react';
 
 /**
  * Header Component - Russian Version
@@ -19,11 +19,11 @@ export const HeaderRu: React.FC = () => {
   }, []);
 
   const navLinks = [
-    { name: 'Главная', href: '#home' },
-    { name: 'Продукты', href: '#products' },
-    { name: 'Бренды', href: '#brands' },
-    { name: 'О нас', href: '#about' },
-    { name: 'Контакты', href: '#contact' }
+    { name: 'Главная', href: '#home', icon: Home },
+    { name: 'Продукты', href: '#products', icon: Package },
+    { name: 'Бренды', href: '#brands', icon: Award },
+    { name: 'О нас', href: '#about', icon: Mail },
+    { name: 'Контакты', href: '#contact', icon: Phone }
   ];
 
   const handleWhatsAppClick = () => {
@@ -115,6 +115,7 @@ export const HeaderRu: React.FC = () => {
                     className="flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-300 hover:bg-blue-600/20 hover:text-white transition-all duration-200"
                     onClick={() => setIsMenuOpen(false)}
                   >
+                    <link.icon className="w-5 h-5" />
                     <span className="font-medium">{link.name}</span>
                   </a>
                 </li>
