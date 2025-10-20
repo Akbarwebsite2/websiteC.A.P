@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Generate Admin Hash</title>
+</head>
+<body>
+  <script type="module">
+    async function hashPassword(password) {
+      const encoder = new TextEncoder();
+      const data = encoder.encode(password);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+      return hashHex;
+    }
+
+    const hash = await hashPassword('12345678');
+    console.log('Password hash:', hash);
+    document.body.innerHTML = '<pre>Password hash: ' + hash + '</pre>';
+  </script>
+</body>
+</html>
