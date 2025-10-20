@@ -81,6 +81,16 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
     return numPrice.toFixed(2);
   };
 
+  const calculateCartTotal = (): number => {
+    return cartItems.reduce((total, item) => {
+      const price = parseFloat(item.price);
+      if (!isNaN(price)) {
+        return total + (price * item.quantity);
+      }
+      return total;
+    }, 0);
+  };
+
   const handleUploadLogin = () => {
     if (uploadPassword === UPLOAD_PASSWORD) {
       setIsUploadAuthenticated(true);
@@ -396,13 +406,18 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
               <div className="flex items-center space-x-2">
                 <button
                   onClick={() => setShowCart(true)}
-                  className="relative bg-blue-600/20 border border-blue-500 rounded-xl px-3 py-2 hover:bg-blue-600/30 transition-colors"
+                  className="relative bg-blue-600/20 border border-blue-500 rounded-xl px-3 py-2 hover:bg-blue-600/30 transition-colors flex items-center space-x-2"
                 >
                   <ShoppingCart className="w-5 h-5 text-blue-400" />
                   {cartItems.length > 0 && (
-                    <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold">
-                      {cartItems.length}
-                    </span>
+                    <>
+                      <span className="text-white font-semibold text-sm">
+                        ${calculateCartTotal().toFixed(2)}
+                      </span>
+                      <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold">
+                        {cartItems.length}
+                      </span>
+                    </>
                   )}
                 </button>
 
@@ -497,10 +512,17 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
             <div className="flex items-center space-x-3">
               <button
                 onClick={() => setShowCart(true)}
-                className="relative bg-blue-600/20 border border-blue-500 rounded-xl px-4 py-3 hover:bg-blue-600/30 transition-colors flex items-center space-x-2"
+                className="relative bg-blue-600/20 border border-blue-500 rounded-xl px-4 py-3 hover:bg-blue-600/30 transition-colors flex items-center space-x-3"
               >
                 <ShoppingCart className="w-5 h-5 text-blue-400" />
-                <span className="text-white font-medium">Корзина</span>
+                <div className="flex flex-col items-start">
+                  <span className="text-white font-medium text-sm">Корзина</span>
+                  {cartItems.length > 0 && (
+                    <span className="text-green-400 font-bold text-xs">
+                      ${calculateCartTotal().toFixed(2)}
+                    </span>
+                  )}
+                </div>
                 {cartItems.length > 0 && (
                   <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs w-6 h-6 rounded-full flex items-center justify-center font-bold">
                     {cartItems.length}

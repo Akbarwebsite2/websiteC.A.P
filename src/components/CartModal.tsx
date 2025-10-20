@@ -27,6 +27,16 @@ export const CartModal: React.FC<CartModalProps> = ({
 }) => {
   if (!isOpen) return null;
 
+  const calculateTotal = (): number => {
+    return items.reduce((total, item) => {
+      const price = parseFloat(item.price);
+      if (!isNaN(price)) {
+        return total + (price * item.quantity);
+      }
+      return total;
+    }, 0);
+  };
+
   return (
     <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
       <div className="bg-gray-900 rounded-2xl w-full max-w-2xl max-h-[90vh] flex flex-col border-2 border-blue-600/30">
@@ -91,7 +101,13 @@ export const CartModal: React.FC<CartModalProps> = ({
         </div>
 
         {items.length > 0 && (
-          <div className="p-6 border-t border-gray-700">
+          <div className="p-6 border-t border-gray-700 space-y-4">
+            <div className="flex items-center justify-between bg-gray-800/50 rounded-lg p-4 border border-gray-700">
+              <span className="text-gray-300 text-lg font-semibold">Общая сумма:</span>
+              <span className="text-green-400 text-2xl font-bold">
+                ${calculateTotal().toFixed(2)}
+              </span>
+            </div>
             <button
               onClick={onClearCart}
               className="w-full bg-red-600 hover:bg-red-700 text-white py-3 px-6 rounded-lg font-semibold transition-colors flex items-center justify-center space-x-2"
