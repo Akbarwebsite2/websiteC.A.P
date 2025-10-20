@@ -424,11 +424,11 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
                 <div className="relative">
                 <button
                   onClick={() => setShowUserMenu(!showUserMenu)}
-                  className="flex items-center space-x-2 bg-blue-600/20 border border-blue-500 rounded-xl px-3 py-2 hover:bg-blue-600/30 transition-colors"
+                  className="flex items-center space-x-2 bg-blue-600/20 border border-blue-500 rounded-xl px-3 py-2 hover:bg-blue-600/30 transition-colors max-w-[160px]"
                 >
-                  <User className="w-5 h-5 text-blue-400" />
-                  <span className="text-white font-medium text-sm">{user.name}</span>
-                  <ChevronDown className="w-4 h-4 text-blue-400" />
+                  <User className="w-5 h-5 text-blue-400 flex-shrink-0" />
+                  <span className="text-white font-medium text-sm truncate">{user.name}</span>
+                  <ChevronDown className="w-4 h-4 text-blue-400 flex-shrink-0" />
                 </button>
 
                 {showUserMenu && (
@@ -533,11 +533,11 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
               <div className="relative">
                 <button
                   onClick={() => setShowUserMenu(!showUserMenu)}
-                  className="flex items-center space-x-2 bg-blue-600/20 border border-blue-500 rounded-xl px-4 py-3 hover:bg-blue-600/30 transition-colors"
+                  className="flex items-center space-x-2 bg-blue-600/20 border border-blue-500 rounded-xl px-4 py-3 hover:bg-blue-600/30 transition-colors max-w-[200px]"
                 >
-                <User className="w-5 h-5 text-blue-400" />
-                <span className="text-white font-medium">{user.name}</span>
-                <ChevronDown className="w-4 h-4 text-blue-400" />
+                <User className="w-5 h-5 text-blue-400 flex-shrink-0" />
+                <span className="text-white font-medium truncate">{user.name}</span>
+                <ChevronDown className="w-4 h-4 text-blue-400 flex-shrink-0" />
               </button>
 
               {showUserMenu && (
