@@ -90,40 +90,37 @@ export const HeaderRu: React.FC = () => {
       )}
 
       {/* Mobile Menu Sidebar */}
-      <div className={`lg:hidden fixed left-0 top-0 bottom-0 h-screen w-80 bg-black border-r border-[#144374] shadow-[0_0_30px_rgba(20,67,116,0.4)] transform transition-transform duration-300 ease-out z-[101] ${
+      <div className={`lg:hidden fixed left-0 top-0 bottom-0 h-screen w-80 bg-gradient-to-b from-gray-900 to-black border-r border-gray-700 shadow-xl transform transition-transform duration-300 ease-out z-[101] ${
         isMenuOpen ? 'translate-x-0' : '-translate-x-full'
       }`}>
         <div className="flex flex-col h-full">
           {/* Header */}
-          <div className="p-8 border-b border-[#144374]/30">
-            <div className="flex items-center justify-between">
-              <h2 className="text-3xl font-bold bg-gradient-to-r from-[#144374] to-[#1e5ba8] bg-clip-text text-transparent">МЕНЮ</h2>
-              <button
-                onClick={() => setIsMenuOpen(false)}
-                className="p-2 text-[#144374] hover:text-[#1e5ba8] hover:rotate-90 transition-all duration-200"
-              >
-                <X className="h-7 w-7" />
-              </button>
-            </div>
+          <div className="flex items-center justify-between p-6 border-b border-gray-700">
+            <h2 className="text-xl font-bold text-white">Меню</h2>
+            <button
+              onClick={() => setIsMenuOpen(false)}
+              className="text-gray-400 hover:text-white transition-colors"
+            >
+              <X className="w-6 h-6" />
+            </button>
           </div>
 
           {/* Navigation Links */}
-          <div className="flex-1 px-6 py-8 space-y-1 overflow-y-auto">
-            {navLinks.map((link, index) => (
-              <a
-                key={link.name}
-                href={link.href}
-                className="block px-6 py-4 text-lg text-gray-300 hover:text-white hover:bg-[#144374]/20 font-bold tracking-wide border-l-4 border-transparent hover:border-[#144374] transition-all duration-200"
-                onClick={() => setIsMenuOpen(false)}
-                style={{
-                  animationDelay: `${index * 50}ms`
-                }}
-              >
-                {link.name}
-              </a>
-            ))}
-          </div>
-
+          <nav className="flex-1 overflow-y-auto py-6">
+            <ul className="space-y-2 px-4">
+              {navLinks.map((link, index) => (
+                <li key={index}>
+                  <a
+                    href={link.href}
+                    className="flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-300 hover:bg-blue-600/20 hover:text-white transition-all duration-200"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    <span className="font-medium">{link.name}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
         </div>
       </div>
     </>
