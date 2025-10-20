@@ -105,7 +105,7 @@ export const CartModal: React.FC<CartModalProps> = ({
             <div className="flex items-center justify-between bg-gray-800/50 rounded-lg p-4 border border-gray-700">
               <span className="text-gray-300 text-lg font-semibold">Общая сумма:</span>
               <span className="text-green-400 text-2xl font-bold">
-                ${calculateTotal().toFixed(2)}
+                {calculateTotal().toFixed(2)} AED
               </span>
             </div>
             <button

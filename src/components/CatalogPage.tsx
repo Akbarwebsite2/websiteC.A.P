@@ -412,7 +412,7 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
                   {cartItems.length > 0 && (
                     <>
                       <span className="text-white font-semibold text-sm">
-                        ${calculateCartTotal().toFixed(2)}
+                        {calculateCartTotal().toFixed(2)} AED
                       </span>
                       <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold">
                         {cartItems.length}
@@ -519,7 +519,7 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
                   <span className="text-white font-medium text-sm">Корзина</span>
                   {cartItems.length > 0 && (
                     <span className="text-green-400 font-bold text-xs">
-                      ${calculateCartTotal().toFixed(2)}
+                      {calculateCartTotal().toFixed(2)} AED
                     </span>
                   )}
                 </div>
