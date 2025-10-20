@@ -39,13 +39,9 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, current
   const [isProcessing, setIsProcessing] = useState(false);
   const [previewData, setPreviewData] = useState<PartData[]>([]);
   const [allCatalogData, setAllCatalogData] = useState<PartData[]>([]);
-  const [adminPassword, setAdminPassword] = useState('');
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
   const [accessRequests, setAccessRequests] = useState<AccessRequest[]>([]);
   const [activeTab, setActiveTab] = useState<'catalog' | 'access'>('catalog');
-
-  // Простой пароль для демо (в реальном проекте используйте более безопасную аутентификацию)
-  const ADMIN_PASSWORD = 'cap2025';
 
   useEffect(() => {
     loadCatalogFromDatabase();
@@ -141,13 +137,6 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, current
     } catch (error) {
       console.error('Ошибка обновления статуса:', error);
       alert('Ошибка при обработке запроса');
-    }
-  };
-  const handleLogin = () => {
-    if (adminPassword === ADMIN_PASSWORD) {
-      setIsAuthenticated(true);
-    } else {
-      alert('Неверный пароль!');
     }
   };
 
@@ -372,31 +361,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, current
           </button>
         </div>
 
-        {!isAuthenticated ? (
-          <div className="text-center">
-            <h3 className="text-xl text-white mb-4">Вход в админ-панель</h3>
-            <div className="max-w-sm mx-auto">
-              <input
-                type="password"
-                placeholder="Введите пароль администратора"
-                value={adminPassword}
-                onChange={(e) => setAdminPassword(e.target.value)}
-                className="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white mb-4"
-                onKeyPress={(e) => e.key === 'Enter' && handleLogin()}
-              />
-              <button
-                onClick={handleLogin}
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-lg"
-              >
-                Войти
-              </button>
-              <p className="text-gray-400 text-sm mt-4">
-                Пароль для демо: <code className="bg-gray-700 px-2 py-1 rounded">cap2025</code>
-              </p>
-            </div>
-          </div>
-        ) : (
-          <>
+        <>
             <div className="mb-6">
               {/* Tabs */}
               <div className="flex space-x-4 mb-6">
@@ -616,8 +581,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, current
                 </div>
               )}
             </div>
-          </>
-        )}
+        </>
       </div>
     </div>
   );
