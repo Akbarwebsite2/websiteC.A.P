@@ -6,68 +6,71 @@
   <title>Вход / Регистрация - Common Auto Parts</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-50">
+<body class="bg-gradient-to-br from-black via-gray-900 to-black min-h-screen">
   <div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
     <div class="max-w-md w-full space-y-8">
       <div>
-        <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+        <h2 class="mt-6 text-center text-3xl font-extrabold text-white">
           Common Auto Parts
         </h2>
+        <p class="mt-2 text-center text-sm text-gray-400">
+          Качественные автозапчасти для вашего автомобиля
+        </p>
       </div>
 
-      <div class="bg-white rounded-lg shadow-lg p-8">
-        <div class="flex border-b border-gray-200 mb-6">
-          <button id="loginTab" class="flex-1 py-2 px-4 text-center font-medium text-blue-600 border-b-2 border-blue-600">
+      <div class="bg-gray-900 rounded-2xl shadow-2xl p-8 border border-gray-700">
+        <div class="flex border-b border-gray-700 mb-6">
+          <button id="loginTab" class="flex-1 py-3 px-4 text-center font-semibold text-[#144374] border-b-2 border-[#144374] transition-colors">
             Вход
           </button>
-          <button id="registerTab" class="flex-1 py-2 px-4 text-center font-medium text-gray-500 hover:text-gray-700">
+          <button id="registerTab" class="flex-1 py-3 px-4 text-center font-semibold text-gray-400 hover:text-gray-300 transition-colors">
             Регистрация
           </button>
         </div>
 
         <div id="loginForm" class="space-y-6">
           <div>
-            <label for="loginEmail" class="block text-sm font-medium text-gray-700">Email</label>
-            <input type="email" id="loginEmail" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+            <label for="loginEmail" class="block text-sm font-medium text-gray-300 mb-2">Email</label>
+            <input type="email" id="loginEmail" required class="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-[#144374] focus:ring-2 focus:ring-[#144374]/20 transition-all" placeholder="Введите ваш email">
           </div>
           <div>
-            <label for="loginPassword" class="block text-sm font-medium text-gray-700">Пароль</label>
-            <input type="password" id="loginPassword" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+            <label for="loginPassword" class="block text-sm font-medium text-gray-300 mb-2">Пароль</label>
+            <input type="password" id="loginPassword" required class="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-[#144374] focus:ring-2 focus:ring-[#144374]/20 transition-all" placeholder="Введите пароль">
           </div>
-          <div id="loginError" class="text-red-600 text-sm hidden"></div>
-          <button id="loginBtn" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+          <div id="loginError" class="bg-red-500/20 border border-red-500 rounded-lg p-3 text-red-400 text-sm hidden"></div>
+          <button id="loginBtn" class="w-full py-3 rounded-lg font-semibold text-white bg-[#144374] hover:bg-[#1a5490] focus:outline-none focus:ring-2 focus:ring-[#144374]/50 transition-colors shadow-lg">
             Войти
           </button>
         </div>
 
-        <div id="registerForm" class="space-y-6 hidden">
+        <div id="registerForm" class="space-y-4 hidden">
           <div>
-            <label for="registerName" class="block text-sm font-medium text-gray-700">Имя</label>
-            <input type="text" id="registerName" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+            <label for="registerName" class="block text-sm font-medium text-gray-300 mb-2">Имя</label>
+            <input type="text" id="registerName" required class="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-[#144374] focus:ring-2 focus:ring-[#144374]/20 transition-all" placeholder="Введите ваше имя">
           </div>
           <div>
-            <label for="registerEmail" class="block text-sm font-medium text-gray-700">Email</label>
-            <input type="email" id="registerEmail" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+            <label for="registerEmail" class="block text-sm font-medium text-gray-300 mb-2">Email</label>
+            <input type="email" id="registerEmail" required class="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-[#144374] focus:ring-2 focus:ring-[#144374]/20 transition-all" placeholder="Введите ваш email">
           </div>
           <div>
-            <label for="registerPassword" class="block text-sm font-medium text-gray-700">Пароль</label>
-            <input type="password" id="registerPassword" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+            <label for="registerPassword" class="block text-sm font-medium text-gray-300 mb-2">Пароль</label>
+            <input type="password" id="registerPassword" required class="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-[#144374] focus:ring-2 focus:ring-[#144374]/20 transition-all" placeholder="Введите пароль">
           </div>
           <div>
-            <label for="registerPhone" class="block text-sm font-medium text-gray-700">Номер телефона</label>
-            <input type="tel" id="registerPhone" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+            <label for="registerPhone" class="block text-sm font-medium text-gray-300 mb-2">Номер телефона</label>
+            <input type="tel" id="registerPhone" required class="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-[#144374] focus:ring-2 focus:ring-[#144374]/20 transition-all" placeholder="Введите номер телефона">
           </div>
           <div>
-            <label for="registerAddress" class="block text-sm font-medium text-gray-700">Адрес</label>
-            <input type="text" id="registerAddress" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+            <label for="registerAddress" class="block text-sm font-medium text-gray-300 mb-2">Адрес</label>
+            <input type="text" id="registerAddress" required class="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-[#144374] focus:ring-2 focus:ring-[#144374]/20 transition-all" placeholder="Введите ваш адрес">
           </div>
           <div>
-            <label for="registerCompany" class="block text-sm font-medium text-gray-700">Название компании</label>
-            <input type="text" id="registerCompany" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+            <label for="registerCompany" class="block text-sm font-medium text-gray-300 mb-2">Название компании</label>
+            <input type="text" id="registerCompany" required class="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-[#144374] focus:ring-2 focus:ring-[#144374]/20 transition-all" placeholder="Введите название компании">
           </div>
-          <div id="registerError" class="text-red-600 text-sm hidden"></div>
-          <div id="registerSuccess" class="text-green-600 text-sm hidden"></div>
-          <button id="registerBtn" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+          <div id="registerError" class="bg-red-500/20 border border-red-500 rounded-lg p-3 text-red-400 text-sm hidden"></div>
+          <div id="registerSuccess" class="bg-green-500/20 border border-green-500 rounded-lg p-3 text-green-400 text-sm hidden"></div>
+          <button id="registerBtn" class="w-full py-3 rounded-lg font-semibold text-white bg-[#144374] hover:bg-[#1a5490] focus:outline-none focus:ring-2 focus:ring-[#144374]/50 transition-colors shadow-lg">
             Отправить запрос на регистрацию
           </button>
         </div>
@@ -85,19 +88,19 @@
     const registerForm = document.getElementById('registerForm');
 
     loginTab.addEventListener('click', () => {
-      loginTab.classList.add('text-blue-600', 'border-b-2', 'border-blue-600');
-      loginTab.classList.remove('text-gray-500');
-      registerTab.classList.remove('text-blue-600', 'border-b-2', 'border-blue-600');
-      registerTab.classList.add('text-gray-500');
+      loginTab.classList.add('text-[#144374]', 'border-b-2', 'border-[#144374]');
+      loginTab.classList.remove('text-gray-400');
+      registerTab.classList.remove('text-[#144374]', 'border-b-2', 'border-[#144374]');
+      registerTab.classList.add('text-gray-400');
       loginForm.classList.remove('hidden');
       registerForm.classList.add('hidden');
     });
 
     registerTab.addEventListener('click', () => {
-      registerTab.classList.add('text-blue-600', 'border-b-2', 'border-blue-600');
-      registerTab.classList.remove('text-gray-500');
-      loginTab.classList.remove('text-blue-600', 'border-b-2', 'border-blue-600');
-      loginTab.classList.add('text-gray-500');
+      registerTab.classList.add('text-[#144374]', 'border-b-2', 'border-[#144374]');
+      registerTab.classList.remove('text-gray-400');
+      loginTab.classList.remove('text-[#144374]', 'border-b-2', 'border-[#144374]');
+      loginTab.classList.add('text-gray-400');
       registerForm.classList.remove('hidden');
       loginForm.classList.add('hidden');
     });
