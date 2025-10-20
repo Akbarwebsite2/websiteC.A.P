@@ -422,14 +422,14 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
                   key={part.code}
                   className="bg-gradient-to-br from-gray-800/90 to-gray-900/90 backdrop-blur-sm rounded-xl p-6 border border-gray-700 hover:border-[#144374] transition-all duration-300 transform hover:-translate-y-2"
                 >
-                  {/* Part Code */}
+                  {/* Brand and Availability */}
                   <div className="flex items-center justify-between mb-4">
                     <span className="bg-[#144374] text-white px-3 py-1 rounded-full text-sm font-bold">
-                      {part.code}
+                      {part.brand}
                     </span>
                     <span className={`px-2 py-1 rounded-full text-xs font-semibold ${
-                      part.availability === 'В наличии' 
-                        ? 'bg-green-500/20 text-green-400' 
+                      part.availability === 'В наличии'
+                        ? 'bg-green-500/20 text-green-400'
                         : 'bg-yellow-500/20 text-yellow-400'
                     }`}>
                       {part.availability}
@@ -438,8 +438,8 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
 
                   {/* Part Info */}
                   <h4 className="text-lg font-bold text-white mb-2">{part.name}</h4>
-                  <p className="text-gray-400 text-sm mb-4">{part.brand}</p>
-                  
+                  <p className="text-gray-400 text-sm mb-4">{part.code}</p>
+
                   {part.description && part.description !== part.name && (
                     <p className="text-gray-300 text-sm mb-4 leading-relaxed">
                       {part.description}
