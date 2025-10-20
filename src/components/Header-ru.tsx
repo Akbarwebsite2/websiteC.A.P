@@ -66,7 +66,7 @@ export const HeaderRu: React.FC = () => {
               className="hidden lg:flex items-center space-x-2 bg-[#144374] hover:bg-[#1e5ba8] text-white px-5 py-2.5 rounded-lg font-semibold transition-colors shadow-lg"
             >
               <LogIn className="w-5 h-5" />
-              <span>Вход/Регистрация</span>
+              <span>Регистрация/Вход</span>
             </a>
 
             {/* Login/Register Button - Mobile */}
@@ -75,7 +75,7 @@ export const HeaderRu: React.FC = () => {
               className="lg:hidden flex items-center space-x-2 bg-[#144374] hover:bg-[#1e5ba8] text-white px-4 py-2 rounded-lg font-semibold transition-colors text-sm"
             >
               <LogIn className="w-4 h-4" />
-              <span>Вход</span>
+              <span>Регистрация/Вход</span>
             </a>
           </div>
         </nav>
