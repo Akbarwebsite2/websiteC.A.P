@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { User, Lock, Mail, Eye, EyeOff, X, KeyRound, Building2, MapPin, Phone } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { hashPassword, verifyPassword } from '../lib/crypto';
-import { generateVerificationCode, sendVerificationCode, sendPasswordResetCode } from '../lib/emailService';
+import { generateVerificationCode, sendPasswordResetCode } from '../lib/emailService';
 
 interface AuthUser {
   id: string;
@@ -18,15 +18,12 @@ interface AuthModalProps {
 
 export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onLogin }) => {
   const [isLoginMode, setIsLoginMode] = useState(true);
-  const [showVerificationInput, setShowVerificationInput] = useState(false);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [showResetCodeInput, setShowResetCodeInput] = useState(false);
-  const [verificationCode, setVerificationCode] = useState('');
   const [resetCode, setResetCode] = useState('');
   const [resetEmail, setResetEmail] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
-  const [pendingVerificationId, setPendingVerificationId] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -42,75 +39,6 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onLogin }
   const [isLoading, setIsLoading] = useState(false);
 
   if (!isOpen) return null;
-
-  const handleVerifyCode = async () => {
-    if (verificationCode.length !== 6) {
-      setError('Код должен содержать 6 цифр');
-      return;
-    }
-
-    setIsLoading(true);
-    setError('');
-
-    try {
-      const { data: verification, error: fetchError } = await supabase
-        .from('verification_codes')
-        .select('*')
-        .eq('code', verificationCode)
-        .eq('verified', false)
-        .maybeSingle();
-
-      if (fetchError) throw fetchError;
-
-      if (!verification) {
-        setError('Неверный код подтверждения');
-        return;
-      }
-
-      const now = new Date();
-      const expiresAt = new Date(verification.expires_at);
-
-      if (now > expiresAt) {
-        setError('Код истек. Пожалуйста, зарегистрируйтесь снова');
-        await supabase
-          .from('verification_codes')
-          .delete()
-          .eq('id', verification.id);
-        return;
-      }
-
-      const { data: newUser, error: insertError } = await supabase
-        .from('catalog_users')
-        .insert([{
-          email: verification.email,
-          password_hash: verification.password_hash,
-          name: verification.name,
-          company_name: verification.company_name,
-          address: verification.address,
-          phone_number: verification.phone_number,
-          status: 'pending'
-        }])
-        .select()
-        .single();
-
-      if (insertError) throw insertError;
-
-      await supabase
-        .from('verification_codes')
-        .update({ verified: true })
-        .eq('id', verification.id);
-
-      setSuccess('Регистрация отправлена на одобрение администратора. Вы получите доступ после одобрения.');
-      setTimeout(() => {
-        resetForm();
-        onClose();
-      }, 3000);
-    } catch (error: any) {
-      setError(error.message || 'Произошла ошибка при проверке кода');
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -178,44 +106,29 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onLogin }
           return;
         }
 
-        const code = generateVerificationCode();
         const passwordHash = await hashPassword(formData.password);
 
-        const expiresAt = new Date();
-        expiresAt.setMinutes(expiresAt.getMinutes() + 10);
-
-        const { data: verificationRecord, error: insertError } = await supabase
-          .from('verification_codes')
+        const { data: newUser, error: insertError } = await supabase
+          .from('catalog_users')
           .insert([{
             email: formData.email,
-            name: formData.name,
-            code: code,
             password_hash: passwordHash,
-            expires_at: expiresAt.toISOString()
+            name: formData.name,
+            company_name: formData.companyName,
+            address: formData.address,
+            phone_number: formData.phoneNumber,
+            status: 'pending'
           }])
           .select()
           .single();
 
         if (insertError) throw insertError;
 
-        const emailSent = await sendVerificationCode(
-          formData.email,
-          formData.name,
-          code
-        );
-
-        if (!emailSent) {
-          await supabase
-            .from('verification_codes')
-            .delete()
-            .eq('id', verificationRecord.id);
-          setError('Ошибка отправки email. Попробуйте снова');
-          return;
-        }
-
-        setPendingVerificationId(verificationRecord.id);
-        setShowVerificationInput(true);
-        setSuccess('Код подтверждения отправлен на вашу почту!');
+        setSuccess('Регистрация отправлена на одобрение администратора. Вы получите доступ после одобрения.');
+        setTimeout(() => {
+          resetForm();
+          onClose();
+        }, 3000);
       }
     } catch (error: any) {
       setError(error.message || 'Произошла ошибка. Попробуйте снова.');
@@ -234,9 +147,6 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onLogin }
       address: '',
       phoneNumber: ''
     });
-    setVerificationCode('');
-    setShowVerificationInput(false);
-    setPendingVerificationId(null);
     setError('');
     setSuccess('');
   };
@@ -563,88 +473,6 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onLogin }
             className="w-full text-gray-400 hover:text-white py-2 text-sm transition-colors"
           >
             Вернуться к входу
-          </button>
-        </div>
-      </div>
-    );
-  }
-
-  if (showVerificationInput) {
-    return (
-      <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div className="bg-gray-900 rounded-2xl p-8 max-w-md w-full border border-gray-700">
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-bold text-white">
-              Подтверждение email
-            </h2>
-            <button
-              onClick={() => {
-                resetForm();
-                onClose();
-              }}
-              className="text-gray-400 hover:text-white transition-colors"
-            >
-              <X className="w-6 h-6" />
-            </button>
-          </div>
-
-          <div className="text-center mb-6">
-            <div className="w-16 h-16 bg-[#144374]/20 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Mail className="w-8 h-8 text-[#144374]" />
-            </div>
-            <p className="text-gray-300 mb-2">
-              Мы отправили 6-значный код на
-            </p>
-            <p className="text-white font-semibold mb-4">
-              t8.fd88@gmail.com
-            </p>
-            <p className="text-sm text-gray-400">
-              Код действителен 10 минут
-            </p>
-          </div>
-
-          {success && (
-            <div className="bg-green-500/20 border border-green-500 rounded-lg p-3 mb-4">
-              <p className="text-green-400 text-sm text-center">{success}</p>
-            </div>
-          )}
-
-          {error && (
-            <div className="bg-red-500/20 border border-red-500 rounded-lg p-3 mb-4">
-              <p className="text-red-400 text-sm text-center">{error}</p>
-            </div>
-          )}
-
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-300 mb-2 text-center">
-              Введите код подтверждения
-            </label>
-            <div className="relative">
-              <KeyRound className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-              <input
-                type="text"
-                maxLength={6}
-                value={verificationCode}
-                onChange={(e) => setVerificationCode(e.target.value.replace(/\D/g, ''))}
-                className="w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white text-center text-2xl tracking-widest placeholder-gray-400 focus:outline-none focus:border-[#144374] focus:ring-2 focus:ring-[#144374]/20"
-                placeholder="000000"
-              />
-            </div>
-          </div>
-
-          <button
-            onClick={handleVerifyCode}
-            disabled={isLoading || verificationCode.length !== 6}
-            className="w-full bg-[#144374] hover:bg-[#1a5490] text-white py-3 rounded-lg font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed mb-4"
-          >
-            {isLoading ? 'Проверка...' : 'Подтвердить'}
-          </button>
-
-          <button
-            onClick={resetForm}
-            className="w-full text-gray-400 hover:text-white py-2 text-sm transition-colors"
-          >
-            Вернуться к регистрации
           </button>
         </div>
       </div>
