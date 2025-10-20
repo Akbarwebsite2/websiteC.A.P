@@ -71,40 +71,6 @@ export const SidebarMenu: React.FC<SidebarMenuProps> = ({
               ))}
             </ul>
           </nav>
-
-          <div className="border-t border-gray-700 p-6">
-            <div className="text-sm text-gray-400 mb-3">
-              {currentLanguage === 'ru' ? 'Язык' : 'Language'}
-            </div>
-            <div className="flex space-x-2">
-              <button
-                onClick={() => {
-                  onLanguageChange('ru');
-                  window.location.href = '/';
-                }}
-                className={`flex-1 px-4 py-2 rounded-lg font-medium transition-all ${
-                  currentLanguage === 'ru'
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
-                }`}
-              >
-                Русский
-              </button>
-              <button
-                onClick={() => {
-                  onLanguageChange('en');
-                  window.location.href = '/en';
-                }}
-                className={`flex-1 px-4 py-2 rounded-lg font-medium transition-all ${
-                  currentLanguage === 'en'
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
-                }`}
-              >
-                English
-              </button>
-            </div>
-          </div>
         </div>
       </div>
     </>
