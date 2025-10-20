@@ -522,22 +522,58 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onLogin }
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {!isLoginMode && (
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
-                Имя
-              </label>
-              <div className="relative">
-                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-                <input
-                  type="text"
-                  required
-                  value={formData.name}
-                  onChange={(e) => setFormData({...formData, name: e.target.value})}
-                  className="w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-[#144374] focus:ring-2 focus:ring-[#144374]/20"
-                  placeholder="Введите ваше имя"
-                />
+            <>
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  ФИО
+                </label>
+                <div className="relative">
+                  <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                  <input
+                    type="text"
+                    required
+                    value={formData.name}
+                    onChange={(e) => setFormData({...formData, name: e.target.value})}
+                    className="w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-[#144374] focus:ring-2 focus:ring-[#144374]/20"
+                    placeholder="Введите ваше ФИО"
+                  />
+                </div>
               </div>
-            </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  Название компании/магазина
+                </label>
+                <div className="relative">
+                  <Building2 className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                  <input
+                    type="text"
+                    required
+                    value={formData.companyName}
+                    onChange={(e) => setFormData({...formData, companyName: e.target.value})}
+                    className="w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-[#144374] focus:ring-2 focus:ring-[#144374]/20"
+                    placeholder="Введите название компании/магазина"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  Номер телефона
+                </label>
+                <div className="relative">
+                  <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                  <input
+                    type="tel"
+                    required
+                    value={formData.phoneNumber}
+                    onChange={(e) => setFormData({...formData, phoneNumber: e.target.value})}
+                    className="w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-[#144374] focus:ring-2 focus:ring-[#144374]/20"
+                    placeholder="Введите номер телефона"
+                  />
+                </div>
+              </div>
+            </>
           )}
 
           <div>
@@ -557,9 +593,28 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onLogin }
             </div>
           </div>
 
+          {!isLoginMode && (
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Адрес
+              </label>
+              <div className="relative">
+                <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                <input
+                  type="text"
+                  required
+                  value={formData.address}
+                  onChange={(e) => setFormData({...formData, address: e.target.value})}
+                  className="w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-[#144374] focus:ring-2 focus:ring-[#144374]/20"
+                  placeholder="Введите ваш адрес"
+                />
+              </div>
+            </div>
+          )}
+
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-2">
-              Пароль
+              {!isLoginMode ? 'Придумайте пароль' : 'Пароль'}
             </label>
             <div className="relative">
               <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
@@ -582,75 +637,22 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onLogin }
           </div>
 
           {!isLoginMode && (
-            <>
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Подтвердите пароль
-                </label>
-                <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-                  <input
-                    type={showPassword ? 'text' : 'password'}
-                    required
-                    value={formData.confirmPassword}
-                    onChange={(e) => setFormData({...formData, confirmPassword: e.target.value})}
-                    className="w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-[#144374] focus:ring-2 focus:ring-[#144374]/20"
-                    placeholder="Повторите пароль"
-                  />
-                </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Подтвердите пароль
+              </label>
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  required
+                  value={formData.confirmPassword}
+                  onChange={(e) => setFormData({...formData, confirmPassword: e.target.value})}
+                  className="w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-[#144374] focus:ring-2 focus:ring-[#144374]/20"
+                  placeholder="Повторите пароль"
+                />
               </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Имя компании
-                </label>
-                <div className="relative">
-                  <Building2 className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-                  <input
-                    type="text"
-                    required
-                    value={formData.companyName}
-                    onChange={(e) => setFormData({...formData, companyName: e.target.value})}
-                    className="w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-[#144374] focus:ring-2 focus:ring-[#144374]/20"
-                    placeholder="Введите название компании"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Адрес
-                </label>
-                <div className="relative">
-                  <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-                  <input
-                    type="text"
-                    required
-                    value={formData.address}
-                    onChange={(e) => setFormData({...formData, address: e.target.value})}
-                    className="w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-[#144374] focus:ring-2 focus:ring-[#144374]/20"
-                    placeholder="Введите ваш адрес"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Номер телефона
-                </label>
-                <div className="relative">
-                  <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-                  <input
-                    type="tel"
-                    required
-                    value={formData.phoneNumber}
-                    onChange={(e) => setFormData({...formData, phoneNumber: e.target.value})}
-                    className="w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-[#144374] focus:ring-2 focus:ring-[#144374]/20"
-                    placeholder="Введите номер телефона"
-                  />
-                </div>
-              </div>
-            </>
+            </div>
           )}
 
           {error && (
