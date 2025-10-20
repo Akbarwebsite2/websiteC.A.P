@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Package, Weight, Info, LogOut, User, Upload, Menu, ChevronDown } from 'lucide-react';
+import { Search, Package, Weight, Info, LogOut, User, Upload, Menu, ChevronDown, ShoppingCart, Plus } from 'lucide-react';
 import * as XLSX from 'xlsx';
 import { AdminPanel } from './AdminPanel';
 import { SidebarMenu } from './SidebarMenu';
+import { CartModal } from './CartModal';
 import { supabase } from '../lib/supabase';
 
 interface PartData {
@@ -36,6 +37,15 @@ interface AccessRequest {
   status: 'pending' | 'approved' | 'rejected';
   approvedDate?: string;
 }
+
+interface CartItem {
+  id: string;
+  part_code: string;
+  part_name: string;
+  brand: string;
+  price: string;
+  quantity: number;
+}
 /**
  * Separate Catalog Page Component
  * Dedicated page for catalog search after authentication
@@ -54,6 +64,8 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [currentLanguage, setCurrentLanguage] = useState<'ru' | 'en'>('ru');
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [showCart, setShowCart] = useState(false);
 
   const UPLOAD_PASSWORD = 'cap2025';
   const ADMIN_EMAIL = 't8.fd88@gmail.com';
@@ -189,7 +201,100 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
   // Загрузить каталог из базы данных при запуске
   useEffect(() => {
     loadCatalogFromDatabase();
+    loadCartItems();
   }, []);
+
+  const loadCartItems = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('cart_items')
+        .select('*')
+        .eq('user_email', user.email)
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+      if (data) {
+        setCartItems(data);
+      }
+    } catch (error) {
+      console.error('Ошибка загрузки корзины:', error);
+    }
+  };
+
+  const addToCart = async (part: PartData) => {
+    try {
+      const existingItem = cartItems.find(item => item.part_code === part.code);
+
+      if (existingItem) {
+        const { error } = await supabase
+          .from('cart_items')
+          .update({ quantity: existingItem.quantity + 1, updated_at: new Date().toISOString() })
+          .eq('id', existingItem.id);
+
+        if (error) throw error;
+
+        setCartItems(prev => prev.map(item =>
+          item.id === existingItem.id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        ));
+      } else {
+        const { data, error } = await supabase
+          .from('cart_items')
+          .insert([{
+            user_email: user.email,
+            part_code: part.code,
+            part_name: part.name,
+            brand: part.brand,
+            price: part.price,
+            quantity: 1
+          }])
+          .select();
+
+        if (error) throw error;
+        if (data) {
+          setCartItems(prev => [...prev, data[0]]);
+        }
+      }
+    } catch (error) {
+      console.error('Ошибка добавления в корзину:', error);
+      alert('Ошибка добавления в корзину');
+    }
+  };
+
+  const removeFromCart = async (itemId: string) => {
+    try {
+      const { error } = await supabase
+        .from('cart_items')
+        .delete()
+        .eq('id', itemId);
+
+      if (error) throw error;
+
+      setCartItems(prev => prev.filter(item => item.id !== itemId));
+    } catch (error) {
+      console.error('Ошибка удаления из корзины:', error);
+      alert('Ошибка удаления из корзины');
+    }
+  };
+
+  const clearCart = async () => {
+    if (!confirm('Очистить всю корзину?')) return;
+
+    try {
+      const { error } = await supabase
+        .from('cart_items')
+        .delete()
+        .eq('user_email', user.email);
+
+      if (error) throw error;
+
+      setCartItems([]);
+    } catch (error) {
+      console.error('Ошибка очистки корзины:', error);
+      alert('Ошибка очистки корзины');
+    }
+  };
 
   const loadCatalogFromDatabase = async () => {
     try {
@@ -278,7 +383,7 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
         <div className="bg-gradient-to-r from-gray-900/95 to-gray-800/95 backdrop-blur-sm border-2 border-blue-600/30 rounded-2xl p-3 md:p-4 mb-6 md:mb-8 shadow-xl">
           {/* Mobile Layout - Stacked */}
           <div className="lg:hidden">
-            {/* Top Row - Menu and User */}
+            {/* Top Row - Menu, Cart and User */}
             <div className="flex items-center justify-between mb-3">
               <button
                 onClick={() => setSidebarOpen(true)}
@@ -288,7 +393,20 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
                 <span className="font-medium text-sm">Меню</span>
               </button>
 
-              <div className="relative">
+              <div className="flex items-center space-x-2">
+                <button
+                  onClick={() => setShowCart(true)}
+                  className="relative bg-blue-600/20 border border-blue-500 rounded-xl px-3 py-2 hover:bg-blue-600/30 transition-colors"
+                >
+                  <ShoppingCart className="w-5 h-5 text-blue-400" />
+                  {cartItems.length > 0 && (
+                    <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold">
+                      {cartItems.length}
+                    </span>
+                  )}
+                </button>
+
+                <div className="relative">
                 <button
                   onClick={() => setShowUserMenu(!showUserMenu)}
                   className="flex items-center space-x-2 bg-blue-600/20 border border-blue-500 rounded-xl px-3 py-2 hover:bg-blue-600/30 transition-colors"
@@ -324,6 +442,7 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
                     </button>
                   </div>
                 )}
+                </div>
               </div>
             </div>
 
@@ -375,11 +494,25 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
               </div>
             </div>
 
-            <div className="relative">
+            <div className="flex items-center space-x-3">
               <button
-                onClick={() => setShowUserMenu(!showUserMenu)}
-                className="flex items-center space-x-2 bg-blue-600/20 border border-blue-500 rounded-xl px-4 py-3 hover:bg-blue-600/30 transition-colors"
+                onClick={() => setShowCart(true)}
+                className="relative bg-blue-600/20 border border-blue-500 rounded-xl px-4 py-3 hover:bg-blue-600/30 transition-colors flex items-center space-x-2"
               >
+                <ShoppingCart className="w-5 h-5 text-blue-400" />
+                <span className="text-white font-medium">Корзина</span>
+                {cartItems.length > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs w-6 h-6 rounded-full flex items-center justify-center font-bold">
+                    {cartItems.length}
+                  </span>
+                )}
+              </button>
+
+              <div className="relative">
+                <button
+                  onClick={() => setShowUserMenu(!showUserMenu)}
+                  className="flex items-center space-x-2 bg-blue-600/20 border border-blue-500 rounded-xl px-4 py-3 hover:bg-blue-600/30 transition-colors"
+                >
                 <User className="w-5 h-5 text-blue-400" />
                 <span className="text-white font-medium">{user.name}</span>
                 <ChevronDown className="w-4 h-4 text-blue-400" />
@@ -411,6 +544,7 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
                   </button>
                 </div>
               )}
+              </div>
             </div>
           </div>
         </div>
@@ -467,7 +601,7 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
                   )}
 
                   {/* Price and Weight */}
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center text-green-400">
                       <span className="font-bold">{formatPrice(part.price)}</span>
                     </div>
@@ -478,6 +612,15 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
                       </div>
                     )}
                   </div>
+
+                  {/* Add to Cart Button */}
+                  <button
+                    onClick={() => addToCart(part)}
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg font-semibold transition-colors flex items-center justify-center space-x-2"
+                  >
+                    <Plus className="w-4 h-4" />
+                    <span>Добавить в корзину</span>
+                  </button>
                 </div>
               ))}
             </div>
@@ -570,7 +713,16 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
           </div>
         )}
       </div>
-      
+
+      {/* Cart Modal */}
+      <CartModal
+        isOpen={showCart}
+        onClose={() => setShowCart(false)}
+        items={cartItems}
+        onRemoveItem={removeFromCart}
+        onClearCart={clearCart}
+      />
+
     </div>
   );
 };
