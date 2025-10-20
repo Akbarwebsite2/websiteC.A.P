@@ -66,7 +66,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, current
           id: user.id.toString(),
           userEmail: user.email,
           userName: user.name,
-          phone: user.phone,
+          phone: user.phone_number,
           address: user.address,
           companyName: user.company_name,
           requestDate: new Date(user.created_at).toLocaleString('ru-RU'),
