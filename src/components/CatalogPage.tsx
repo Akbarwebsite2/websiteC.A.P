@@ -62,6 +62,12 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
   // Проверка является ли пользователь админом
   const isAdmin = ADMIN_EMAILS.includes(user.email.toLowerCase());
 
+  const formatPrice = (price: string): string => {
+    if (!price) return 'Цена по запросу';
+    const numPrice = parseFloat(price);
+    if (isNaN(numPrice)) return price;
+    return numPrice.toFixed(2);
+  };
 
   const handleUploadLogin = () => {
     if (uploadPassword === UPLOAD_PASSWORD) {
@@ -449,7 +455,7 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
                   {/* Price and Weight */}
                   <div className="flex items-center justify-between">
                     <div className="flex items-center text-green-400">
-                      <span className="font-bold">{part.price || 'Цена по запросу'}</span>
+                      <span className="font-bold">{formatPrice(part.price)}</span>
                     </div>
                     {part.weight && (
                       <div className="flex items-center text-gray-400">
