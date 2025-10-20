@@ -63,7 +63,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onLogin }
           }
 
           if (users.status === 'rejected') {
-            setError('Ваш аккаунт был отклонен администратором');
+            setError('Ваш аккаунт был отклонен. Пожалуйста, зарегистрируйтесь заново для повторной отправки запроса.');
             return;
           }
 
@@ -97,13 +97,39 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onLogin }
 
         const { data: existingUser } = await supabase
           .from('catalog_users')
-          .select('id')
+          .select('*')
           .eq('email', formData.email)
           .maybeSingle();
 
         if (existingUser) {
-          setError('Пользователь с таким email уже существует');
-          return;
+          if (existingUser.status === 'rejected') {
+            const passwordHash = await hashPassword(formData.password);
+
+            const { error: updateError } = await supabase
+              .from('catalog_users')
+              .update({
+                password_hash: passwordHash,
+                name: formData.name,
+                company_name: formData.companyName,
+                address: formData.address,
+                phone_number: formData.phoneNumber,
+                status: 'pending',
+                updated_at: new Date().toISOString()
+              })
+              .eq('id', existingUser.id);
+
+            if (updateError) throw updateError;
+
+            setSuccess('Ваш запрос отправлен повторно на одобрение администратора!');
+            setTimeout(() => {
+              resetForm();
+              onClose();
+            }, 3000);
+            return;
+          } else {
+            setError('Пользователь с таким email уже существует');
+            return;
+          }
         }
 
         const passwordHash = await hashPassword(formData.password);

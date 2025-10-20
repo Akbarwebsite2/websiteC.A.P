@@ -544,34 +544,36 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, current
                               )}
                             </div>
                             
-                            <div className="flex items-center space-x-2">
-                              <span className={`px-2 py-1 rounded-full text-xs font-semibold ${
-                                request.status === 'pending' 
-                                  ? 'bg-yellow-500/20 text-yellow-400' 
+                            <div className="flex flex-col space-y-2">
+                              <span className={`px-2 py-1 rounded-full text-xs font-semibold text-center ${
+                                request.status === 'pending'
+                                  ? 'bg-yellow-500/20 text-yellow-400'
                                   : request.status === 'approved'
                                   ? 'bg-green-500/20 text-green-400'
                                   : 'bg-red-500/20 text-red-400'
                               }`}>
-                                {request.status === 'pending' ? 'Ожидает' : 
+                                {request.status === 'pending' ? 'Ожидает' :
                                  request.status === 'approved' ? 'Одобрен' : 'Отклонен'}
                               </span>
-                              
-                              {request.status === 'pending' && (
-                                <div className="flex space-x-2">
+
+                              <div className="flex space-x-2">
+                                {request.status !== 'approved' && (
                                   <button
                                     onClick={() => handleAccessRequest(request.id, 'approve')}
-                                    className="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-xs font-semibold"
+                                    className="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-xs font-semibold flex-1"
                                   >
                                     Одобрить
                                   </button>
+                                )}
+                                {request.status !== 'rejected' && (
                                   <button
                                     onClick={() => handleAccessRequest(request.id, 'reject')}
-                                    className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-xs font-semibold"
+                                    className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-xs font-semibold flex-1"
                                   >
                                     Отклонить
                                   </button>
-                                </div>
-                              )}
+                                )}
+                              </div>
                             </div>
                           </div>
                         </div>
