@@ -193,27 +193,41 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
 
   const loadCatalogFromDatabase = async () => {
     try {
-      const { data, error } = await supabase
-        .from('catalog_parts')
-        .select('*')
-        .order('code');
+      let allData: any[] = [];
+      let from = 0;
+      const batchSize = 1000;
+      let hasMore = true;
 
-      if (error) throw error;
+      while (hasMore) {
+        const { data, error } = await supabase
+          .from('catalog_parts')
+          .select('*')
+          .order('code')
+          .range(from, from + batchSize - 1);
 
-      if (data) {
-        const catalogData: PartData[] = data.map(item => ({
-          code: item.code,
-          name: item.name,
-          brand: item.brand,
-          price: item.price,
-          weight: item.weight,
-          category: item.category,
-          description: item.description,
-          availability: item.availability
-        }));
-        setPartsData(catalogData);
-        console.log(`Загружен каталог из базы: ${catalogData.length} позиций`);
+        if (error) throw error;
+
+        if (data && data.length > 0) {
+          allData = [...allData, ...data];
+          from += batchSize;
+          hasMore = data.length === batchSize;
+        } else {
+          hasMore = false;
+        }
       }
+
+      const catalogData: PartData[] = allData.map(item => ({
+        code: item.code,
+        name: item.name,
+        brand: item.brand,
+        price: item.price,
+        weight: item.weight,
+        category: item.category,
+        description: item.description,
+        availability: item.availability
+      }));
+      setPartsData(catalogData);
+      console.log(`Загружен каталог из базы: ${catalogData.length} позиций`);
     } catch (error) {
       console.error('Ошибка загрузки каталога из базы:', error);
       setPartsData([]);

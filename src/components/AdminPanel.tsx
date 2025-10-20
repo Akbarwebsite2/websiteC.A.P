@@ -82,26 +82,40 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, current
 
   const loadCatalogFromDatabase = async () => {
     try {
-      const { data, error } = await supabase
-        .from('catalog_parts')
-        .select('*')
-        .order('code');
+      let allData: any[] = [];
+      let from = 0;
+      const batchSize = 1000;
+      let hasMore = true;
 
-      if (error) throw error;
+      while (hasMore) {
+        const { data, error } = await supabase
+          .from('catalog_parts')
+          .select('*')
+          .order('code')
+          .range(from, from + batchSize - 1);
 
-      if (data) {
-        const catalogData: PartData[] = data.map(item => ({
-          code: item.code,
-          name: item.name,
-          brand: item.brand,
-          price: item.price,
-          weight: item.weight,
-          category: item.category,
-          description: item.description,
-          availability: item.availability
-        }));
-        setAllCatalogData(catalogData);
+        if (error) throw error;
+
+        if (data && data.length > 0) {
+          allData = [...allData, ...data];
+          from += batchSize;
+          hasMore = data.length === batchSize;
+        } else {
+          hasMore = false;
+        }
       }
+
+      const catalogData: PartData[] = allData.map(item => ({
+        code: item.code,
+        name: item.name,
+        brand: item.brand,
+        price: item.price,
+        weight: item.weight,
+        category: item.category,
+        description: item.description,
+        availability: item.availability
+      }));
+      setAllCatalogData(catalogData);
     } catch (error) {
       console.error('Ошибка загрузки каталога из базы:', error);
     }
@@ -281,7 +295,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, current
 
         if (deleteError) throw deleteError;
 
-        // Вставить новые данные
+        // Вставить новые данные батчами по 1000 записей
         const catalogToInsert = previewData.map(item => ({
           code: item.code,
           name: item.name,
@@ -293,11 +307,16 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, current
           availability: item.availability
         }));
 
-        const { error: insertError } = await supabase
-          .from('catalog_parts')
-          .insert(catalogToInsert);
+        const batchSize = 1000;
+        for (let i = 0; i < catalogToInsert.length; i += batchSize) {
+          const batch = catalogToInsert.slice(i, i + batchSize);
+          const { error: insertError } = await supabase
+            .from('catalog_parts')
+            .insert(batch);
 
-        if (insertError) throw insertError;
+          if (insertError) throw insertError;
+          console.log(`Загружено ${Math.min(i + batchSize, catalogToInsert.length)} из ${catalogToInsert.length} позиций`);
+        }
 
         onCatalogUpdate(previewData, selectedFiles.map(file => file.name));
         alert(`Каталог сохранен в базу данных! Загружено ${previewData.length} позиций.`);
