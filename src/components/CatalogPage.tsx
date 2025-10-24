@@ -15,6 +15,7 @@ interface PartData {
   category: string;
   description?: string;
   availability: string;
+  qty?: string;
 }
 
 interface AuthUser {
@@ -150,25 +151,35 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
                    headerLower === 'nett';
           });
 
+          const qtyIndex = headerRow.findIndex(header => {
+            if (!header) return false;
+            const headerLower = header.toString().toLowerCase();
+            return headerLower === 'qty' ||
+                   headerLower === 'available qty' ||
+                   headerLower === 'quantity';
+          });
+
           for (let i = 1; i < jsonData.length; i++) {
             const row = jsonData[i] as any[];
-            
+
             if (row && row.length > 0 && partNoIndex !== -1) {
               const partNo = row[partNoIndex]?.toString().trim() || '';
               const description = descriptionIndex !== -1 ? (row[descriptionIndex]?.toString().trim() || '') : '';
               const price = priceIndex !== -1 ? (row[priceIndex]?.toString().trim() || '') : '';
+              const qty = qtyIndex !== -1 ? (row[qtyIndex]?.toString().trim() || '') : '';
 
               if (partNo && partNo !== '') {
                 const existingIndex = allProcessedData.findIndex(item => item.code === partNo);
                 const newItem = {
                   code: partNo,
                   name: description || partNo,
-                  brand: 'C.A.P',
+                  brand: '',
                   price: price && price !== '' ? `${price} AED` : 'Цена по запросу',
                   weight: '',
                   category: 'Автозапчасти',
                   description: description || partNo,
-                  availability: 'В наличии'
+                  availability: 'В наличии',
+                  qty: qty || '0'
                 };
                 
                 if (existingIndex >= 0) {
@@ -340,7 +351,8 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
         weight: item.weight,
         category: item.category,
         description: item.description,
-        availability: item.availability
+        availability: item.availability,
+        qty: item.qty
       }));
       setPartsData(catalogData);
       console.log(`Загружен каталог из базы: ${catalogData.length} позиций`);
@@ -623,11 +635,8 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
                   key={part.code}
                   className="bg-gradient-to-br from-gray-800/90 to-gray-900/90 backdrop-blur-sm rounded-xl p-6 border border-gray-700 hover:border-[#144374] transition-all duration-300 transform hover:-translate-y-2"
                 >
-                  {/* Brand and Availability */}
+                  {/* Availability and Quantity */}
                   <div className="flex items-center justify-between mb-4">
-                    <span className="bg-[#144374] text-white px-3 py-1 rounded-full text-sm font-bold">
-                      {part.brand}
-                    </span>
                     <span className={`px-2 py-1 rounded-full text-xs font-semibold ${
                       part.availability === 'В наличии'
                         ? 'bg-green-500/20 text-green-400'
@@ -635,6 +644,11 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
                     }`}>
                       {part.availability}
                     </span>
+                    {part.qty && (
+                      <span className="bg-blue-500/20 text-blue-400 px-3 py-1 rounded-full text-sm font-bold">
+                        Кол-во: {part.qty}
+                      </span>
+                    )}
                   </div>
 
                   {/* Part Info */}
