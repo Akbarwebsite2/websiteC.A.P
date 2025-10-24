@@ -682,12 +682,6 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
         </div>
 
 
-        {totalParts > 0 && (
-          <p className="text-center text-gray-400 mb-8 text-sm">
-            Доступно для поиска: {totalParts.toLocaleString()} позиций
-          </p>
-        )}
-
         {/* Loading */}
         {isLoading && (
           <div className="text-center py-8">
