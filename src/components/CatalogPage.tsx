@@ -331,6 +331,24 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
     }
   };
 
+  const updateCartQuantity = async (itemId: string, quantity: number) => {
+    try {
+      const { error } = await supabase
+        .from('cart_items')
+        .update({ quantity, updated_at: new Date().toISOString() })
+        .eq('id', itemId);
+
+      if (error) throw error;
+
+      setCartItems(prev => prev.map(item =>
+        item.id === itemId ? { ...item, quantity } : item
+      ));
+    } catch (error) {
+      console.error('Ошибка обновления количества:', error);
+      alert('Ошибка обновления количества');
+    }
+  };
+
   const clearCart = async () => {
     if (!confirm('Очистить всю корзину?')) return;
 
@@ -864,6 +882,7 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
         items={cartItems}
         onRemoveItem={removeFromCart}
         onClearCart={clearCart}
+        onUpdateQuantity={updateCartQuantity}
       />
 
       {/* Hidden File Input for Quick Upload */}

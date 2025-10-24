@@ -16,6 +16,7 @@ interface CartModalProps {
   items: CartItem[];
   onRemoveItem: (id: string) => void;
   onClearCart: () => void;
+  onUpdateQuantity: (id: string, quantity: number) => void;
 }
 
 export const CartModal: React.FC<CartModalProps> = ({
@@ -23,7 +24,8 @@ export const CartModal: React.FC<CartModalProps> = ({
   onClose,
   items,
   onRemoveItem,
-  onClearCart
+  onClearCart,
+  onUpdateQuantity
 }) => {
   if (!isOpen) return null;
 
@@ -83,7 +85,19 @@ export const CartModal: React.FC<CartModalProps> = ({
                       <h3 className="text-white font-medium mb-2">{item.part_name}</h3>
                       <div className="flex items-center space-x-4">
                         <span className="text-green-400 font-semibold">{item.price}</span>
-                        <span className="text-gray-500 text-sm">Количество: {item.quantity}</span>
+                        <div className="flex items-center space-x-2">
+                          <label className="text-gray-500 text-sm">Количество:</label>
+                          <input
+                            type="number"
+                            min="1"
+                            value={item.quantity}
+                            onChange={(e) => {
+                              const value = parseInt(e.target.value) || 1;
+                              onUpdateQuantity(item.id, value > 0 ? value : 1);
+                            }}
+                            className="w-20 px-2 py-1 bg-gray-700 border border-gray-600 rounded text-white text-sm focus:outline-none focus:border-blue-500"
+                          />
+                        </div>
                       </div>
                     </div>
                     <button
