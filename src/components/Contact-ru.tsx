@@ -7,7 +7,7 @@ import { MessageCircle, MapPin, Clock, Mail, Send } from 'lucide-react';
  */
 export const ContactRu: React.FC = () => {
   const handleWhatsAppClick = () => {
-    const message = encodeURIComponent("Здравствуйте, меня интересуют автозапчасти C.A.P.");
+    const message = encodeURIComponent("Здравствуйте, меня интересуют");
     window.open(`https://wa.me/971561747182?text=${message}`, '_blank');
   };
 
