@@ -67,6 +67,7 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
   const [currentLanguage, setCurrentLanguage] = useState<'ru' | 'en'>('ru');
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [showCart, setShowCart] = useState(false);
+  const [partQuantities, setPartQuantities] = useState<{ [key: string]: number }>({});
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const UPLOAD_PASSWORD = 'cap2025';
@@ -271,19 +272,20 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
 
   const addToCart = async (part: PartData) => {
     try {
+      const quantityToAdd = partQuantities[part.code] || 1;
       const existingItem = cartItems.find(item => item.part_code === part.code);
 
       if (existingItem) {
         const { error } = await supabase
           .from('cart_items')
-          .update({ quantity: existingItem.quantity + 1, updated_at: new Date().toISOString() })
+          .update({ quantity: existingItem.quantity + quantityToAdd, updated_at: new Date().toISOString() })
           .eq('id', existingItem.id);
 
         if (error) throw error;
 
         setCartItems(prev => prev.map(item =>
           item.id === existingItem.id
-            ? { ...item, quantity: item.quantity + 1 }
+            ? { ...item, quantity: item.quantity + quantityToAdd }
             : item
         ));
       } else {
@@ -295,7 +297,7 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
             part_name: part.name,
             brand: part.brand,
             price: part.price,
-            quantity: 1
+            quantity: quantityToAdd
           }])
           .select();
 
@@ -304,6 +306,9 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
           setCartItems(prev => [...prev, data[0]]);
         }
       }
+
+      setPartQuantities(prev => ({ ...prev, [part.code]: 1 }));
+      alert(`Добавлено ${quantityToAdd} шт. в корзину`);
     } catch (error) {
       console.error('Ошибка добавления в корзину:', error);
       alert('Ошибка добавления в корзину');
@@ -740,6 +745,21 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
                         <span className="text-sm">{part.weight}</span>
                       </div>
                     )}
+                  </div>
+
+                  {/* Quantity Input */}
+                  <div className="mb-3">
+                    <label className="block text-gray-400 text-sm mb-1">Количество:</label>
+                    <input
+                      type="number"
+                      min="1"
+                      value={partQuantities[part.code] || 1}
+                      onChange={(e) => {
+                        const value = parseInt(e.target.value) || 1;
+                        setPartQuantities(prev => ({ ...prev, [part.code]: value > 0 ? value : 1 }));
+                      }}
+                      className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
+                    />
                   </div>
 
                   {/* Add to Cart Button */}
