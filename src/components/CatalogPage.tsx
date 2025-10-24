@@ -153,11 +153,20 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
 
           const qtyIndex = headerRow.findIndex(header => {
             if (!header) return false;
-            const headerLower = header.toString().toLowerCase();
+            const headerLower = header.toString().toLowerCase().trim();
             return headerLower === 'qty' ||
                    headerLower === 'available qty' ||
-                   headerLower === 'quantity';
+                   headerLower === 'quantity' ||
+                   headerLower.includes('qty');
           });
+
+          console.log('Headers found:', {
+            partNo: partNoIndex,
+            description: descriptionIndex,
+            price: priceIndex,
+            qty: qtyIndex
+          });
+          console.log('Header row:', headerRow);
 
           for (let i = 1; i < jsonData.length; i++) {
             const row = jsonData[i] as any[];
@@ -167,6 +176,16 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
               const description = descriptionIndex !== -1 ? (row[descriptionIndex]?.toString().trim() || '') : '';
               const price = priceIndex !== -1 ? (row[priceIndex]?.toString().trim() || '') : '';
               const qty = qtyIndex !== -1 ? (row[qtyIndex]?.toString().trim() || '') : '';
+
+              if (i <= 3) {
+                console.log(`Row ${i} data:`, {
+                  partNo,
+                  description,
+                  price,
+                  qty,
+                  qtyRaw: row[qtyIndex]
+                });
+              }
 
               if (partNo && partNo !== '') {
                 const existingIndex = allProcessedData.findIndex(item => item.code === partNo);
@@ -192,19 +211,26 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
           }
 
           processedFiles++;
-          
+
           if (processedFiles === files.length) {
             setPartsData(allProcessedData);
             localStorage.setItem('capCatalog', JSON.stringify(allProcessedData));
-            // Также сохраняем в sessionStorage для дополнительной надежности
             sessionStorage.setItem('capCatalog', JSON.stringify(allProcessedData));
-            // Создаем резервную копию с timestamp
             const backupKey = `capCatalog_backup_${Date.now()}`;
             localStorage.setItem(backupKey, JSON.stringify(allProcessedData));
-            setIsProcessing(false);
-            alert(`Каталог обновлен! Загружено ${allProcessedData.length} позиций.`);
-            setSelectedFiles([]);
-            setShowUploadSection(false);
+
+            saveCatalogToDatabase(allProcessedData).then(savedCount => {
+              setIsProcessing(false);
+              alert(`Каталог обновлен! Загружено ${allProcessedData.length} позиций. Сохранено в базу данных: ${savedCount} позиций.`);
+              setSelectedFiles([]);
+              setShowUploadSection(false);
+            }).catch(error => {
+              console.error('Ошибка сохранения в базу:', error);
+              setIsProcessing(false);
+              alert(`Каталог обновлен! Загружено ${allProcessedData.length} позиций. Ошибка сохранения в базу данных.`);
+              setSelectedFiles([]);
+              setShowUploadSection(false);
+            });
           }
         } catch (error) {
           console.error(`Ошибка обработки файла ${file.name}:`, error);
@@ -315,6 +341,48 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
     } catch (error) {
       console.error('Ошибка очистки корзины:', error);
       alert('Ошибка очистки корзины');
+    }
+  };
+
+  const saveCatalogToDatabase = async (catalogData: PartData[]) => {
+    try {
+      const batchSize = 100;
+      let successCount = 0;
+
+      for (let i = 0; i < catalogData.length; i += batchSize) {
+        const batch = catalogData.slice(i, i + batchSize);
+
+        const dataToInsert = batch.map(item => ({
+          code: item.code,
+          name: item.name,
+          brand: item.brand || '',
+          price: item.price,
+          weight: item.weight || '',
+          category: item.category,
+          description: item.description,
+          availability: item.availability,
+          qty: item.qty || '0'
+        }));
+
+        const { error } = await supabase
+          .from('catalog_parts')
+          .upsert(dataToInsert, {
+            onConflict: 'code',
+            ignoreDuplicates: false
+          });
+
+        if (error) {
+          console.error(`Ошибка сохранения батча ${i}-${i + batchSize}:`, error);
+        } else {
+          successCount += batch.length;
+        }
+      }
+
+      console.log(`Сохранено в базу: ${successCount} из ${catalogData.length} позиций`);
+      return successCount;
+    } catch (error) {
+      console.error('Ошибка сохранения каталога в базу:', error);
+      return 0;
     }
   };
 
