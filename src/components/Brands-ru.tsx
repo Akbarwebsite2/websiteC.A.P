@@ -18,13 +18,13 @@ export const BrandsRu: React.FC = () => {
     { name: "Вкладыши", category: "Моторные части", logo: "/7.png" },
     { name: "Поршневые кольца", category: "Моторные части", logo: "/8.png" },
     { name: "Водяной помпа", category: "Моторные части", logo: "/9.png" },
-    { name: "Фильтры", category: "Моторные части", logo: "/" },
+    { name: "Фильтры", category: "Моторные части", logo: "/10.png" },
     
     // Next 5 brands with logos (11.png to 15.png)
-    { name: "Подшипники", category: "Моторные части", logo: "/" },
-    { name: "Комплект прокладок", category: "Моторные части", logo: "/" },
-    { name: "Вкладыши", category: "Моторные части", logo: "/" },
-    { name: "Поршневые кольца", category: "Моторные части", logo: "/" },
+    { name: "Подшипники", category: "Моторные части", logo: "/11.png" },
+    { name: "Комплект прокладок", category: "Моторные части", logo: "/12.png" },
+    { name: "Вкладыши", category: "Моторные части", logo: "/13.png" },
+    { name: "Поршневые кольца", category: "Моторные части", logo: "/14.png" },
     { name: "Детали сцепления", category: "Моторные части", logo: "/" },
     
     // Cards 16-20 with logos (16.png to 20.png)
