@@ -15,12 +15,16 @@ function CatalogApp() {
 
   useEffect(() => {
     const catalogUser = localStorage.getItem('catalogUser');
+    console.log('Checking catalogUser:', catalogUser);
     if (catalogUser) {
       try {
         const userData = JSON.parse(catalogUser);
+        console.log('Parsed user data:', userData);
+        console.log('User status:', userData.status);
         if (userData.status === 'approved') {
           setUser(userData);
         } else {
+          console.log('User status not approved, redirecting to auth');
           localStorage.removeItem('catalogUser');
           window.location.href = '/auth.html';
         }
@@ -29,6 +33,7 @@ function CatalogApp() {
         window.location.href = '/auth.html';
       }
     } else {
+      console.log('No catalogUser in localStorage, redirecting to auth');
       window.location.href = '/auth.html';
     }
   }, []);
