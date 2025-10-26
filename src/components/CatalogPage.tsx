@@ -594,10 +594,6 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
                 <Search className="w-4 h-4" />
               </button>
             </div>
-
-            <p className="text-base sm:text-lg text-gray-300 text-center leading-relaxed font-medium mt-4">
-              <span className="tracking-wide">Мы предлагаем профессиональный сервис, широкий выбор и быстрые поставки.</span>
-            </p>
           </div>
 
           {/* Desktop Layout - Single Row */}
@@ -627,9 +623,6 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
                   <Search className="w-4 h-4" />
                 </button>
               </div>
-              <p className="text-base text-gray-300 text-center leading-relaxed font-medium mt-3">
-                <span className="tracking-wide">Мы предлагаем профессиональный сервис, широкий выбор и быстрые поставки.</span>
-              </p>
             </div>
 
             <div className="flex items-center space-x-3">
