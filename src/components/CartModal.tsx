@@ -62,50 +62,12 @@ export const CartModal: React.FC<CartModalProps> = ({
     const file = event.target.files?.[0];
     if (!file) return;
 
-    try {
-      const reader = new FileReader();
-      reader.onload = async (e) => {
-        try {
-          const base64Content = e.target?.result?.toString().split(',')[1];
+    const message = `Здравствуйте! Я хочу отправить файл Excel с запросом на запчасти.\n\nИмя файла: ${file.name}\nРазмер: ${(file.size / 1024).toFixed(2)} KB\n\nПожалуйста, сообщите как можно отправить этот файл.`;
+    const encodedMessage = encodeURIComponent(message);
 
-          if (!base64Content) {
-            alert('Ошибка чтения файла');
-            return;
-          }
+    window.open(`https://wa.me/971561747182?text=${encodedMessage}`, '_blank');
 
-          const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-email`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
-            },
-            body: JSON.stringify({
-              to: 't8.fd88@gmail.com',
-              subject: 'Запрос через Excel от клиента',
-              message: `Клиент отправил файл с запросом на запчасти.\n\nИмя файла: ${file.name}\nРазмер: ${(file.size / 1024).toFixed(2)} KB`,
-              fileName: file.name,
-              fileContent: base64Content,
-            }),
-          });
-
-          const result = await response.json();
-
-          if (result.success) {
-            alert(`Файл "${file.name}" успешно отправлен на почту!`);
-          } else {
-            alert(`Ошибка отправки: ${result.error || 'Неизвестная ошибка'}`);
-          }
-        } catch (error) {
-          console.error('Error sending email:', error);
-          alert('Ошибка при отправке файла. Попробуйте позже.');
-        }
-      };
-
-      reader.readAsDataURL(file);
-    } catch (error) {
-      console.error('Error reading file:', error);
-      alert('Ошибка при чтении файла');
-    }
+    alert(`Пожалуйста, отправьте файл "${file.name}" напрямую через WhatsApp после открытия чата.`);
 
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
