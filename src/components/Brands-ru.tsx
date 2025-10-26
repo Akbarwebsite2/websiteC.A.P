@@ -10,61 +10,61 @@ export const BrandsRu: React.FC = () => {
   const motorBrands = [
     // First 10 brands with logos (1.png to 10.png)
     { name: "NDC", category: "Моторные части", logo: "/ndc.png" },
-    { name: "TP", category: "Моторные части", logo: "/TP.png" },
+    { name: "TP", category: "Моторные части", logo: "/" },
     { name: "Водяной помпа", category: "Моторные части", logo: "/karta 3.png" },
     { name: "Фильтры", category: "Моторные части", logo: "/karta 4.png" },
-    { name: "Подшипники", category: "Моторные части", logo: "/5.png" },
+    { name: "Подшипники", category: "Моторные части", logo: "/" },
     { name: "ERISTIC Gasket", category: "Моторные части", logo: "/eristic.png" },
-    { name: "Вкладыши", category: "Моторные части", logo: "/7.png" },
-    { name: "Поршневые кольца", category: "Моторные части", logo: "/8.png" },
-    { name: "Водяной помпа", category: "Моторные части", logo: "/9.png" },
-    { name: "Фильтры", category: "Моторные части", logo: "/10.png" },
+    { name: "Вкладыши", category: "Моторные части", logo: "/" },
+    { name: "Поршневые кольца", category: "Моторные части", logo: "/" },
+    { name: "Водяной помпа", category: "Моторные части", logo: "/" },
+    { name: "Фильтры", category: "Моторные части", logo: "/" },
     
     // Next 5 brands with logos (11.png to 15.png)
-    { name: "Подшипники", category: "Моторные части", logo: "/11.png" },
-    { name: "Комплект прокладок", category: "Моторные части", logo: "/12.png" },
+    { name: "Подшипники", category: "Моторные части", logo: "/" },
+    { name: "Комплект прокладок", category: "Моторные части", logo: "/" },
     { name: "Вкладыши", category: "Моторные части", logo: "/13.png" },
-    { name: "Поршневые кольца", category: "Моторные части", logo: "/14.png" },
-    { name: "Детали сцепления", category: "Моторные части", logo: "/15.png" },
+    { name: "Поршневые кольца", category: "Моторные части", logo: "/" },
+    { name: "Детали сцепления", category: "Моторные части", logo: "/" },
     
     // Cards 16-20 with logos (16.png to 20.png)
-    { name: "Фильтры", category: "Моторные части", logo: "/16.png" },
-    { name: "Подшипники", category: "Моторные части", logo: "/17.png" },
+    { name: "Фильтры", category: "Моторные части", logo: "/" },
+    { name: "Подшипники", category: "Моторные части", logo: "/" },
     { name: "TONG HONG GASKETS", category: "Моторные части", logo: "/tong hong.png" },
-    { name: "Переключатель давление масла", category: "Моторные части", logo: "/20.png" },
+    { name: "Переключатель давление масла", category: "Моторные части", logo: "/" },
     
     // Cards 21-25 with logos (21.png to 25.png)
-    { name: "Все компоненты двигателя", category: "Моторные части", logo: "/21.png" },
-    { name: "Диск сцепление", category: "Моторные части", logo: "/23.png" },
-    { name: "Все компоненты двигателя", category: "Моторные части", logo: "/24.png" },
-    { name: "Топливный насос", category: "Моторные части", logo: "/22.png" },
+    { name: "Все компоненты двигателя", category: "Моторные части", logo: "/" },
+    { name: "Диск сцепление", category: "Моторные части", logo: "/" },
+    { name: "Все компоненты двигателя", category: "Моторные части", logo: "/" },
+    { name: "Топливный насос", category: "Моторные части", logo: "/" },
     { name: "Сальники", category: "Моторные части", logo: "/musashi.png" },
-    { name: "Ремень ГРМ", category: "Моторные части", logo: "/27.png" },
-    { name: "Цепь ГРМ", category: "Моторные части", logo: "/28.png" },
+    { name: "Ремень ГРМ", category: "Моторные части", logo: "/" },
+    { name: "Цепь ГРМ", category: "Моторные части", logo: "/" },
     { name: "Свечи зажигания", category: "Моторные части", logo: "/koito.png" },
-    { name: "Подшипники", category: "Моторные части", logo: "/30.png" },
-    { name: "Клапан двигателя", category: "Моторные части", logo: "/31.png" },
-    { name: "Ремкомплект цепь ГРМ", category: "Моторные части", logo: "/32.png" },
-    { name: "Натяжитель цепи", category: "Моторные части", logo: "/33.png" },
-    { name: "Ремень ГРМ", category: "Моторные части", logo: "/34.png" },
-    { name: "Катушка зажигания", category: "Моторные части", logo: "/35.png" },
-    { name: "Цепь ГРМ", category: "Моторные части", logo: "/36.png" },
+    { name: "Подшипники", category: "Моторные части", logo: "/" },
+    { name: "Клапан двигателя", category: "Моторные части", logo: "/" },
+    { name: "Ремкомплект цепь ГРМ", category: "Моторные части", logo: "/" },
+    { name: "Натяжитель цепи", category: "Моторные части", logo: "/" },
+    { name: "Ремень ГРМ", category: "Моторные части", logo: "/" },
+    { name: "Катушка зажигания", category: "Моторные части", logo: "/" },
+    { name: "Цепь ГРМ", category: "Моторные части", logo: "/" },
   ];
 
   // Ходовые части - 6 карточек
   const hodovyeBrands = [
-    { name: "", category: "Ходовые части", logo: "/1 copy.png" },
-    { name: "", category: "Ходовые части", logo: "/2 copy.png" },
-    { name: "", category: "Ходовые части", logo: "/3 copy.png" },
-    { name: "Амортизаторы", category: "Ходовые части", logo: "/4 copy.png" },
-    { name: "Амортизаторы", category: "Ходовые части", logo: "/5 copy.png" },
-    { name: "Амортизаторы", category: "Ходовые части", logo: "/6 copy.png" },
+    { name: "", category: "Ходовые части", logo: "/" },
+    { name: "", category: "Ходовые части", logo: "/" },
+    { name: "", category: "Ходовые части", logo: "/" },
+    { name: "Амортизаторы", category: "Ходовые части", logo: "/" },
+    { name: "Амортизаторы", category: "Ходовые части", logo: "/" },
+    { name: "Амортизаторы", category: "Ходовые части", logo: "/" },
   ];
 
   // Тормозные части и трансмиссии - 5 карточек
   const tormoznyeBrands = [
     { name: "", category: "Тормозные колодки", logo: "/tormoz 1.png" },
-    { name: "", category: "Тормозные диски", logo: "/tormoz 2.png" },
+    { name: "", category: "Тормозные диски", logo: "/" },
     { name: "Гидравлические части тормоза", category: "Тормозная жидкость", logo: "/tormoz 3.png" },
     { name: "", category: "Трансмиссионное масло", logo: "/tormoz 4.png" },
     { name: "", category: "Сцепление", logo: "/tormoz 5.png" },
@@ -72,9 +72,9 @@ export const BrandsRu: React.FC = () => {
 
   // Кузовные части / Рестайлинг - 4 карточки
   const kuzovnyeBrands = [
-    { name: "Кузовные компоненты", category: "Бамперы", logo: "/kuzovnie 1.png" },
+    { name: "Кузовные компоненты", category: "Бамперы", logo: "/" },
     { name: "Фары", category: "Фары", logo: "/kuzovnie 2.png" },
-    { name: "Фары", category: "Зеркала", logo: "/kuzovnie 3.png" },
+    { name: "Фары", category: "Зеркала", logo: "/" },
     { name: "Кузовные части", category: "Молдинги", logo: "/kuzovnie 4.png" },
   ];
 
@@ -230,16 +230,16 @@ export const BrandsRu: React.FC = () => {
             
             {/* Моторное масло */}
             {[
-              { name: "Моторное масло", category: "Синтетическое масло", logo: "/royal super 2.png" },
-              { name: "Моторные масла", category: "Полусинтетическое масло", logo: "/lukoil 2.png" },
-              { name: "Моторное масло", category: "Минеральное масло", logo: "/drivol 2.png" },
+              { name: "Моторное масло", category: "Синтетическое масло", logo: "/" },
+              { name: "Моторные масла", category: "Полусинтетическое масло", logo: "/" },
+              { name: "Моторное масло", category: "Минеральное масло", logo: "/" },
               { name: "Топливный насос", category: "Топливная система", logo: "/fd elecman.png" },
-              { name: "Моторное масло", category: "Премиальное масло", logo: "/eneos.png" },
-              { name: "Моторное масло", category: "Премиальное масло", logo: "/total 2.png" },
-              { name: "Поршни и гильзы", category: "Моторные части", logo: "/toto.jpg" },
+              { name: "Моторное масло", category: "Премиальное масло", logo: "/" },
+              { name: "Моторное масло", category: "Премиальное масло", logo: "/" },
+              { name: "Поршни и гильзы", category: "Моторные части", logo: "/" },
               { name: "Моторные масла", category: "Оригинальное масло", logo: "/Toyota oil 2png.png" },
               { name: "Моторное масло", category: "Синтетическое масло", logo: "/Valvoline 2.png" },
-              { name: "Фильтры", category: "Фильтрация", logo: "/vic.jpg" },
+              { name: "Фильтры", category: "Фильтрация", logo: "/" },
             ].map((brand, index) => (
               <div 
                 key={`oil-${brand.name}-${index}`}
