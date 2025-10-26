@@ -37,7 +37,7 @@ export const HeaderRu: React.FC = () => {
         isScrolled ? 'bg-black/95 backdrop-blur-sm shadow-2xl' : 'bg-transparent'
       }`}>
         <nav className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-20">
+          <div className="flex items-center h-20">
             {/* Mobile Menu Button - Left Corner */}
             <button
               className="lg:hidden p-2 rounded-md text-gray-300 hover:text-white hover:bg-gray-800 transition-colors duration-200"
@@ -47,7 +47,7 @@ export const HeaderRu: React.FC = () => {
             </button>
 
             {/* Desktop Navigation - Centered */}
-            <div className="hidden lg:flex items-center space-x-8 mx-auto">
+            <div className="hidden lg:flex items-center justify-center space-x-8 flex-1">
               {navLinks.map((link) => (
                 <a
                   key={link.name}
@@ -58,21 +58,21 @@ export const HeaderRu: React.FC = () => {
                   <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#144374] transition-all duration-200 group-hover:w-full"></span>
                 </a>
               ))}
-            </div>
 
-            {/* Login/Register Button - Desktop */}
-            <a
-              href="/catalog.html"
-              className="hidden lg:flex items-center space-x-2 bg-[#144374] hover:bg-[#1e5ba8] text-white px-5 py-2.5 rounded-lg font-semibold transition-colors shadow-lg"
-            >
-              <LogIn className="w-5 h-5" />
-              <span>Регистрация/Вход</span>
-            </a>
+              {/* Login/Register Button - Inline with menu */}
+              <a
+                href="/catalog.html"
+                className="flex items-center space-x-2 bg-[#144374] hover:bg-[#1e5ba8] text-white px-5 py-2.5 rounded-lg font-semibold transition-colors shadow-lg"
+              >
+                <LogIn className="w-5 h-5" />
+                <span>Регистрация/Вход</span>
+              </a>
+            </div>
 
             {/* Login/Register Button - Mobile */}
             <a
               href="/catalog.html"
-              className="lg:hidden flex items-center space-x-2 bg-[#144374] hover:bg-[#1e5ba8] text-white px-4 py-2 rounded-lg font-semibold transition-colors text-sm"
+              className="lg:hidden flex items-center space-x-2 bg-[#144374] hover:bg-[#1e5ba8] text-white px-4 py-2 rounded-lg font-semibold transition-colors text-sm ml-auto"
             >
               <LogIn className="w-4 h-4" />
               <span>Регистрация/Вход</span>
