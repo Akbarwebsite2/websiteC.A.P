@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, MessageCircle, LogIn, Home, Package, Award, Mail, Phone } from 'lucide-react';
+import { Menu, X, MessageCircle, LogIn, Home, Package, Award, Mail, Phone, User } from 'lucide-react';
 
 /**
  * Header Component - Russian Version
@@ -8,6 +8,7 @@ import { Menu, X, MessageCircle, LogIn, Home, Package, Award, Mail, Phone } from
 export const HeaderRu: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [userName, setUserName] = useState<string | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -16,6 +17,32 @@ export const HeaderRu: React.FC = () => {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const checkUserStatus = () => {
+      const userStr = localStorage.getItem('capCurrentUser');
+      if (userStr) {
+        try {
+          const user = JSON.parse(userStr);
+          setUserName(user.full_name || user.email);
+        } catch (e) {
+          setUserName(null);
+        }
+      } else {
+        setUserName(null);
+      }
+    };
+
+    checkUserStatus();
+    window.addEventListener('storage', checkUserStatus);
+
+    const interval = setInterval(checkUserStatus, 1000);
+
+    return () => {
+      window.removeEventListener('storage', checkUserStatus);
+      clearInterval(interval);
+    };
   }, []);
 
   const navLinks = [
@@ -65,8 +92,17 @@ export const HeaderRu: React.FC = () => {
               href="/catalog.html"
               className="hidden lg:flex items-center space-x-2 bg-[#144374] hover:bg-[#1e5ba8] text-white px-5 py-2.5 rounded-lg font-semibold transition-colors shadow-lg"
             >
-              <LogIn className="w-5 h-5" />
-              <span>Регистрация/Вход</span>
+              {userName ? (
+                <>
+                  <User className="w-5 h-5" />
+                  <span>{userName}</span>
+                </>
+              ) : (
+                <>
+                  <LogIn className="w-5 h-5" />
+                  <span>Регистрация/Вход</span>
+                </>
+              )}
             </a>
 
             {/* Login/Register Button - Mobile */}
@@ -74,8 +110,17 @@ export const HeaderRu: React.FC = () => {
               href="/catalog.html"
               className="lg:hidden flex items-center space-x-2 bg-[#144374] hover:bg-[#1e5ba8] text-white px-4 py-2 rounded-lg font-semibold transition-colors text-sm"
             >
-              <LogIn className="w-4 h-4" />
-              <span>Регистрация/Вход</span>
+              {userName ? (
+                <>
+                  <User className="w-4 h-4" />
+                  <span>{userName}</span>
+                </>
+              ) : (
+                <>
+                  <LogIn className="w-4 h-4" />
+                  <span>Регистрация/Вход</span>
+                </>
+              )}
             </a>
           </div>
         </nav>
