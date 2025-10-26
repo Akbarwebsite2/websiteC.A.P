@@ -39,6 +39,22 @@ export const CartModal: React.FC<CartModalProps> = ({
     }, 0);
   };
 
+  const handleWhatsAppPayment = () => {
+    let message = 'Здравствуйте! Хочу оформить заказ:\n\n';
+    items.forEach((item, index) => {
+      message += `${index + 1}. ${item.part_name}\n`;
+      message += `   Код: ${item.part_code}\n`;
+      message += `   Бренд: ${item.brand}\n`;
+      message += `   Цена: ${item.price}\n`;
+      message += `   Количество: ${item.quantity}\n\n`;
+    });
+    message += `Общая сумма: ${calculateTotal().toFixed(2)} AED\n\n`;
+    message += 'Оплатить через Dc - Alif';
+
+    const encodedMessage = encodeURIComponent(message);
+    window.open(`https://wa.me/971561747182?text=${encodedMessage}`, '_blank');
+  };
+
   return (
     <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
       <div className="bg-gray-900 rounded-2xl w-full max-w-2xl max-h-[90vh] flex flex-col border-2 border-blue-600/30">
@@ -89,11 +105,11 @@ export const CartModal: React.FC<CartModalProps> = ({
                           <label className="text-gray-500 text-sm">Количество:</label>
                           <input
                             type="number"
-                            min="1"
+                            min="0"
                             value={item.quantity}
                             onChange={(e) => {
-                              const value = parseInt(e.target.value) || 1;
-                              onUpdateQuantity(item.id, value > 0 ? value : 1);
+                              const value = parseInt(e.target.value) || 0;
+                              onUpdateQuantity(item.id, value >= 0 ? value : 0);
                             }}
                             className="w-20 px-2 py-1 bg-gray-700 border border-gray-600 rounded text-white text-sm focus:outline-none focus:border-blue-500"
                           />
@@ -122,6 +138,12 @@ export const CartModal: React.FC<CartModalProps> = ({
                 {calculateTotal().toFixed(2)} AED
               </span>
             </div>
+            <button
+              onClick={handleWhatsAppPayment}
+              className="w-full bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded-lg font-semibold transition-colors underline decoration-2 underline-offset-4"
+            >
+              Оплатить через Dc - Alif
+            </button>
             <button
               onClick={onClearCart}
               className="w-full bg-red-600 hover:bg-red-700 text-white py-3 px-6 rounded-lg font-semibold transition-colors flex items-center justify-center space-x-2"

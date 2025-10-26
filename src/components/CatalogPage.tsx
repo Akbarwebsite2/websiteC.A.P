@@ -272,7 +272,7 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
 
   const addToCart = async (part: PartData) => {
     try {
-      const quantityToAdd = partQuantities[part.code] || 1;
+      const quantityToAdd = partQuantities[part.code] || 0;
       const existingItem = cartItems.find(item => item.part_code === part.code);
 
       if (existingItem) {
@@ -764,11 +764,11 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
                     <label className="block text-gray-400 text-sm mb-1">Количество:</label>
                     <input
                       type="number"
-                      min="1"
-                      value={partQuantities[part.code] || 1}
+                      min="0"
+                      value={partQuantities[part.code] || 0}
                       onChange={(e) => {
-                        const value = parseInt(e.target.value) || 1;
-                        setPartQuantities(prev => ({ ...prev, [part.code]: value > 0 ? value : 1 }));
+                        const value = parseInt(e.target.value) || 0;
+                        setPartQuantities(prev => ({ ...prev, [part.code]: value >= 0 ? value : 0 }));
                       }}
                       className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
                     />
@@ -801,35 +801,57 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
 
         {/* Instructions */}
         {!searchTerm && totalParts > 0 && (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16 max-w-4xl mx-auto">
-            <div className="text-center">
-              <div className="bg-[#144374] p-4 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-                <Search className="w-8 h-8 text-white" />
+          <>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16 max-w-4xl mx-auto">
+              <div className="text-center">
+                <div className="bg-[#144374] p-4 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                  <Search className="w-8 h-8 text-white" />
+                </div>
+                <h3 className="text-xl font-bold text-white mb-2">Поиск по коду</h3>
+                <p className="text-gray-400">
+                  Введите код запчасти для быстрого поиска
+                </p>
               </div>
-              <h3 className="text-xl font-bold text-white mb-2">Поиск по коду</h3>
-              <p className="text-gray-400">
-                Введите код запчасти для быстрого поиска
-              </p>
-            </div>
-            <div className="text-center">
-              <div className="bg-[#144374] p-4 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-                <Info className="w-8 h-8 text-white" />
+              <div className="text-center">
+                <div className="bg-[#144374] p-4 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                  <Info className="w-8 h-8 text-white" />
+                </div>
+                <h3 className="text-xl font-bold text-white mb-2">Подробная информация</h3>
+                <p className="text-gray-400">
+                  Цены, наличие и характеристики
+                </p>
               </div>
-              <h3 className="text-xl font-bold text-white mb-2">Подробная информация</h3>
-              <p className="text-gray-400">
-                Цены, вес, наличие и характеристики
-              </p>
-            </div>
-            <div className="text-center">
-              <div className="bg-[#144374] p-4 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-                <Package className="w-8 h-8 text-white" />
+              <div className="text-center">
+                <div className="bg-[#144374] p-4 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                  <ShoppingCart className="w-8 h-8 text-white" />
+                </div>
+                <h3 className="text-xl font-bold text-white mb-2">Корзина</h3>
+                <p className="text-gray-400">
+                  Добавьте товары для быстрого заказа
+                </p>
               </div>
-              <h3 className="text-xl font-bold text-white mb-2">Каталог запчастей</h3>
-              <p className="text-gray-400">
-                Более {totalParts.toLocaleString()} позиций в наличии
-              </p>
             </div>
-          </div>
+
+            {/* Payment QR Code Section */}
+            <div className="mt-8 border-4 border-[#144374] rounded-2xl overflow-hidden bg-gradient-to-br from-gray-900 to-gray-800 shadow-2xl">
+              <div className="p-8">
+                <h3 className="text-2xl font-bold text-white mb-2 text-center">Удобная оплата</h3>
+                <p className="text-gray-300 text-center mb-6">
+                  Удобная оплата через Dc - Alif для вашего комфорта
+                </p>
+                <div className="flex justify-center">
+                  <div className="bg-white p-4 rounded-xl shadow-lg">
+                    <img
+                      src="/QR Dc .jpg"
+                      alt="QR код для оплаты Dc - Alif"
+                      className="w-full h-auto max-w-md"
+                      style={{ aspectRatio: '16/9', objectFit: 'contain' }}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </>
         )}
 
         {/* Empty Catalog Message - только для админов */}
