@@ -62,12 +62,12 @@ export const CartModal: React.FC<CartModalProps> = ({
     const file = event.target.files?.[0];
     if (!file) return;
 
-    const message = `Здравствуйте! Я хочу отправить файл Excel с запросом на запчасти.\n\nИмя файла: ${file.name}\nРазмер: ${(file.size / 1024).toFixed(2)} KB\n\nПожалуйста, сообщите как можно отправить этот файл.`;
+    alert(`Пожалуйста, отправьте файл "${file.name}" напрямую через WhatsApp после открытия чата.`);
+
+    const message = `Здравствуйте! Я хочу отправить файл Excel с запросом на запчасти.\n\nИмя файла: ${file.name}\nРазмер: ${(file.size / 1024).toFixed(2)} KB`;
     const encodedMessage = encodeURIComponent(message);
 
     window.open(`https://wa.me/971561747182?text=${encodedMessage}`, '_blank');
-
-    alert(`Пожалуйста, отправьте файл "${file.name}" напрямую через WhatsApp после открытия чата.`);
 
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
