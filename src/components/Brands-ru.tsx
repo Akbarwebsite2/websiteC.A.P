@@ -56,9 +56,9 @@ export const BrandsRu: React.FC = () => {
     { name: "", category: "Ходовые части", logo: "/1 copy.png" },
     { name: "", category: "Ходовые части", logo: "/2 copy.png" },
     { name: "", category: "Ходовые части", logo: "/3 copy.png" },
-    { name: "Амортизаторы", category: "Ходовые части", logo: "/" },
-    { name: "Амортизаторы", category: "Ходовые части", logo: "/" },
-    { name: "Амортизаторы", category: "Ходовые части", logo: "/" },
+    { name: "Амортизаторы", category: "Ходовые части", logo: "/4 copy.png" },
+    { name: "Амортизаторы", category: "Ходовые части", logo: "/5 copy.png" },
+    { name: "Амортизаторы", category: "Ходовые части", logo: "/6 copy.png" },
   ];
 
   // Тормозные части и трансмиссии - 5 карточек
