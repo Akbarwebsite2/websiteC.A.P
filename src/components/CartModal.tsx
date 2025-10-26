@@ -1,5 +1,6 @@
-import React from 'react';
-import { X, Trash2, ShoppingCart } from 'lucide-react';
+import React, { useRef } from 'react';
+import { X, Trash2, ShoppingCart, FileUp, Download } from 'lucide-react';
+import * as XLSX from 'xlsx';
 
 interface CartItem {
   id: string;
@@ -27,6 +28,8 @@ export const CartModal: React.FC<CartModalProps> = ({
   onClearCart,
   onUpdateQuantity
 }) => {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   if (!isOpen) return null;
 
   const calculateTotal = (): number => {
@@ -53,6 +56,64 @@ export const CartModal: React.FC<CartModalProps> = ({
 
     const encodedMessage = encodeURIComponent(message);
     window.open(`https://wa.me/971561747182?text=${encodedMessage}`, '_blank');
+  };
+
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('to', 't8.fd88@gmail.com');
+    formData.append('subject', 'Запрос через Excel от клиента');
+    formData.append('message', 'Клиент отправил файл с запросом на запчасти.');
+
+    alert(`Файл "${file.name}" готов к отправке. Функция отправки на почту будет настроена администратором.`);
+
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
+  const handleExportToExcel = () => {
+    const exportData = items.map((item, index) => ({
+      '№': index + 1,
+      'Название запчасти': item.part_name,
+      'Код запчасти': item.part_code,
+      'Бренд': item.brand,
+      'Количество': item.quantity,
+      'Цена (AED)': parseFloat(item.price).toFixed(2),
+      'Сумма (AED)': (parseFloat(item.price) * item.quantity).toFixed(2)
+    }));
+
+    exportData.push({
+      '№': '',
+      'Название запчасти': '',
+      'Код запчасти': '',
+      'Бренд': '',
+      'Количество': '',
+      'Цена (AED)': 'Общая сумма:',
+      'Сумма (AED)': calculateTotal().toFixed(2)
+    });
+
+    const ws = XLSX.utils.json_to_sheet(exportData);
+
+    const colWidths = [
+      { wch: 5 },
+      { wch: 40 },
+      { wch: 20 },
+      { wch: 15 },
+      { wch: 12 },
+      { wch: 12 },
+      { wch: 12 }
+    ];
+    ws['!cols'] = colWidths;
+
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Заказ');
+
+    const fileName = `Заказ_${new Date().toLocaleDateString('ru-RU').replace(/\./g, '-')}.xlsx`;
+    XLSX.writeFile(wb, fileName);
   };
 
   return (
@@ -138,19 +199,49 @@ export const CartModal: React.FC<CartModalProps> = ({
                 {calculateTotal().toFixed(2)} AED
               </span>
             </div>
-            <button
-              onClick={handleWhatsAppPayment}
-              className="w-full bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded-lg font-semibold transition-colors underline decoration-2 underline-offset-4"
-            >
-              Оплатить через Dc - Alif
-            </button>
-            <button
-              onClick={onClearCart}
-              className="w-full bg-red-600 hover:bg-red-700 text-white py-3 px-6 rounded-lg font-semibold transition-colors flex items-center justify-center space-x-2"
-            >
-              <Trash2 className="w-5 h-5" />
-              <span>Очистить корзину</span>
-            </button>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <button
+                onClick={handleWhatsAppPayment}
+                className="w-full bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded-lg font-semibold transition-colors underline decoration-2 underline-offset-4"
+              >
+                Оплатить через Dc - Alif
+              </button>
+
+              <button
+                onClick={handleExportToExcel}
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-lg font-semibold transition-colors flex items-center justify-center space-x-2"
+              >
+                <Download className="w-5 h-5" />
+                <span>Скачать Excel</span>
+              </button>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <button
+                onClick={() => fileInputRef.current?.click()}
+                className="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 px-6 rounded-lg font-semibold transition-colors flex items-center justify-center space-x-2"
+              >
+                <FileUp className="w-5 h-5" />
+                <span>Запрос через Excel</span>
+              </button>
+
+              <button
+                onClick={onClearCart}
+                className="w-full bg-red-600 hover:bg-red-700 text-white py-3 px-6 rounded-lg font-semibold transition-colors flex items-center justify-center space-x-2"
+              >
+                <Trash2 className="w-5 h-5" />
+                <span>Очистить корзину</span>
+              </button>
+            </div>
+
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept=".xlsx,.xls,.csv"
+              onChange={handleFileUpload}
+              className="hidden"
+            />
           </div>
         )}
       </div>
