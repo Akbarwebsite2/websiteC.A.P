@@ -64,7 +64,7 @@ export const HeaderRu: React.FC = () => {
         isScrolled ? 'bg-black/95 backdrop-blur-sm shadow-2xl' : 'bg-transparent'
       }`}>
         <nav className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-20">
+          <div className="flex items-center h-20">
             {/* Mobile Menu Button - Left Corner */}
             <button
               className="lg:hidden p-2 rounded-md text-gray-300 hover:text-white hover:bg-gray-800 transition-colors duration-200"
@@ -73,11 +73,8 @@ export const HeaderRu: React.FC = () => {
               {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
 
-            {/* Empty spacer for balance on desktop */}
-            <div className="hidden lg:block flex-1"></div>
-
-            {/* Desktop Navigation - Centered */}
-            <div className="hidden lg:flex items-center justify-center space-x-8">
+            {/* Desktop Navigation - Centered with absolute positioning */}
+            <div className="hidden lg:flex items-center justify-center space-x-8 absolute left-1/2 transform -translate-x-1/2">
               {navLinks.map((link) => (
                 <a
                   key={link.name}
@@ -90,9 +87,8 @@ export const HeaderRu: React.FC = () => {
               ))}
             </div>
 
-            {/* Empty spacer for balance on desktop */}
-            <div className="hidden lg:flex flex-1 justify-end">
-              {/* Login/Register Button - Desktop */}
+            {/* Login/Register Button - Desktop - Far Right */}
+            <div className="hidden lg:flex ml-auto">
               <a
                 href="/catalog.html"
                 className="flex items-center space-x-2 bg-[#144374] hover:bg-[#1e5ba8] text-white px-5 py-2.5 rounded-lg font-semibold transition-colors shadow-lg"
@@ -114,7 +110,7 @@ export const HeaderRu: React.FC = () => {
             {/* Login/Register Button - Mobile */}
             <a
               href="/catalog.html"
-              className="lg:hidden flex items-center space-x-2 bg-[#144374] hover:bg-[#1e5ba8] text-white px-4 py-2 rounded-lg font-semibold transition-colors text-sm"
+              className="lg:hidden flex items-center space-x-2 bg-[#144374] hover:bg-[#1e5ba8] text-white px-4 py-2 rounded-lg font-semibold transition-colors text-sm ml-auto"
             >
               {userName ? (
                 <>
