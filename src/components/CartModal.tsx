@@ -62,13 +62,50 @@ export const CartModal: React.FC<CartModalProps> = ({
     const file = event.target.files?.[0];
     if (!file) return;
 
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('to', 't8.fd88@gmail.com');
-    formData.append('subject', 'Запрос через Excel от клиента');
-    formData.append('message', 'Клиент отправил файл с запросом на запчасти.');
+    try {
+      const reader = new FileReader();
+      reader.onload = async (e) => {
+        try {
+          const base64Content = e.target?.result?.toString().split(',')[1];
 
-    alert(`Файл "${file.name}" готов к отправке. Функция отправки на почту будет настроена администратором.`);
+          if (!base64Content) {
+            alert('Ошибка чтения файла');
+            return;
+          }
+
+          const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-email`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+            },
+            body: JSON.stringify({
+              to: 't8.fd88@gmail.com',
+              subject: 'Запрос через Excel от клиента',
+              message: `Клиент отправил файл с запросом на запчасти.\n\nИмя файла: ${file.name}\nРазмер: ${(file.size / 1024).toFixed(2)} KB`,
+              fileName: file.name,
+              fileContent: base64Content,
+            }),
+          });
+
+          const result = await response.json();
+
+          if (result.success) {
+            alert(`Файл "${file.name}" успешно отправлен на почту!`);
+          } else {
+            alert(`Ошибка отправки: ${result.error || 'Неизвестная ошибка'}`);
+          }
+        } catch (error) {
+          console.error('Error sending email:', error);
+          alert('Ошибка при отправке файла. Попробуйте позже.');
+        }
+      };
+
+      reader.readAsDataURL(file);
+    } catch (error) {
+      console.error('Error reading file:', error);
+      alert('Ошибка при чтении файла');
+    }
 
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
