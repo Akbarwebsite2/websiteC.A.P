@@ -47,8 +47,8 @@ export const BrandsRu: React.FC = () => {
     { name: "Ремкомплект цепь ГРМ", category: "Моторные части", logo: "/32.png" },
     { name: "Натяжитель цепи", category: "Моторные части", logo: "/33.png" },
     { name: "Ремень ГРМ", category: "Моторные части", logo: "/34.png" },
-    { name: "Катушка зажигания", category: "Моторные части", logo: "/" },
-    { name: "Цепь ГРМ", category: "Моторные части", logo: "/" },
+    { name: "Катушка зажигания", category: "Моторные части", logo: "/35.png" },
+    { name: "Цепь ГРМ", category: "Моторные части", logo: "/36.png" },
   ];
 
   // Ходовые части - 6 карточек
