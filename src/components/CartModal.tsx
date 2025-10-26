@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { X, Trash2, ShoppingCart, FileUp, Download } from 'lucide-react';
 import * as XLSX from 'xlsx';
 
@@ -28,8 +28,6 @@ export const CartModal: React.FC<CartModalProps> = ({
   onClearCart,
   onUpdateQuantity
 }) => {
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
   if (!isOpen) return null;
 
   const calculateTotal = (): number => {
@@ -58,18 +56,11 @@ export const CartModal: React.FC<CartModalProps> = ({
     window.open(`https://wa.me/971561747182?text=${encodedMessage}`, '_blank');
   };
 
-  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
-
+  const handleExcelRequest = () => {
     const message = `Пожалуйста выберите Excel файл для заказа.`;
     const encodedMessage = encodeURIComponent(message);
 
     window.open(`https://wa.me/971561747182?text=${encodedMessage}`, '_blank');
-
-    if (fileInputRef.current) {
-      fileInputRef.current.value = '';
-    }
   };
 
   const handleExportToExcel = () => {
@@ -213,7 +204,7 @@ export const CartModal: React.FC<CartModalProps> = ({
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               <button
-                onClick={() => fileInputRef.current?.click()}
+                onClick={handleExcelRequest}
                 className="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 px-6 rounded-lg font-semibold transition-colors flex items-center justify-center space-x-2"
               >
                 <FileUp className="w-5 h-5" />
@@ -228,14 +219,6 @@ export const CartModal: React.FC<CartModalProps> = ({
                 <span>Очистить корзину</span>
               </button>
             </div>
-
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept=".xlsx,.xls,.csv"
-              onChange={handleFileUpload}
-              className="hidden"
-            />
           </div>
         )}
       </div>
