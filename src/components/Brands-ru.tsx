@@ -53,9 +53,9 @@ export const BrandsRu: React.FC = () => {
 
   // Ходовые части - 6 карточек
   const hodovyeBrands = [
-    { name: "", category: "Ходовые части", logo: "/" },
-    { name: "", category: "Ходовые части", logo: "/" },
-    { name: "", category: "Ходовые части", logo: "/" },
+    { name: "", category: "Ходовые части", logo: "/1 copy.png" },
+    { name: "", category: "Ходовые части", logo: "/2 copy.png" },
+    { name: "", category: "Ходовые части", logo: "/3 copy.png" },
     { name: "Амортизаторы", category: "Ходовые части", logo: "/" },
     { name: "Амортизаторы", category: "Ходовые части", logo: "/" },
     { name: "Амортизаторы", category: "Ходовые части", logo: "/" },
