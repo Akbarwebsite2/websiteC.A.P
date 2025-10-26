@@ -13,11 +13,11 @@ export const BrandsRu: React.FC = () => {
     { name: "TP", category: "Моторные части", logo: "/TP.png" },
     { name: "Водяной помпа", category: "Моторные части", logo: "/karta 3.png" },
     { name: "Фильтры", category: "Моторные части", logo: "/karta 4.png" },
-    { name: "Подшипники", category: "Моторные части", logo: "/" },
+    { name: "Подшипники", category: "Моторные части", logo: "/5.png" },
     { name: "ERISTIC Gasket", category: "Моторные части", logo: "/eristic.png" },
-    { name: "Вкладыши", category: "Моторные части", logo: "/" },
-    { name: "Поршневые кольца", category: "Моторные части", logo: "/" },
-    { name: "Водяной помпа", category: "Моторные части", logo: "/" },
+    { name: "Вкладыши", category: "Моторные части", logo: "/7.png" },
+    { name: "Поршневые кольца", category: "Моторные части", logo: "/8.png" },
+    { name: "Водяной помпа", category: "Моторные части", logo: "/9.png" },
     { name: "Фильтры", category: "Моторные части", logo: "/" },
     
     // Next 5 brands with logos (11.png to 15.png)
