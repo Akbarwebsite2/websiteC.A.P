@@ -80,7 +80,6 @@ export const CartModal: React.FC<CartModalProps> = ({
       '№': index + 1,
       'Название запчасти': item.part_name,
       'Код запчасти': item.part_code,
-      'Бренд': item.brand,
       'Количество': item.quantity,
       'Цена (AED)': parseFloat(item.price).toFixed(2),
       'Сумма (AED)': (parseFloat(item.price) * item.quantity).toFixed(2)
@@ -90,7 +89,6 @@ export const CartModal: React.FC<CartModalProps> = ({
       '№': '',
       'Название запчасти': '',
       'Код запчасти': '',
-      'Бренд': '',
       'Количество': '',
       'Цена (AED)': 'Общая сумма:',
       'Сумма (AED)': calculateTotal().toFixed(2)
@@ -102,7 +100,6 @@ export const CartModal: React.FC<CartModalProps> = ({
       { wch: 5 },
       { wch: 40 },
       { wch: 20 },
-      { wch: 15 },
       { wch: 12 },
       { wch: 12 },
       { wch: 12 }
