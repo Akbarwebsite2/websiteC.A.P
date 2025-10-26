@@ -25,11 +25,11 @@ export const BrandsRu: React.FC = () => {
     { name: "Комплект прокладок", category: "Моторные части", logo: "/12.png" },
     { name: "Вкладыши", category: "Моторные части", logo: "/13.png" },
     { name: "Поршневые кольца", category: "Моторные части", logo: "/14.png" },
-    { name: "Детали сцепления", category: "Моторные части", logo: "/" },
+    { name: "Детали сцепления", category: "Моторные части", logo: "/15.png" },
     
     // Cards 16-20 with logos (16.png to 20.png)
-    { name: "Фильтры", category: "Моторные части", logo: "/" },
-    { name: "Подшипники", category: "Моторные части", logo: "/" },
+    { name: "Фильтры", category: "Моторные части", logo: "/16.png" },
+    { name: "Подшипники", category: "Моторные части", logo: "/17.png" },
     { name: "TONG HONG GASKETS", category: "Моторные части", logo: "/tong hong.png" },
     { name: "Переключатель давление масла", category: "Моторные части", logo: "/" },
     
