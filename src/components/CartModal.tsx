@@ -185,22 +185,13 @@ export const CartModal: React.FC<CartModalProps> = ({
               </span>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              <button
-                onClick={handleWhatsAppPayment}
-                className="w-full bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded-lg font-semibold transition-colors underline decoration-2 underline-offset-4"
-              >
-                Оплатить через Dc - Alif
-              </button>
-
-              <button
-                onClick={handleExportToExcel}
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-lg font-semibold transition-colors flex items-center justify-center space-x-2"
-              >
-                <Download className="w-5 h-5" />
-                <span>Скачать Excel</span>
-              </button>
-            </div>
+            <button
+              onClick={handleExportToExcel}
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-lg font-semibold transition-colors flex items-center justify-center space-x-2"
+            >
+              <Download className="w-5 h-5" />
+              <span>Скачать Excel</span>
+            </button>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               <button

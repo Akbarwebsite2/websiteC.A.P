@@ -74,7 +74,7 @@ export const HeaderRu: React.FC = () => {
             </button>
 
             {/* Desktop Navigation - Centered */}
-            <div className="hidden lg:flex items-center space-x-8 mx-auto">
+            <div className="hidden lg:flex items-center justify-center space-x-8 flex-1">
               {navLinks.map((link) => (
                 <a
                   key={link.name}
