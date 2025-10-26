@@ -64,7 +64,7 @@ export const BrandsRu: React.FC = () => {
   // Тормозные части и трансмиссии - 5 карточек
   const tormoznyeBrands = [
     { name: "", category: "Тормозные колодки", logo: "/tormoz 1.png" },
-    { name: "", category: "Тормозные диски", logo: "/" },
+    { name: "", category: "Тормозные диски", logo: "/tormoz 2.png" },
     { name: "Гидравлические части тормоза", category: "Тормозная жидкость", logo: "/tormoz 3.png" },
     { name: "", category: "Трансмиссионное масло", logo: "/tormoz 4.png" },
     { name: "", category: "Сцепление", logo: "/tormoz 5.png" },
@@ -72,9 +72,9 @@ export const BrandsRu: React.FC = () => {
 
   // Кузовные части / Рестайлинг - 4 карточки
   const kuzovnyeBrands = [
-    { name: "Кузовные компоненты", category: "Бамперы", logo: "/" },
+    { name: "Кузовные компоненты", category: "Бамперы", logo: "/kuzovnie 1" },
     { name: "Фары", category: "Фары", logo: "/kuzovnie 2.png" },
-    { name: "Фары", category: "Зеркала", logo: "/" },
+    { name: "Фары", category: "Зеркала", logo: "/kuzovnie 3" },
     { name: "Кузовные части", category: "Молдинги", logo: "/kuzovnie 4.png" },
   ];
 
