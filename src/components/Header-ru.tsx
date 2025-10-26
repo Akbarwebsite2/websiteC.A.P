@@ -73,8 +73,11 @@ export const HeaderRu: React.FC = () => {
               {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
 
+            {/* Empty spacer for balance on desktop */}
+            <div className="hidden lg:block flex-1"></div>
+
             {/* Desktop Navigation - Centered */}
-            <div className="hidden lg:flex items-center justify-center space-x-8 flex-1">
+            <div className="hidden lg:flex items-center justify-center space-x-8">
               {navLinks.map((link) => (
                 <a
                   key={link.name}
@@ -87,23 +90,26 @@ export const HeaderRu: React.FC = () => {
               ))}
             </div>
 
-            {/* Login/Register Button - Desktop */}
-            <a
-              href="/catalog.html"
-              className="hidden lg:flex items-center space-x-2 bg-[#144374] hover:bg-[#1e5ba8] text-white px-5 py-2.5 rounded-lg font-semibold transition-colors shadow-lg"
-            >
-              {userName ? (
-                <>
-                  <User className="w-5 h-5" />
-                  <span>{userName}</span>
-                </>
-              ) : (
-                <>
-                  <LogIn className="w-5 h-5" />
-                  <span>Регистрация/Вход</span>
-                </>
-              )}
-            </a>
+            {/* Empty spacer for balance on desktop */}
+            <div className="hidden lg:flex flex-1 justify-end">
+              {/* Login/Register Button - Desktop */}
+              <a
+                href="/catalog.html"
+                className="flex items-center space-x-2 bg-[#144374] hover:bg-[#1e5ba8] text-white px-5 py-2.5 rounded-lg font-semibold transition-colors shadow-lg"
+              >
+                {userName ? (
+                  <>
+                    <User className="w-5 h-5" />
+                    <span>{userName}</span>
+                  </>
+                ) : (
+                  <>
+                    <LogIn className="w-5 h-5" />
+                    <span>Регистрация/Вход</span>
+                  </>
+                )}
+              </a>
+            </div>
 
             {/* Login/Register Button - Mobile */}
             <a
