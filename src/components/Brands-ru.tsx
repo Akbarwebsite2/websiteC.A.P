@@ -10,7 +10,7 @@ export const BrandsRu: React.FC = () => {
   const motorBrands = [
     // First 10 brands with logos (1.png to 10.png)
     { name: "NDC", category: "Моторные части", logo: "/ndc.png" },
-    { name: "TP", category: "Моторные части", logo: "/" },
+    { name: "TP", category: "Моторные части", logo: "/TP.png" },
     { name: "Водяной помпа", category: "Моторные части", logo: "/karta 3.png" },
     { name: "Фильтры", category: "Моторные части", logo: "/karta 4.png" },
     { name: "Подшипники", category: "Моторные части", logo: "/" },
