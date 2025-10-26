@@ -230,12 +230,12 @@ export const BrandsRu: React.FC = () => {
             
             {/* Моторное масло */}
             {[
-              { name: "Моторное масло", category: "Синтетическое масло", logo: "/" },
-              { name: "Моторные масла", category: "Полусинтетическое масло", logo: "/" },
-              { name: "Моторное масло", category: "Минеральное масло", logo: "/" },
+              { name: "Моторное масло", category: "Синтетическое масло", logo: "/royal super 2.png" },
+              { name: "Моторные масла", category: "Полусинтетическое масло", logo: "/lukoil 2.png" },
+              { name: "Моторное масло", category: "Минеральное масло", logo: "/drivol 2.png" },
               { name: "Топливный насос", category: "Топливная система", logo: "/fd elecman.png" },
-              { name: "Моторное масло", category: "Премиальное масло", logo: "/" },
-              { name: "Моторное масло", category: "Премиальное масло", logo: "/" },
+              { name: "Моторное масло", category: "Премиальное масло", logo: "/eneos.png" },
+              { name: "Моторное масло", category: "Премиальное масло", logo: "/total 2.png" },
               { name: "Поршни и гильзы", category: "Моторные части", logo: "/" },
               { name: "Моторные масла", category: "Оригинальное масло", logo: "/Toyota oil 2png.png" },
               { name: "Моторное масло", category: "Синтетическое масло", logo: "/Valvoline 2.png" },
