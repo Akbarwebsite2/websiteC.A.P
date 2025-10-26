@@ -23,7 +23,7 @@ export const BrandsRu: React.FC = () => {
     // Next 5 brands with logos (11.png to 15.png)
     { name: "Подшипники", category: "Моторные части", logo: "/" },
     { name: "Комплект прокладок", category: "Моторные части", logo: "/" },
-    { name: "Вкладыши", category: "Моторные части", logo: "/13.png" },
+    { name: "Вкладыши", category: "Моторные части", logo: "/" },
     { name: "Поршневые кольца", category: "Моторные части", logo: "/" },
     { name: "Детали сцепления", category: "Моторные части", logo: "/" },
     
