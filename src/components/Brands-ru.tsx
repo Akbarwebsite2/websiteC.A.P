@@ -236,10 +236,10 @@ export const BrandsRu: React.FC = () => {
               { name: "Топливный насос", category: "Топливная система", logo: "/fd elecman.png" },
               { name: "Моторное масло", category: "Премиальное масло", logo: "/eneos.png" },
               { name: "Моторное масло", category: "Премиальное масло", logo: "/total 2.png" },
-              { name: "Поршни и гильзы", category: "Моторные части", logo: "/" },
+              { name: "Поршни и гильзы", category: "Моторные части", logo: "/toto.jpg" },
               { name: "Моторные масла", category: "Оригинальное масло", logo: "/Toyota oil 2png.png" },
               { name: "Моторное масло", category: "Синтетическое масло", logo: "/Valvoline 2.png" },
-              { name: "Фильтры", category: "Фильтрация", logo: "/" },
+              { name: "Фильтры", category: "Фильтрация", logo: "/vic.jpg" },
             ].map((brand, index) => (
               <div 
                 key={`oil-${brand.name}-${index}`}
