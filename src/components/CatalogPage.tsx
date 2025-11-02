@@ -76,7 +76,7 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
   const [showCart, setShowCart] = useState(false);
   const [partQuantities, setPartQuantities] = useState<{ [key: string]: number }>({});
   const [selectedCurrency, setSelectedCurrency] = useState<'AED' | 'TJS' | 'USD'>('AED');
-  const [exchangeRates, setExchangeRates] = useState<{ [key: string]: number }>({ AED: 1, TJS: 2.89, USD: 0.27 });
+  const [exchangeRates, setExchangeRates] = useState<{ [key: string]: number }>({ AED: 1, TJS: 10.71, USD: 0.27 });
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const UPLOAD_PASSWORD = 'cap2025';
@@ -414,7 +414,20 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
 
   const saveCatalogToDatabase = async (catalogData: PartData[]) => {
     try {
-      const batchSize = 100;
+      console.log(`Начало сохранения ${catalogData.length} позиций в базу данных...`);
+
+      const { error: deleteError } = await supabase
+        .from('catalog_parts')
+        .delete()
+        .neq('code', '___IMPOSSIBLE_VALUE___');
+
+      if (deleteError) {
+        console.error('Ошибка очистки таблицы:', deleteError);
+      } else {
+        console.log('Таблица успешно очищена');
+      }
+
+      const batchSize = 500;
       let successCount = 0;
 
       for (let i = 0; i < catalogData.length; i += batchSize) {
@@ -434,19 +447,17 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
 
         const { error } = await supabase
           .from('catalog_parts')
-          .upsert(dataToInsert, {
-            onConflict: 'code',
-            ignoreDuplicates: false
-          });
+          .insert(dataToInsert);
 
         if (error) {
           console.error(`Ошибка сохранения батча ${i}-${i + batchSize}:`, error);
         } else {
           successCount += batch.length;
+          console.log(`Сохранено ${successCount} из ${catalogData.length} позиций`);
         }
       }
 
-      console.log(`Сохранено в базу: ${successCount} из ${catalogData.length} позиций`);
+      console.log(`Сохранение завершено: ${successCount} из ${catalogData.length} позиций`);
       return successCount;
     } catch (error) {
       console.error('Ошибка сохранения каталога в базу:', error);
