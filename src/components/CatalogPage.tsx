@@ -76,7 +76,7 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
   const [showCart, setShowCart] = useState(false);
   const [partQuantities, setPartQuantities] = useState<{ [key: string]: number }>({});
   const [selectedCurrency, setSelectedCurrency] = useState<'AED' | 'TJS' | 'USD'>('AED');
-  const [exchangeRates, setExchangeRates] = useState<{ [key: string]: number }>({ AED: 1, TJS: 10.71, USD: 0.27 });
+  const [exchangeRates, setExchangeRates] = useState<{ [key: string]: number }>({ AED: 1, TJS: 2.89, USD: 0.2723 });
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const UPLOAD_PASSWORD = 'cap2025';
@@ -427,7 +427,7 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
         console.log('Таблица успешно очищена');
       }
 
-      const batchSize = 500;
+      const batchSize = 10000;
       let successCount = 0;
 
       for (let i = 0; i < catalogData.length; i += batchSize) {
