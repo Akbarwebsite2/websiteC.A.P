@@ -47,6 +47,13 @@ interface CartItem {
   price: string;
   quantity: number;
 }
+
+interface ExchangeRate {
+  currency_from: string;
+  currency_to: string;
+  rate: number;
+  updated_at: string;
+}
 /**
  * Separate Catalog Page Component
  * Dedicated page for catalog search after authentication
@@ -68,6 +75,8 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [showCart, setShowCart] = useState(false);
   const [partQuantities, setPartQuantities] = useState<{ [key: string]: number }>({});
+  const [selectedCurrency, setSelectedCurrency] = useState<'AED' | 'TJS' | 'USD'>('AED');
+  const [exchangeRates, setExchangeRates] = useState<{ [key: string]: number }>({ AED: 1, TJS: 2.89, USD: 0.27 });
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const UPLOAD_PASSWORD = 'cap2025';
@@ -81,7 +90,11 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
     if (!price) return 'Цена по запросу';
     const numPrice = parseFloat(price);
     if (isNaN(numPrice)) return price;
-    return `${numPrice.toFixed(2)} AED`;
+
+    const rate = exchangeRates[selectedCurrency] || 1;
+    const convertedPrice = numPrice * rate;
+
+    return `${convertedPrice.toFixed(2)} ${selectedCurrency}`;
   };
 
   const calculateCartTotal = (): number => {
@@ -93,6 +106,37 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
       return total;
     }, 0);
   };
+
+  useEffect(() => {
+    const fetchExchangeRates = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('exchange_rates')
+          .select('currency_to, rate');
+
+        if (error) {
+          console.error('Error fetching exchange rates:', error);
+          return;
+        }
+
+        if (data && data.length > 0) {
+          const rates: { [key: string]: number } = { AED: 1 };
+          data.forEach((item: any) => {
+            rates[item.currency_to] = item.rate;
+          });
+          setExchangeRates(rates);
+        }
+      } catch (error) {
+        console.error('Error loading exchange rates:', error);
+      }
+    };
+
+    fetchExchangeRates();
+
+    const interval = setInterval(fetchExchangeRates, 3600000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   const handleUploadLogin = () => {
     if (uploadPassword === UPLOAD_PASSWORD) {
@@ -190,11 +234,12 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
 
               if (partNo && partNo !== '') {
                 const existingIndex = allProcessedData.findIndex(item => item.code === partNo);
+                const cleanPrice = price && price !== '' ? price.toString().replace(/[^\d.]/g, '') : '';
                 const newItem = {
                   code: partNo,
                   name: description || partNo,
                   brand: '',
-                  price: price && price !== '' ? `${price} AED` : 'Цена по запросу',
+                  price: cleanPrice || '0',
                   weight: '',
                   category: 'Автозапчасти',
                   description: description || partNo,
@@ -577,22 +622,34 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
               </div>
             </div>
 
-            {/* Bottom Row - Search */}
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-              <input
-                type="text"
-                placeholder="Поиск..."
-                value={searchTerm}
-                onChange={(e) => handleSearch(e.target.value)}
-                className="w-full pl-10 pr-12 py-2.5 bg-gray-800/90 border border-gray-600 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all text-sm"
-              />
-              <button
-                onClick={() => handleSearch(searchTerm)}
-                className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-blue-600 hover:bg-blue-700 text-white p-1.5 rounded-lg transition-colors"
+            {/* Bottom Row - Currency and Search */}
+            <div className="flex items-center space-x-2">
+              <select
+                value={selectedCurrency}
+                onChange={(e) => setSelectedCurrency(e.target.value as 'AED' | 'TJS' | 'USD')}
+                className="px-3 py-2.5 bg-gray-800/90 border border-gray-600 rounded-xl text-white focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all text-sm font-medium"
               >
-                <Search className="w-4 h-4" />
-              </button>
+                <option value="AED">AED</option>
+                <option value="TJS">TJS</option>
+                <option value="USD">USD</option>
+              </select>
+
+              <div className="relative flex-1">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                <input
+                  type="text"
+                  placeholder="Поиск..."
+                  value={searchTerm}
+                  onChange={(e) => handleSearch(e.target.value)}
+                  className="w-full pl-10 pr-12 py-2.5 bg-gray-800/90 border border-gray-600 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all text-sm"
+                />
+                <button
+                  onClick={() => handleSearch(searchTerm)}
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-blue-600 hover:bg-blue-700 text-white p-1.5 rounded-lg transition-colors"
+                >
+                  <Search className="w-4 h-4" />
+                </button>
+              </div>
             </div>
           </div>
 
@@ -606,8 +663,18 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
               <span className="font-medium">Меню</span>
             </button>
 
-            <div className="flex-1 max-w-2xl mx-6">
-              <div className="relative">
+            <div className="flex items-center space-x-3 flex-1 max-w-3xl mx-6">
+              <select
+                value={selectedCurrency}
+                onChange={(e) => setSelectedCurrency(e.target.value as 'AED' | 'TJS' | 'USD')}
+                className="px-4 py-3 bg-gray-800/90 border border-gray-600 rounded-xl text-white focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all font-medium"
+              >
+                <option value="AED">AED</option>
+                <option value="TJS">TJS</option>
+                <option value="USD">USD</option>
+              </select>
+
+              <div className="relative flex-1">
                 <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                 <input
                   type="text"
