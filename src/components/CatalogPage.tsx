@@ -147,30 +147,58 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
   };
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log('[FILE] handleFileUpload вызван');
     const files = Array.from(event.target.files || []);
+    console.log('[FILE] Количество выбранных файлов:', files.length);
     if (files.length > 0) {
+      files.forEach((f, idx) => {
+        console.log(`[FILE] Файл ${idx + 1}: ${f.name}, размер: ${(f.size / 1024 / 1024).toFixed(2)} MB`);
+      });
       setSelectedFiles(files);
       processMultipleExcelFiles(files);
+    } else {
+      console.log('[FILE] Нет выбранных файлов');
     }
   };
 
   const processMultipleExcelFiles = (files: File[]) => {
+    console.log('[PROCESS] Начало обработки файлов:', files.length);
     setIsProcessing(true);
-    const allProcessedData: PartData[] = [...partsData];
-    
+    const allProcessedData: PartData[] = [];
+
     let processedFiles = 0;
-    
+
     files.forEach((file, fileIndex) => {
+      console.log(`[PROCESS] Читаем файл ${fileIndex + 1}/${files.length}: ${file.name}`);
       const reader = new FileReader();
+
+      reader.onerror = (error) => {
+        console.error(`[PROCESS] ❌ Ошибка чтения файла ${file.name}:`, error);
+        processedFiles++;
+        if (processedFiles === files.length) {
+          setIsProcessing(false);
+          alert('Ошибка чтения файла!');
+        }
+      };
+
       reader.onload = (e) => {
         try {
+          console.log(`[PROCESS] Файл ${file.name} загружен, начинаем парсинг...`);
           const data = new Uint8Array(e.target?.result as ArrayBuffer);
+          console.log(`[PROCESS] Размер данных: ${data.length} байт`);
+
           const workbook = XLSX.read(data, { type: 'array' });
+          console.log(`[PROCESS] Workbook прочитан, листов: ${workbook.SheetNames.length}`);
+
           const sheetName = workbook.SheetNames[0];
+          console.log(`[PROCESS] Используем лист: ${sheetName}`);
+
           const worksheet = workbook.Sheets[sheetName];
           const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+          console.log(`[PROCESS] Строк в файле: ${jsonData.length}`);
 
           const headerRow = jsonData[0] as string[];
+          console.log('[PROCESS] Заголовки:', headerRow);
           
           const partNoIndex = headerRow.findIndex(header => {
             if (!header) return false;
@@ -210,13 +238,22 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
                    headerLower === 'quantity';
           });
 
-          console.log('Headers found:', {
+          console.log('[PROCESS] Headers found:', {
             partNo: partNoIndex,
             description: descriptionIndex,
             price: priceIndex,
             qty: qtyIndex
           });
-          console.log('Header row:', headerRow);
+          console.log('[PROCESS] Header row:', headerRow);
+
+          if (partNoIndex === -1) {
+            console.error('[PROCESS] ❌ КРИТИЧЕСКАЯ ОШИБКА: Не найдена колонка с кодом запчасти!');
+            console.error('[PROCESS] Доступные заголовки:', headerRow);
+            throw new Error('Не найдена колонка Part No / Item Code');
+          }
+
+          console.log('[PROCESS] Начинаем парсинг строк...');
+          let parsedCount = 0;
 
           for (let i = 1; i < jsonData.length; i++) {
             const row = jsonData[i] as any[];
@@ -228,7 +265,7 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
               const qty = qtyIndex !== -1 ? (row[qtyIndex]?.toString().trim() || '') : '';
 
               if (i <= 3) {
-                console.log(`Row ${i} data:`, {
+                console.log(`[PROCESS] Row ${i} data:`, {
                   partNo,
                   description,
                   price,
@@ -238,6 +275,7 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
               }
 
               if (partNo && partNo !== '') {
+                parsedCount++;
                 const existingIndex = allProcessedData.findIndex(item => item.code === partNo);
                 const cleanPrice = price && price !== '' ? price.toString().replace(/[^\d.]/g, '') : '';
                 const newItem = {
@@ -257,26 +295,44 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
                 } else {
                   allProcessedData.push(newItem);
                 }
+
+                // Логируем прогресс каждые 1000 записей
+                if (parsedCount % 1000 === 0) {
+                  console.log(`[PROCESS] Обработано строк: ${parsedCount}, в массиве: ${allProcessedData.length}`);
+                }
               }
             }
           }
 
+          console.log(`[PROCESS] ✅ Парсинг завершен. Обработано строк: ${parsedCount}, добавлено записей: ${allProcessedData.length}`);
+
           processedFiles++;
+          console.log(`[PROCESS] ✅ Файл обработан. Всего обработано файлов: ${processedFiles}/${files.length}`);
+          console.log(`[PROCESS] Всего записей в массиве: ${allProcessedData.length}`);
 
           if (processedFiles === files.length) {
+            console.log(`[PROCESS] 🎉 Все файлы обработаны!`);
+            console.log(`[PROCESS] Общее количество записей: ${allProcessedData.length}`);
+            console.log(`[PROCESS] Первые 3 записи:`, allProcessedData.slice(0, 3));
+
             setPartsData(allProcessedData);
+            console.log('[PROCESS] Данные установлены в state');
+
             localStorage.setItem('capCatalog', JSON.stringify(allProcessedData));
             sessionStorage.setItem('capCatalog', JSON.stringify(allProcessedData));
             const backupKey = `capCatalog_backup_${Date.now()}`;
             localStorage.setItem(backupKey, JSON.stringify(allProcessedData));
+            console.log('[PROCESS] Данные сохранены в localStorage');
 
+            console.log('[PROCESS] Начинаем сохранение в базу данных...');
             saveCatalogToDatabase(allProcessedData).then(savedCount => {
+              console.log(`[PROCESS] ✅ Успешно сохранено в БД: ${savedCount} записей`);
               setIsProcessing(false);
               alert(`Каталог обновлен! Загружено ${allProcessedData.length} позиций. Сохранено в базу данных: ${savedCount} позиций.`);
               setSelectedFiles([]);
               setShowUploadSection(false);
             }).catch(error => {
-              console.error('Ошибка сохранения в базу:', error);
+              console.error('[PROCESS] ❌ Ошибка сохранения в базу:', error);
               setIsProcessing(false);
               alert(`Каталог обновлен! Загружено ${allProcessedData.length} позиций. Ошибка сохранения в базу данных.`);
               setSelectedFiles([]);
@@ -284,11 +340,14 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
             });
           }
         } catch (error) {
-          console.error(`Ошибка обработки файла ${file.name}:`, error);
+          console.error(`[PROCESS] ❌ Критическая ошибка обработки файла ${file.name}:`, error);
+          console.error('[PROCESS] Stack trace:', error instanceof Error ? error.stack : 'No stack');
           processedFiles++;
-          
+
           if (processedFiles === files.length) {
+            console.log('[PROCESS] ❌ Обработка завершена с ошибками');
             setIsProcessing(false);
+            alert('Ошибка обработки файла. Проверьте консоль для деталей.');
           }
         }
       };
