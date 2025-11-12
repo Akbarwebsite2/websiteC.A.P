@@ -419,24 +419,31 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
 
   const saveCatalogToDatabase = async (catalogData: PartData[]) => {
     try {
-      console.log(`Начало сохранения ${catalogData.length} позиций в базу данных...`);
+      console.log(`[IMPORT] Начало сохранения ${catalogData.length} позиций в базу данных...`);
+      console.log(`[IMPORT] Первые 3 записи:`, catalogData.slice(0, 3));
 
-      const { error: deleteError } = await supabase
+      console.log('[IMPORT] Шаг 1: Очистка таблицы...');
+      const { data: deleteData, error: deleteError } = await supabase
         .from('catalog_parts')
         .delete()
         .neq('code', '___IMPOSSIBLE_VALUE___');
 
       if (deleteError) {
-        console.error('Ошибка очистки таблицы:', deleteError);
+        console.error('[IMPORT] Ошибка очистки таблицы:', deleteError);
+        throw deleteError;
       } else {
-        console.log('Таблица успешно очищена');
+        console.log('[IMPORT] Таблица успешно очищена');
       }
 
-      const batchSize = 10000;
+      const batchSize = 1000;
       let successCount = 0;
+      let failedCount = 0;
+
+      console.log(`[IMPORT] Шаг 2: Загрузка данных батчами по ${batchSize} записей...`);
 
       for (let i = 0; i < catalogData.length; i += batchSize) {
         const batch = catalogData.slice(i, i + batchSize);
+        console.log(`[IMPORT] Обработка батча ${Math.floor(i/batchSize) + 1}/${Math.ceil(catalogData.length/batchSize)} (записи ${i}-${i + batch.length})...`);
 
         const dataToInsert = batch.map(item => ({
           code: item.code,
@@ -450,22 +457,32 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
           qty: item.qty || '0'
         }));
 
-        const { error } = await supabase
+        const { data, error } = await supabase
           .from('catalog_parts')
-          .insert(dataToInsert);
+          .insert(dataToInsert)
+          .select();
 
         if (error) {
-          console.error(`Ошибка сохранения батча ${i}-${i + batchSize}:`, error);
+          console.error(`[IMPORT] ❌ Ошибка сохранения батча ${i}-${i + batchSize}:`, error);
+          console.error('[IMPORT] Детали ошибки:', JSON.stringify(error, null, 2));
+          console.error('[IMPORT] Пример данных из батча:', dataToInsert.slice(0, 2));
+          failedCount += batch.length;
         } else {
           successCount += batch.length;
-          console.log(`Сохранено ${successCount} из ${catalogData.length} позиций`);
+          console.log(`[IMPORT] ✅ Сохранено ${successCount} из ${catalogData.length} позиций (${Math.round(successCount/catalogData.length*100)}%)`);
         }
       }
 
-      console.log(`Сохранение завершено: ${successCount} из ${catalogData.length} позиций`);
+      console.log(`[IMPORT] ========================================`);
+      console.log(`[IMPORT] Сохранение завершено!`);
+      console.log(`[IMPORT] Успешно: ${successCount} позиций`);
+      console.log(`[IMPORT] Ошибки: ${failedCount} позиций`);
+      console.log(`[IMPORT] Всего: ${catalogData.length} позиций`);
+      console.log(`[IMPORT] ========================================`);
+
       return successCount;
     } catch (error) {
-      console.error('Ошибка сохранения каталога в базу:', error);
+      console.error('[IMPORT] ❌ Критическая ошибка сохранения:', error);
       return 0;
     }
   };
