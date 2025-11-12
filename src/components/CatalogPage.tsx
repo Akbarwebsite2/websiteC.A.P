@@ -328,13 +328,15 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
             saveCatalogToDatabase(allProcessedData).then(savedCount => {
               console.log(`[PROCESS] ✅ Успешно сохранено в БД: ${savedCount} записей`);
               setIsProcessing(false);
-              alert(`Каталог обновлен! Загружено ${allProcessedData.length} позиций. Сохранено в базу данных: ${savedCount} позиций.`);
+              alert(`✅ Импорт завершён!\n\nОбработано: ${allProcessedData.length} позиций\nСохранено в базу данных: ${savedCount} позиций\n\nВсе данные сохранены и будут доступны всегда!`);
               setSelectedFiles([]);
               setShowUploadSection(false);
+              // Перезагрузить каталог из базы данных чтобы показать все данные
+              loadCatalogFromDatabase();
             }).catch(error => {
               console.error('[PROCESS] ❌ Ошибка сохранения в базу:', error);
               setIsProcessing(false);
-              alert(`Каталог обновлен! Загружено ${allProcessedData.length} позиций. Ошибка сохранения в базу данных.`);
+              alert(`⚠️ Частичный импорт\n\nОбработано: ${allProcessedData.length} позиций\nОшибка сохранения в базу данных.\n\nПроверьте консоль для деталей.`);
               setSelectedFiles([]);
               setShowUploadSection(false);
             });
@@ -537,34 +539,24 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
     try {
       console.log(`[IMPORT] Начало сохранения ${catalogData.length} позиций в базу данных...`);
       console.log(`[IMPORT] Первые 3 записи:`, catalogData.slice(0, 3));
-
-      console.log('[IMPORT] Шаг 1: Очистка таблицы...');
-      const { data: deleteData, error: deleteError } = await supabase
-        .from('catalog_parts')
-        .delete()
-        .neq('code', '___IMPOSSIBLE_VALUE___');
-
-      if (deleteError) {
-        console.error('[IMPORT] Ошибка очистки таблицы:', deleteError);
-        throw deleteError;
-      } else {
-        console.log('[IMPORT] Таблица успешно очищена');
-      }
+      console.log('[IMPORT] ВАЖНО: Используем UPSERT - данные будут обновлены или добавлены, старые данные сохранятся');
 
       const batchSize = 1000;
       let successCount = 0;
       let failedCount = 0;
+      let updatedCount = 0;
+      let insertedCount = 0;
 
-      console.log(`[IMPORT] Шаг 2: Загрузка данных батчами по ${batchSize} записей...`);
+      console.log(`[IMPORT] Загрузка данных батчами по ${batchSize} записей...`);
 
       for (let i = 0; i < catalogData.length; i += batchSize) {
         const batch = catalogData.slice(i, i + batchSize);
         console.log(`[IMPORT] Обработка батча ${Math.floor(i/batchSize) + 1}/${Math.ceil(catalogData.length/batchSize)} (записи ${i}-${i + batch.length})...`);
 
-        const dataToInsert = batch.map(item => ({
+        const dataToUpsert = batch.map(item => ({
           code: item.code,
           name: item.name,
-          brand: item.brand || '',
+          brand: item.brand || 'C.A.P',
           price: item.price,
           weight: item.weight || '',
           category: item.category,
@@ -573,19 +565,25 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
           qty: item.qty || '0'
         }));
 
+        // Используем UPSERT вместо INSERT
+        // Если запчасть с таким code существует - обновим её
+        // Если нет - добавим новую
         const { data, error } = await supabase
           .from('catalog_parts')
-          .insert(dataToInsert)
+          .upsert(dataToUpsert, {
+            onConflict: 'code',
+            ignoreDuplicates: false
+          })
           .select();
 
         if (error) {
           console.error(`[IMPORT] ❌ Ошибка сохранения батча ${i}-${i + batchSize}:`, error);
           console.error('[IMPORT] Детали ошибки:', JSON.stringify(error, null, 2));
-          console.error('[IMPORT] Пример данных из батча:', dataToInsert.slice(0, 2));
+          console.error('[IMPORT] Пример данных из батча:', dataToUpsert.slice(0, 2));
           failedCount += batch.length;
         } else {
           successCount += batch.length;
-          console.log(`[IMPORT] ✅ Сохранено ${successCount} из ${catalogData.length} позиций (${Math.round(successCount/catalogData.length*100)}%)`);
+          console.log(`[IMPORT] ✅ Обработано ${successCount} из ${catalogData.length} позиций (${Math.round(successCount/catalogData.length*100)}%)`);
         }
       }
 
