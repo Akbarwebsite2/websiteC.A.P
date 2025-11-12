@@ -22,8 +22,9 @@ Deno.serve(async (req: Request) => {
     const BASE_CURRENCY = 'AED';
     const targetCurrencies = ['TJS', 'USD'];
 
+    // Используем ExchangeRate-API для более точных курсов
     const response = await fetch(
-      `https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/aed.json`,
+      `https://open.er-api.com/v6/latest/${BASE_CURRENCY}`,
       {
         method: 'GET',
         headers: {
@@ -37,23 +38,26 @@ Deno.serve(async (req: Request) => {
     }
 
     const data = await response.json();
-    const rates = data.aed;
+    const rates = data.rates;
 
     console.log('Fetched rates:', rates);
 
     const updates = [];
     for (const currency of targetCurrencies) {
-      const currencyLower = currency.toLowerCase();
-      const rate = rates[currencyLower];
-      
+      // ExchangeRate-API использует валюты в верхнем регистре
+      const rate = rates[currency];
+
       if (rate) {
+        // Округляем до 4 знаков после запятой для точности
+        const roundedRate = Math.round(rate * 10000) / 10000;
+
         const { error } = await supabase
           .from('exchange_rates')
           .upsert(
             {
               currency_from: BASE_CURRENCY,
               currency_to: currency,
-              rate: rate,
+              rate: roundedRate,
               updated_at: new Date().toISOString(),
             },
             {
@@ -62,10 +66,13 @@ Deno.serve(async (req: Request) => {
           );
 
         if (error) {
-          console.error(`Error updating ${currency}:`, error);
+          console.error(`❌ Error updating ${currency}:`, error);
         } else {
-          updates.push({ currency, rate });
+          updates.push({ currency, rate: roundedRate });
+          console.log(`✅ Updated ${currency}: ${roundedRate}`);
         }
+      } else {
+        console.error(`❌ Rate not found for ${currency}`);
       }
     }
 
