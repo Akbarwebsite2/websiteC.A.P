@@ -76,7 +76,7 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
   const [showCart, setShowCart] = useState(false);
   const [partQuantities, setPartQuantities] = useState<{ [key: string]: number }>({});
   const [selectedCurrency, setSelectedCurrency] = useState<'AED' | 'TJS' | 'USD'>('AED');
-  const [exchangeRates, setExchangeRates] = useState<{ [key: string]: number }>({ AED: 1, TJS: 2.89, USD: 0.2723 });
+  const [exchangeRates, setExchangeRates] = useState<{ [key: string]: number }>({ AED: 1, TJS: 2.5249, USD: 0.2723 });
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const UPLOAD_PASSWORD = 'cap2025';
@@ -356,10 +356,67 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
     });
   };
 
+  // Загрузить курсы валют из базы данных
+  const loadExchangeRates = async () => {
+    try {
+      console.log('[CURRENCY] Загрузка курсов валют из базы данных...');
+      const { data, error } = await supabase
+        .from('exchange_rates')
+        .select('*')
+        .eq('currency_from', 'AED');
+
+      if (error) throw error;
+
+      if (data && data.length > 0) {
+        const rates: { [key: string]: number } = { AED: 1 };
+        data.forEach(rate => {
+          rates[rate.currency_to] = parseFloat(rate.rate);
+          console.log(`[CURRENCY] ${rate.currency_to}: ${rate.rate}`);
+        });
+        setExchangeRates(rates);
+        console.log('[CURRENCY] ✅ Курсы валют загружены:', rates);
+      }
+    } catch (error) {
+      console.error('[CURRENCY] ❌ Ошибка загрузки курсов валют:', error);
+    }
+  };
+
+  // Обновить курсы валют через API
+  const updateExchangeRates = async () => {
+    try {
+      console.log('[CURRENCY] Запрос обновления курсов валют...');
+      const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/update-exchange-rates`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        console.log('[CURRENCY] ✅ Курсы валют обновлены:', result);
+        // Перезагрузить курсы из базы данных
+        await loadExchangeRates();
+      } else {
+        console.error('[CURRENCY] ❌ Ошибка обновления курсов:', response.statusText);
+      }
+    } catch (error) {
+      console.error('[CURRENCY] ❌ Ошибка при обновлении курсов:', error);
+    }
+  };
+
   // Загрузить каталог из базы данных при запуске
   useEffect(() => {
     loadCatalogFromDatabase();
     loadCartItems();
+    loadExchangeRates();
+
+    // Обновлять курсы каждые 6 часов (21600000 мс)
+    updateExchangeRates();
+    const rateUpdateInterval = setInterval(updateExchangeRates, 21600000);
+
+    return () => clearInterval(rateUpdateInterval);
   }, []);
 
   const loadCartItems = async () => {
