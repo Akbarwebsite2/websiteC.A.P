@@ -174,35 +174,40 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
           
           const partNoIndex = headerRow.findIndex(header => {
             if (!header) return false;
-            const headerLower = header.toString().toLowerCase();
-            return headerLower === 'part no' || 
+            const headerLower = header.toString().toLowerCase().trim();
+            return headerLower === 'part no' ||
                    headerLower === 'part no.' ||
-                   headerLower === 'partno';
+                   headerLower === 'part no' ||
+                   headerLower === 'partno' ||
+                   headerLower === 'item code';
           });
-          
+
           const descriptionIndex = headerRow.findIndex(header => {
             if (!header) return false;
-            const headerLower = header.toString().toLowerCase();
+            const headerLower = header.toString().toLowerCase().trim();
             return headerLower === 'part name' ||
-                   headerLower.includes('description') || 
-                   headerLower === 'discrapion';
+                   headerLower === 'description' ||
+                   headerLower === 'discrapion' ||
+                   headerLower === 'name';
           });
-          
+
           const priceIndex = headerRow.findIndex(header => {
             if (!header) return false;
-            const headerLower = header.toString().toLowerCase();
+            const headerLower = header.toString().toLowerCase().trim();
             return headerLower === 'price in aed' ||
-                   headerLower === 'u/p aed' ||
-                   headerLower === 'nett';
+                   headerLower === 'price/aed' ||
+                   headerLower === 'price' ||
+                   headerLower === 'nett' ||
+                   headerLower === 'u/p aed';
           });
 
           const qtyIndex = headerRow.findIndex(header => {
             if (!header) return false;
             const headerLower = header.toString().toLowerCase().trim();
-            return headerLower === 'qty' ||
-                   headerLower === 'available qty' ||
-                   headerLower === 'quantity' ||
-                   headerLower.includes('qty');
+            return headerLower === 'available qty' ||
+                   headerLower === 'qty' ||
+                   headerLower === 'quantity on hand' ||
+                   headerLower === 'quantity';
           });
 
           console.log('Headers found:', {

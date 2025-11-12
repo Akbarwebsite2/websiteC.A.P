@@ -46,10 +46,32 @@ curl https://[ваш-проект].supabase.co/functions/v1/update-exchange-rate
 При импорте Excel файлов с более 6000 запчастей:
 
 **Поддерживаемые колонки:**
-- **Item Code** или **Part No** → код запчасти
-- **Name** или **Part Name** → название запчасти
-- **Quantity On Hand** или **Qty** → количество
-- **Price** → цена (в AED)
+
+**Код запчасти** (обязательно):
+- Part No
+- PART No
+- PART No.
+- PART NO
+- Item Code
+
+**Описание/Название**:
+- Part Name
+- DESCRIPTION
+- Name
+- DISCRAPION
+
+**Цена в AED**:
+- Price in AED
+- Price/AED
+- Price
+- NETT
+- U/P AED
+
+**Количество**:
+- Available Qty
+- QTY
+- Quantity On Hand
+- Quantity
 
 **Важно:**
 - Система автоматически очистит цены от символов валюты и сохранит только числа
