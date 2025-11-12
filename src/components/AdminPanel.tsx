@@ -12,6 +12,7 @@ interface PartData {
   category: string;
   description?: string;
   availability: string;
+  qty?: string;
 }
 
 interface AdminPanelProps {
@@ -109,7 +110,8 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, current
         weight: item.weight,
         category: item.category,
         description: item.description,
-        availability: item.availability
+        availability: item.availability,
+        qty: item.qty || '0'
       }));
       setAllCatalogData(catalogData);
     } catch (error) {
@@ -141,129 +143,186 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, current
   };
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log('[ADMIN] handleFileUpload вызван');
     const files = Array.from(event.target.files || []);
+    console.log('[ADMIN] Количество выбранных файлов:', files.length);
     if (files.length > 0) {
+      files.forEach((f, idx) => {
+        console.log(`[ADMIN] Файл ${idx + 1}: ${f.name}, размер: ${(f.size / 1024 / 1024).toFixed(2)} MB`);
+      });
       setSelectedFiles(files);
       processMultipleExcelFiles(files);
+    } else {
+      console.log('[ADMIN] Нет выбранных файлов');
     }
   };
 
   const processMultipleExcelFiles = (files: File[]) => {
+    console.log('[ADMIN] ========== НАЧАЛО ИМПОРТА =========');
+    console.log('[ADMIN] Количество файлов для обработки:', files.length);
     setIsProcessing(true);
-    const allProcessedData: PartData[] = [...allCatalogData]; // Сохраняем существующие данные
-    
+    const allProcessedData: PartData[] = []; // ЗАМЕНЯЕМ данные, а не добавляем!
+
     let processedFiles = 0;
     
     files.forEach((file, fileIndex) => {
+      console.log(`[ADMIN] Читаем файл ${fileIndex + 1}/${files.length}: ${file.name}`);
       const reader = new FileReader();
+
+      reader.onerror = (error) => {
+        console.error(`[ADMIN] ❌ Ошибка чтения файла ${file.name}:`, error);
+        processedFiles++;
+        if (processedFiles === files.length) {
+          setIsProcessing(false);
+          alert('Ошибка чтения файла!');
+        }
+      };
+
       reader.onload = (e) => {
         try {
+          console.log(`[ADMIN] Файл ${file.name} загружен, начинаем парсинг...`);
           const data = new Uint8Array(e.target?.result as ArrayBuffer);
+          console.log(`[ADMIN] Размер данных: ${data.length} байт`);
+
           const workbook = XLSX.read(data, { type: 'array' });
+          console.log(`[ADMIN] Workbook прочитан, листов: ${workbook.SheetNames.length}`);
+
           const sheetName = workbook.SheetNames[0];
+          console.log(`[ADMIN] Используем лист: ${sheetName}`);
+
           const worksheet = workbook.Sheets[sheetName];
           const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+          console.log(`[ADMIN] Строк в файле: ${jsonData.length}`);
 
-          // Найти индексы колонок
           const headerRow = jsonData[0] as string[];
-          
-          console.log('Заголовки файла:', headerRow);
-          
-          // Поиск колонки с кодом запчасти (поддержка разных названий)
+          console.log('[ADMIN] Заголовки:', headerRow);
+
           const partNoIndex = headerRow.findIndex(header => {
             if (!header) return false;
-            const headerLower = header.toString().toLowerCase();
-            return headerLower === 'part no' || 
+            const headerLower = header.toString().toLowerCase().trim();
+            return headerLower === 'part no' ||
                    headerLower === 'part no.' ||
-                   headerLower === 'partno';
-          });
-          
-          // Поиск колонки с описанием
-          const descriptionIndex = headerRow.findIndex(header => {
-            if (!header) return false;
-            const headerLower = header.toString().toLowerCase();
-            return headerLower === 'part name' ||
-                   headerLower.includes('description') || 
-                   headerLower === 'discrapion';
-          });
-          
-          // Поиск колонки с ценой (поддержка разных названий)
-          const priceIndex = headerRow.findIndex(header => {
-            if (!header) return false;
-            const headerLower = header.toString().toLowerCase();
-            return headerLower === 'price in aed' ||
-                   headerLower === 'u/p aed' ||
-                   headerLower === 'nett';
+                   headerLower === 'part no' ||
+                   headerLower === 'partno' ||
+                   headerLower === 'item code';
           });
 
-          console.log('Найденные индексы:', {
-            partNoIndex,
-            descriptionIndex, 
-            priceIndex
+          const descriptionIndex = headerRow.findIndex(header => {
+            if (!header) return false;
+            const headerLower = header.toString().toLowerCase().trim();
+            return headerLower === 'part name' ||
+                   headerLower === 'description' ||
+                   headerLower === 'discrapion' ||
+                   headerLower === 'name';
+          });
+
+          const priceIndex = headerRow.findIndex(header => {
+            if (!header) return false;
+            const headerLower = header.toString().toLowerCase().trim();
+            return headerLower === 'price in aed' ||
+                   headerLower === 'price/aed' ||
+                   headerLower === 'price' ||
+                   headerLower === 'nett' ||
+                   headerLower === 'u/p aed';
+          });
+
+          const qtyIndex = headerRow.findIndex(header => {
+            if (!header) return false;
+            const headerLower = header.toString().toLowerCase().trim();
+            return headerLower === 'available qty' ||
+                   headerLower === 'qty' ||
+                   headerLower === 'quantity on hand' ||
+                   headerLower === 'quantity';
+          });
+
+          console.log('[ADMIN] Headers found:', {
+            partNo: partNoIndex,
+            description: descriptionIndex,
+            price: priceIndex,
+            qty: qtyIndex
           });
 
           if (partNoIndex === -1) {
-            console.warn(`В файле ${file.name} не найдена колонка с кодом запчасти`);
-          }
-          if (descriptionIndex === -1) {
-            console.warn(`В файле ${file.name} не найдена колонка с описанием`);
-          }
-          if (priceIndex === -1) {
-            console.warn(`В файле ${file.name} не найдена колонка с ценой`);
+            console.error('[ADMIN] ❌ КРИТИЧЕСКАЯ ОШИБКА: Не найдена колонка с кодом запчасти!');
+            console.error('[ADMIN] Доступные заголовки:', headerRow);
+            throw new Error('Не найдена колонка Part No / Item Code');
           }
 
-          // Обработать данные начиная со второй строки
+          console.log('[ADMIN] Начинаем парсинг строк...');
+          let parsedCount = 0;
+
           for (let i = 1; i < jsonData.length; i++) {
             const row = jsonData[i] as any[];
-            
+
             if (row && row.length > 0 && partNoIndex !== -1) {
               const partNo = row[partNoIndex]?.toString().trim() || '';
               const description = descriptionIndex !== -1 ? (row[descriptionIndex]?.toString().trim() || '') : '';
               const price = priceIndex !== -1 ? (row[priceIndex]?.toString().trim() || '') : '';
+              const qty = qtyIndex !== -1 ? (row[qtyIndex]?.toString().trim() || '') : '';
+
+              if (i <= 3) {
+                console.log(`[ADMIN] Row ${i} data:`, {
+                  partNo,
+                  description,
+                  price,
+                  qty
+                });
+              }
 
               if (partNo && partNo !== '') {
-                // Проверить, не существует ли уже такой код
+                parsedCount++;
                 const existingIndex = allProcessedData.findIndex(item => item.code === partNo);
+                const cleanPrice = price && price !== '' ? price.toString().replace(/[^\d.]/g, '') : '';
                 const newItem = {
                   code: partNo,
                   name: description || partNo,
-                  brand: 'C.A.P',
-                  price: price && price !== '' ? `${price} AED` : 'Цена по запросу',
+                  brand: '',
+                  price: cleanPrice || '0',
                   weight: '',
-                  category: `Файл ${fileIndex + 1}: ${file.name}`,
+                  category: 'Автозапчасти',
                   description: description || partNo,
-                  availability: 'В наличии'
+                  availability: 'В наличии',
+                  qty: qty || '0'
                 };
-                
+
                 if (existingIndex >= 0) {
-                  // Обновить существующий элемент
                   allProcessedData[existingIndex] = newItem;
                 } else {
-                  // Добавить новый элемент
                   allProcessedData.push(newItem);
                 }
-              } else {
-                console.warn(`Строка ${i + 1} в файле ${file.name}: пустой код запчасти`);
+
+                if (parsedCount % 1000 === 0) {
+                  console.log(`[ADMIN] Обработано строк: ${parsedCount}, в массиве: ${allProcessedData.length}`);
+                }
               }
             }
           }
 
+          console.log(`[ADMIN] ✅ Парсинг завершен. Обработано строк: ${parsedCount}, добавлено записей: ${allProcessedData.length}`);
+
           processedFiles++;
-          
-          // Если все файлы обработаны
+          console.log(`[ADMIN] ✅ Файл обработан. Всего обработано файлов: ${processedFiles}/${files.length}`);
+          console.log(`[ADMIN] Всего записей в массиве: ${allProcessedData.length}`);
+
           if (processedFiles === files.length) {
+            console.log(`[ADMIN] 🎉 Все файлы обработаны!`);
+            console.log(`[ADMIN] Общее количество записей: ${allProcessedData.length}`);
+            console.log(`[ADMIN] Первые 3 записи:`, allProcessedData.slice(0, 3));
             setPreviewData(allProcessedData);
             setAllCatalogData(allProcessedData);
             setIsProcessing(false);
           }
         } catch (error) {
-          console.error(`Ошибка обработки файла ${file.name}:`, error);
+          console.error(`[ADMIN] ❌ Критическая ошибка обработки файла ${file.name}:`, error);
+          console.error('[ADMIN] Stack trace:', error instanceof Error ? error.stack : 'No stack');
           processedFiles++;
-          
+
           if (processedFiles === files.length) {
+            console.log('[ADMIN] ❌ Обработка завершена с ошибками');
             setPreviewData(allProcessedData);
             setAllCatalogData(allProcessedData);
             setIsProcessing(false);
+            alert('Ошибка обработки файла. Проверьте консоль для деталей.');
           }
         }
       };
@@ -276,15 +335,20 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, current
     if (previewData.length > 0) {
       setIsProcessing(true);
       try {
-        // Удалить все существующие записи
+        console.log(`[ADMIN-SAVE] Начало сохранения ${previewData.length} позиций в базу данных...`);
+
+        console.log('[ADMIN-SAVE] Шаг 1: Очистка таблицы...');
         const { error: deleteError } = await supabase
           .from('catalog_parts')
           .delete()
-          .neq('id', '00000000-0000-0000-0000-000000000000');
+          .neq('code', '___IMPOSSIBLE_VALUE___');
 
-        if (deleteError) throw deleteError;
+        if (deleteError) {
+          console.error('[ADMIN-SAVE] Ошибка очистки таблицы:', deleteError);
+          throw deleteError;
+        }
+        console.log('[ADMIN-SAVE] Таблица успешно очищена');
 
-        // Вставить новые данные батчами по 1000 записей
         const catalogToInsert = previewData.map(item => ({
           code: item.code,
           name: item.name,
@@ -293,19 +357,36 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, current
           weight: item.weight,
           category: item.category,
           description: item.description,
-          availability: item.availability
+          availability: item.availability,
+          qty: item.qty || '0'
         }));
 
+        console.log('[ADMIN-SAVE] Первые 3 записи для вставки:', catalogToInsert.slice(0, 3));
+
         const batchSize = 1000;
+        let successCount = 0;
+        console.log(`[ADMIN-SAVE] Шаг 2: Загрузка данных батчами по ${batchSize} записей...`);
+
         for (let i = 0; i < catalogToInsert.length; i += batchSize) {
           const batch = catalogToInsert.slice(i, i + batchSize);
+          console.log(`[ADMIN-SAVE] Обработка батча ${Math.floor(i/batchSize) + 1}/${Math.ceil(catalogToInsert.length/batchSize)} (записи ${i}-${i + batch.length})...`);
+
           const { error: insertError } = await supabase
             .from('catalog_parts')
             .insert(batch);
 
-          if (insertError) throw insertError;
-          console.log(`Загружено ${Math.min(i + batchSize, catalogToInsert.length)} из ${catalogToInsert.length} позиций`);
+          if (insertError) {
+            console.error(`[ADMIN-SAVE] ❌ Ошибка вставки батча:`, insertError);
+            throw insertError;
+          }
+          successCount += batch.length;
+          console.log(`[ADMIN-SAVE] ✅ Загружено ${successCount} из ${catalogToInsert.length} позиций (${Math.round(successCount/catalogToInsert.length*100)}%)`);
         }
+
+        console.log(`[ADMIN-SAVE] ========================================`);
+        console.log(`[ADMIN-SAVE] ✅ Сохранение завершено успешно!`);
+        console.log(`[ADMIN-SAVE] Всего сохранено: ${successCount} позиций`);
+        console.log(`[ADMIN-SAVE] ========================================`);
 
         onCatalogUpdate(previewData, selectedFiles.map(file => file.name));
         alert(`Каталог сохранен в базу данных! Загружено ${previewData.length} позиций.`);
@@ -314,7 +395,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, current
         setAllCatalogData(previewData);
         onClose();
       } catch (error: any) {
-        console.error('Ошибка сохранения каталога:', error);
+        console.error('[ADMIN-SAVE] ❌ Критическая ошибка сохранения:', error);
         alert(`Ошибка сохранения: ${error.message}`);
       } finally {
         setIsProcessing(false);
@@ -418,9 +499,10 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({ onCatalogUpdate, current
                 <p className="text-gray-400 mb-4">
                   Выберите один или несколько Excel файлов:<br/>
                   Поддерживаемые колонки:<br/>
-                  • Код: PART NO, Part No, PARTNO<br/>
-                  • Описание: Part Name, DESCRIPTION, DISCRAPION<br/>
-                  • Цена: Price in AED, U/P AED, NETT
+                  • Код: Part No, PART No, PART No., Item Code<br/>
+                  • Описание: Part Name, DESCRIPTION, Name, DISCRAPION<br/>
+                  • Цена: Price in AED, Price/AED, Price, NETT, U/P AED<br/>
+                  • Количество: Available Qty, QTY, Quantity On Hand, Quantity
                 </p>
                 <input
                   type="file"
