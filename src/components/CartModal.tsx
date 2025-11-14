@@ -56,13 +56,6 @@ export const CartModal: React.FC<CartModalProps> = ({
     window.open(`https://wa.me/971561747182?text=${encodedMessage}`, '_blank');
   };
 
-  const handleExcelRequest = () => {
-    const message = `Пожалуйста выберите Excel файл для заказа.`;
-    const encodedMessage = encodeURIComponent(message);
-
-    window.open(`https://wa.me/971561747182?text=${encodedMessage}`, '_blank');
-  };
-
   const handleExportToExcel = () => {
     const exportData = items.map((item, index) => ({
       '№': index + 1,
@@ -185,21 +178,13 @@ export const CartModal: React.FC<CartModalProps> = ({
               </span>
             </div>
 
-            <button
-              onClick={handleExportToExcel}
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-lg font-semibold transition-colors flex items-center justify-center space-x-2"
-            >
-              <Download className="w-5 h-5" />
-              <span>Скачать Excel</span>
-            </button>
-
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               <button
-                onClick={handleExcelRequest}
-                className="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 px-6 rounded-lg font-semibold transition-colors flex items-center justify-center space-x-2"
+                onClick={handleExportToExcel}
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-lg font-semibold transition-colors flex items-center justify-center space-x-2"
               >
-                <FileUp className="w-5 h-5" />
-                <span>Запрос через Excel</span>
+                <Download className="w-5 h-5" />
+                <span>Скачать Excel</span>
               </button>
 
               <button

@@ -475,12 +475,18 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
         }
       }
 
-      setPartQuantities(prev => ({ ...prev, [part.code]: 1 }));
-      alert(`Добавлено ${quantityToAdd} шт. в корзину`);
+      setPartQuantities(prev => ({ ...prev, [part.code]: 0 }));
+      console.log(`✅ Добавлено ${quantityToAdd} шт. запчасти ${part.code} в корзину`);
     } catch (error) {
       console.error('Ошибка добавления в корзину:', error);
       alert('Ошибка добавления в корзину');
     }
+  };
+
+  const handleExcelRequest = () => {
+    const message = `Пожалуйста выберите Excel файл для заказа.`;
+    const encodedMessage = encodeURIComponent(message);
+    window.open(`https://wa.me/971561747182?text=${encodedMessage}`, '_blank');
   };
 
   const removeFromCart = async (itemId: string) => {
@@ -701,6 +707,14 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
 
               <div className="flex items-center space-x-2">
                 <button
+                  onClick={handleExcelRequest}
+                  className="bg-purple-600/20 border border-purple-500 rounded-xl px-3 py-2 hover:bg-purple-600/30 transition-colors"
+                  title="Запрос через Excel"
+                >
+                  <FileUp className="w-5 h-5 text-purple-400" />
+                </button>
+
+                <button
                   onClick={() => setShowCart(true)}
                   className="relative bg-blue-600/20 border border-blue-500 rounded-xl px-3 py-2 hover:bg-blue-600/30 transition-colors flex items-center space-x-2 min-w-[120px] max-w-[120px]"
                 >
@@ -841,6 +855,15 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
 
             <div className="flex items-center space-x-3">
               <button
+                onClick={handleExcelRequest}
+                className="bg-purple-600/20 border border-purple-500 rounded-xl px-4 py-3 hover:bg-purple-600/30 transition-colors flex items-center space-x-2"
+                title="Запрос через Excel"
+              >
+                <FileUp className="w-5 h-5 text-purple-400" />
+                <span className="text-white font-medium text-sm">Excel запрос</span>
+              </button>
+
+              <button
                 onClick={() => setShowCart(true)}
                 className="relative bg-blue-600/20 border border-blue-500 rounded-xl px-4 py-3 hover:bg-blue-600/30 transition-colors flex items-center space-x-3"
               >
@@ -975,14 +998,44 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
 
                   {/* Quantity Input */}
                   <div className="mb-3">
-                    <label className="block text-gray-400 text-sm mb-1">Количество:</label>
+                    <label className="block text-gray-400 text-sm mb-1">
+                      Количество:
+                      {part.qty && parseInt(part.qty) > 0 && (
+                        <span className="ml-2 text-xs text-gray-500">(макс: {part.qty})</span>
+                      )}
+                    </label>
                     <input
                       type="number"
                       min="0"
-                      value={partQuantities[part.code] || 0}
+                      max={part.qty && parseInt(part.qty) > 0 ? parseInt(part.qty) : undefined}
+                      value={partQuantities[part.code] !== undefined ? partQuantities[part.code] : ''}
+                      placeholder="0"
                       onChange={(e) => {
-                        const value = parseInt(e.target.value) || 0;
-                        setPartQuantities(prev => ({ ...prev, [part.code]: value >= 0 ? value : 0 }));
+                        const inputValue = e.target.value;
+
+                        // Разрешить пустое поле
+                        if (inputValue === '') {
+                          setPartQuantities(prev => ({ ...prev, [part.code]: 0 }));
+                          return;
+                        }
+
+                        const value = parseInt(inputValue);
+
+                        // Проверить что значение валидное
+                        if (isNaN(value) || value < 0) {
+                          setPartQuantities(prev => ({ ...prev, [part.code]: 0 }));
+                          return;
+                        }
+
+                        // Если есть лимит количества (qty > 0), проверить максимум
+                        const availableQty = part.qty ? parseInt(part.qty) : 0;
+                        if (availableQty > 0 && value > availableQty) {
+                          setPartQuantities(prev => ({ ...prev, [part.code]: availableQty }));
+                          alert(`Максимальное доступное количество: ${availableQty} шт.`);
+                          return;
+                        }
+
+                        setPartQuantities(prev => ({ ...prev, [part.code]: value }));
                       }}
                       className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
                     />
