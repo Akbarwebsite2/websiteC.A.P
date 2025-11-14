@@ -99,7 +99,7 @@ export const CartModal: React.FC<CartModalProps> = ({
         if (R === 0) {
           ws[cellAddress].s = {
             font: { bold: true, sz: 12 },
-            alignment: { horizontal: 'center', vertical: 'center', wrapText: true },
+            alignment: { horizontal: 'center', vertical: 'bottom', wrapText: true },
             fill: { fgColor: { rgb: "4A90E2" } },
             border: {
               top: { style: 'thin', color: { rgb: "000000" } },
@@ -110,7 +110,7 @@ export const CartModal: React.FC<CartModalProps> = ({
           };
         } else {
           ws[cellAddress].s = {
-            alignment: { horizontal: 'center', vertical: 'center', wrapText: true },
+            alignment: { horizontal: 'center', vertical: 'bottom', wrapText: true },
             border: {
               top: { style: 'thin', color: { rgb: "CCCCCC" } },
               bottom: { style: 'thin', color: { rgb: "CCCCCC" } },
