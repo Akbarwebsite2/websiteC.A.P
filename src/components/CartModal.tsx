@@ -67,14 +67,8 @@ export const CartModal: React.FC<CartModalProps> = ({
 
   const handleExportToExcel = () => {
     const wb = XLSX.utils.book_new();
-    const ws = XLSX.utils.aoa_to_sheet([]);
 
-    XLSX.utils.sheet_add_aoa(ws, [
-      ['Common Auto Parts'],
-      [],
-      [],
-      ['№', 'Артикул', 'Описание', 'Количество', `Цена (${selectedCurrency})`, `Сумма (${selectedCurrency})`]
-    ], { origin: 'A1' });
+    const headers = ['№', 'Артикул', 'Описание', 'Количество', `Цена (${selectedCurrency})`, `Сумма (${selectedCurrency})`];
 
     const dataRows = items.map((item, index) => {
       const convertedPrice = formatPrice(item.price);
@@ -89,12 +83,10 @@ export const CartModal: React.FC<CartModalProps> = ({
       ];
     });
 
-    XLSX.utils.sheet_add_aoa(ws, dataRows, { origin: 'A5' });
-
     const totalRow = ['', '', '', '', 'Общая сумма:', calculateTotal().toFixed(2)];
-    XLSX.utils.sheet_add_aoa(ws, [totalRow], { origin: `A${5 + items.length}` });
 
-    ws['!merges'] = [{ s: { r: 0, c: 0 }, e: { r: 0, c: 5 } }];
+    const allData = [headers, ...dataRows, totalRow];
+    const ws = XLSX.utils.aoa_to_sheet(allData);
 
     const range = XLSX.utils.decode_range(ws['!ref'] || 'A1');
     for (let R = range.s.r; R <= range.e.r; ++R) {
@@ -106,14 +98,8 @@ export const CartModal: React.FC<CartModalProps> = ({
 
         if (R === 0) {
           ws[cellAddress].s = {
-            font: { bold: true, sz: 18, color: { rgb: "1F4788" } },
-            alignment: { horizontal: 'center', vertical: 'center' },
-            fill: { fgColor: { rgb: "E8F0FE" } }
-          };
-        } else if (R === 3) {
-          ws[cellAddress].s = {
             font: { bold: true, sz: 12 },
-            alignment: { horizontal: 'center', vertical: 'center' },
+            alignment: { horizontal: 'center', vertical: 'center', wrapText: true },
             fill: { fgColor: { rgb: "4A90E2" } },
             border: {
               top: { style: 'thin', color: { rgb: "000000" } },
@@ -122,9 +108,9 @@ export const CartModal: React.FC<CartModalProps> = ({
               right: { style: 'thin', color: { rgb: "000000" } }
             }
           };
-        } else if (R >= 4) {
+        } else {
           ws[cellAddress].s = {
-            alignment: { horizontal: 'center', vertical: 'center' },
+            alignment: { horizontal: 'center', vertical: 'center', wrapText: true },
             border: {
               top: { style: 'thin', color: { rgb: "CCCCCC" } },
               bottom: { style: 'thin', color: { rgb: "CCCCCC" } },
@@ -133,7 +119,7 @@ export const CartModal: React.FC<CartModalProps> = ({
             }
           };
 
-          if (R === 4 + items.length && C >= 4) {
+          if (R === items.length + 1 && C >= 4) {
             ws[cellAddress].s.font = { bold: true };
           }
         }
@@ -150,12 +136,11 @@ export const CartModal: React.FC<CartModalProps> = ({
     ];
     ws['!cols'] = colWidths;
 
-    ws['!rows'] = [
-      { hpt: 40 },
-      { hpt: 10 },
-      { hpt: 5 },
-      { hpt: 25 }
-    ];
+    const rowHeights = [{ hpt: 25 }];
+    for (let i = 0; i <= items.length; i++) {
+      rowHeights.push({ hpt: 20 });
+    }
+    ws['!rows'] = rowHeights;
 
     XLSX.utils.book_append_sheet(wb, ws, 'Заказ');
 
