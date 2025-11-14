@@ -66,6 +66,11 @@ export const CartModal: React.FC<CartModalProps> = ({
   };
 
   const handleExportToExcel = () => {
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.aoa_to_sheet([]);
+
+    XLSX.utils.sheet_add_aoa(ws, [['Common Auto Parts']], { origin: 'A1' });
+
     const exportData = items.map((item, index) => {
       const convertedPrice = formatPrice(item.price);
       const itemTotal = convertedPrice * item.quantity;
@@ -88,7 +93,14 @@ export const CartModal: React.FC<CartModalProps> = ({
       [`Сумма (${selectedCurrency})`]: calculateTotal().toFixed(2)
     });
 
-    const ws = XLSX.utils.json_to_sheet(exportData);
+    XLSX.utils.sheet_add_json(ws, exportData, { origin: 'A3', skipHeader: false });
+
+    ws['!merges'] = [{ s: { r: 0, c: 0 }, e: { r: 0, c: 5 } }];
+
+    ws['A1'].s = {
+      font: { bold: true, sz: 16 },
+      alignment: { horizontal: 'center', vertical: 'center' }
+    };
 
     const colWidths = [
       { wch: 5 },
@@ -99,8 +111,8 @@ export const CartModal: React.FC<CartModalProps> = ({
       { wch: 12 }
     ];
     ws['!cols'] = colWidths;
+    ws['!rows'] = [{ hpt: 30 }, { hpt: 5 }];
 
-    const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Заказ');
 
     const fileName = `Заказ_${new Date().toLocaleDateString('ru-RU').replace(/\./g, '-')}.xlsx`;

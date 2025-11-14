@@ -1027,11 +1027,9 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
                           return;
                         }
 
-                        // Если есть лимит количества (qty > 0), проверить максимум
                         const availableQty = part.qty ? parseInt(part.qty) : 0;
                         if (availableQty > 0 && value > availableQty) {
                           setPartQuantities(prev => ({ ...prev, [part.code]: availableQty }));
-                          alert(`Максимальное доступное количество: ${availableQty} шт.`);
                           return;
                         }
 
