@@ -69,49 +69,93 @@ export const CartModal: React.FC<CartModalProps> = ({
     const wb = XLSX.utils.book_new();
     const ws = XLSX.utils.aoa_to_sheet([]);
 
-    XLSX.utils.sheet_add_aoa(ws, [['Common Auto Parts']], { origin: 'A1' });
+    XLSX.utils.sheet_add_aoa(ws, [
+      ['Common Auto Parts'],
+      [],
+      [],
+      ['№', 'Артикул', 'Описание', 'Количество', `Цена (${selectedCurrency})`, `Сумма (${selectedCurrency})`]
+    ], { origin: 'A1' });
 
-    const exportData = items.map((item, index) => {
+    const dataRows = items.map((item, index) => {
       const convertedPrice = formatPrice(item.price);
       const itemTotal = convertedPrice * item.quantity;
-      return {
-        '№': index + 1,
-        'Название запчасти': item.part_name,
-        'Код запчасти': item.part_code,
-        'Количество': item.quantity,
-        [`Цена (${selectedCurrency})`]: convertedPrice.toFixed(2),
-        [`Сумма (${selectedCurrency})`]: itemTotal.toFixed(2)
-      };
+      return [
+        index + 1,
+        item.part_code,
+        item.part_name,
+        item.quantity,
+        convertedPrice.toFixed(2),
+        itemTotal.toFixed(2)
+      ];
     });
 
-    exportData.push({
-      '№': '',
-      'Название запчасти': '',
-      'Код запчасти': '',
-      'Количество': '',
-      [`Цена (${selectedCurrency})`]: 'Общая сумма:',
-      [`Сумма (${selectedCurrency})`]: calculateTotal().toFixed(2)
-    });
+    XLSX.utils.sheet_add_aoa(ws, dataRows, { origin: 'A5' });
 
-    XLSX.utils.sheet_add_json(ws, exportData, { origin: 'A3', skipHeader: false });
+    const totalRow = ['', '', '', '', 'Общая сумма:', calculateTotal().toFixed(2)];
+    XLSX.utils.sheet_add_aoa(ws, [totalRow], { origin: `A${5 + items.length}` });
 
     ws['!merges'] = [{ s: { r: 0, c: 0 }, e: { r: 0, c: 5 } }];
 
-    ws['A1'].s = {
-      font: { bold: true, sz: 16 },
-      alignment: { horizontal: 'center', vertical: 'center' }
-    };
+    const range = XLSX.utils.decode_range(ws['!ref'] || 'A1');
+    for (let R = range.s.r; R <= range.e.r; ++R) {
+      for (let C = range.s.c; C <= range.e.c; ++C) {
+        const cellAddress = XLSX.utils.encode_cell({ r: R, c: C });
+        if (!ws[cellAddress]) continue;
+
+        if (!ws[cellAddress].s) ws[cellAddress].s = {};
+
+        if (R === 0) {
+          ws[cellAddress].s = {
+            font: { bold: true, sz: 18, color: { rgb: "1F4788" } },
+            alignment: { horizontal: 'center', vertical: 'center' },
+            fill: { fgColor: { rgb: "E8F0FE" } }
+          };
+        } else if (R === 3) {
+          ws[cellAddress].s = {
+            font: { bold: true, sz: 12 },
+            alignment: { horizontal: 'center', vertical: 'center' },
+            fill: { fgColor: { rgb: "4A90E2" } },
+            border: {
+              top: { style: 'thin', color: { rgb: "000000" } },
+              bottom: { style: 'thin', color: { rgb: "000000" } },
+              left: { style: 'thin', color: { rgb: "000000" } },
+              right: { style: 'thin', color: { rgb: "000000" } }
+            }
+          };
+        } else if (R >= 4) {
+          ws[cellAddress].s = {
+            alignment: { horizontal: 'center', vertical: 'center' },
+            border: {
+              top: { style: 'thin', color: { rgb: "CCCCCC" } },
+              bottom: { style: 'thin', color: { rgb: "CCCCCC" } },
+              left: { style: 'thin', color: { rgb: "CCCCCC" } },
+              right: { style: 'thin', color: { rgb: "CCCCCC" } }
+            }
+          };
+
+          if (R === 4 + items.length && C >= 4) {
+            ws[cellAddress].s.font = { bold: true };
+          }
+        }
+      }
+    }
 
     const colWidths = [
-      { wch: 5 },
-      { wch: 40 },
+      { wch: 8 },
       { wch: 20 },
+      { wch: 50 },
       { wch: 12 },
-      { wch: 12 },
-      { wch: 12 }
+      { wch: 15 },
+      { wch: 15 }
     ];
     ws['!cols'] = colWidths;
-    ws['!rows'] = [{ hpt: 30 }, { hpt: 5 }];
+
+    ws['!rows'] = [
+      { hpt: 40 },
+      { hpt: 10 },
+      { hpt: 5 },
+      { hpt: 25 }
+    ];
 
     XLSX.utils.book_append_sheet(wb, ws, 'Заказ');
 
