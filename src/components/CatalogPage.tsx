@@ -1109,9 +1109,6 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
                   {/* Первый QR код - Dc */}
                   <div className="bg-white p-4 rounded-xl shadow-lg">
-                    <div className="bg-gray-100 px-3 py-2 rounded-t-lg mb-3 text-center">
-                      <p className="text-gray-700 font-semibold text-sm">Dc Card</p>
-                    </div>
                     <img
                       src="/QR Dc .jpg"
                       alt="QR код для оплаты Dc"
@@ -1122,11 +1119,8 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
 
                   {/* Второй QR код - Alif */}
                   <div className="bg-white p-4 rounded-xl shadow-lg">
-                    <div className="bg-gray-100 px-3 py-2 rounded-t-lg mb-3 text-center">
-                      <p className="text-gray-700 font-semibold text-sm">Alif Card</p>
-                    </div>
                     <img
-                      src="/qr alif.jpg"
+                      src="/QR alif 2.jpg"
                       alt="QR код для оплаты Alif"
                       className="w-full h-auto"
                       style={{ aspectRatio: '1/1', objectFit: 'contain' }}
