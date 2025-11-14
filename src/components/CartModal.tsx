@@ -18,6 +18,8 @@ interface CartModalProps {
   onRemoveItem: (id: string) => void;
   onClearCart: () => void;
   onUpdateQuantity: (id: string, quantity: number) => void;
+  selectedCurrency: 'AED' | 'TJS' | 'USD';
+  exchangeRates: { [key: string]: number };
 }
 
 export const CartModal: React.FC<CartModalProps> = ({
@@ -26,30 +28,37 @@ export const CartModal: React.FC<CartModalProps> = ({
   items,
   onRemoveItem,
   onClearCart,
-  onUpdateQuantity
+  onUpdateQuantity,
+  selectedCurrency,
+  exchangeRates
 }) => {
   if (!isOpen) return null;
 
+  const formatPrice = (priceAED: string): number => {
+    const price = parseFloat(priceAED);
+    if (isNaN(price)) return 0;
+    const rate = exchangeRates[selectedCurrency] || 1;
+    return price * rate;
+  };
+
   const calculateTotal = (): number => {
     return items.reduce((total, item) => {
-      const price = parseFloat(item.price);
-      if (!isNaN(price)) {
-        return total + (price * item.quantity);
-      }
-      return total;
+      const convertedPrice = formatPrice(item.price);
+      return total + (convertedPrice * item.quantity);
     }, 0);
   };
 
   const handleWhatsAppPayment = () => {
     let message = 'Здравствуйте! Хочу оформить заказ:\n\n';
     items.forEach((item, index) => {
+      const convertedPrice = formatPrice(item.price);
       message += `${index + 1}. ${item.part_name}\n`;
       message += `   Код: ${item.part_code}\n`;
       message += `   Бренд: ${item.brand}\n`;
-      message += `   Цена: ${item.price}\n`;
+      message += `   Цена: ${convertedPrice.toFixed(2)} ${selectedCurrency}\n`;
       message += `   Количество: ${item.quantity}\n\n`;
     });
-    message += `Общая сумма: ${calculateTotal().toFixed(2)} AED\n\n`;
+    message += `Общая сумма: ${calculateTotal().toFixed(2)} ${selectedCurrency}\n\n`;
     message += 'Оплатить через Dc - Alif';
 
     const encodedMessage = encodeURIComponent(message);
@@ -57,22 +66,26 @@ export const CartModal: React.FC<CartModalProps> = ({
   };
 
   const handleExportToExcel = () => {
-    const exportData = items.map((item, index) => ({
-      '№': index + 1,
-      'Название запчасти': item.part_name,
-      'Код запчасти': item.part_code,
-      'Количество': item.quantity,
-      'Цена (AED)': parseFloat(item.price).toFixed(2),
-      'Сумма (AED)': (parseFloat(item.price) * item.quantity).toFixed(2)
-    }));
+    const exportData = items.map((item, index) => {
+      const convertedPrice = formatPrice(item.price);
+      const itemTotal = convertedPrice * item.quantity;
+      return {
+        '№': index + 1,
+        'Название запчасти': item.part_name,
+        'Код запчасти': item.part_code,
+        'Количество': item.quantity,
+        [`Цена (${selectedCurrency})`]: convertedPrice.toFixed(2),
+        [`Сумма (${selectedCurrency})`]: itemTotal.toFixed(2)
+      };
+    });
 
     exportData.push({
       '№': '',
       'Название запчасти': '',
       'Код запчасти': '',
       'Количество': '',
-      'Цена (AED)': 'Общая сумма:',
-      'Сумма (AED)': calculateTotal().toFixed(2)
+      [`Цена (${selectedCurrency})`]: 'Общая сумма:',
+      [`Сумма (${selectedCurrency})`]: calculateTotal().toFixed(2)
     });
 
     const ws = XLSX.utils.json_to_sheet(exportData);
@@ -139,7 +152,7 @@ export const CartModal: React.FC<CartModalProps> = ({
                       </div>
                       <h3 className="text-white font-medium mb-2">{item.part_name}</h3>
                       <div className="flex items-center space-x-4">
-                        <span className="text-green-400 font-semibold">{item.price}</span>
+                        <span className="text-green-400 font-semibold">{formatPrice(item.price).toFixed(2)} {selectedCurrency}</span>
                         <div className="flex items-center space-x-2">
                           <label className="text-gray-500 text-sm">Количество:</label>
                           <input
@@ -174,7 +187,7 @@ export const CartModal: React.FC<CartModalProps> = ({
             <div className="flex items-center justify-between bg-gray-800/50 rounded-lg p-4 border border-gray-700">
               <span className="text-gray-300 text-lg font-semibold">Общая сумма:</span>
               <span className="text-green-400 text-2xl font-bold">
-                {calculateTotal().toFixed(2)} AED
+                {calculateTotal().toFixed(2)} {selectedCurrency}
               </span>
             </div>
 

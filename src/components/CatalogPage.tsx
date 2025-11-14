@@ -1101,18 +1101,35 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
 
             {/* Payment QR Code Section */}
             <div className="mt-8 border-4 border-[#144374] rounded-2xl overflow-hidden bg-gradient-to-br from-gray-900 to-gray-800 shadow-2xl">
-              <div className="p-8">
+              <div className="p-6 md:p-8">
                 <h3 className="text-2xl font-bold text-white mb-2 text-center">Удобная оплата</h3>
                 <p className="text-gray-300 text-center mb-6">
                   Удобная оплата через Dc - Alif для вашего комфорта
                 </p>
-                <div className="flex justify-center">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+                  {/* Первый QR код - Dc */}
                   <div className="bg-white p-4 rounded-xl shadow-lg">
+                    <div className="bg-gray-100 px-3 py-2 rounded-t-lg mb-3 text-center">
+                      <p className="text-gray-700 font-semibold text-sm">Dc Card</p>
+                    </div>
                     <img
                       src="/QR Dc .jpg"
-                      alt="QR код для оплаты Dc - Alif"
-                      className="w-full h-auto max-w-md"
-                      style={{ aspectRatio: '16/9', objectFit: 'contain' }}
+                      alt="QR код для оплаты Dc"
+                      className="w-full h-auto"
+                      style={{ aspectRatio: '1/1', objectFit: 'contain' }}
+                    />
+                  </div>
+
+                  {/* Второй QR код - Alif */}
+                  <div className="bg-white p-4 rounded-xl shadow-lg">
+                    <div className="bg-gray-100 px-3 py-2 rounded-t-lg mb-3 text-center">
+                      <p className="text-gray-700 font-semibold text-sm">Alif Card</p>
+                    </div>
+                    <img
+                      src="/qr alif.jpg"
+                      alt="QR код для оплаты Alif"
+                      className="w-full h-auto"
+                      style={{ aspectRatio: '1/1', objectFit: 'contain' }}
                     />
                   </div>
                 </div>
@@ -1172,6 +1189,8 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
         onRemoveItem={removeFromCart}
         onClearCart={clearCart}
         onUpdateQuantity={updateCartQuantity}
+        selectedCurrency={selectedCurrency}
+        exchangeRates={exchangeRates}
       />
 
       {/* Hidden File Input for Quick Upload */}
