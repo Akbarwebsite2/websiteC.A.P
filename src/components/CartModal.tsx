@@ -96,36 +96,27 @@ export const CartModal: React.FC<CartModalProps> = ({
 
         if (!ws[cellAddress].s) ws[cellAddress].s = {};
 
-        if (R === 0) {
-          ws[cellAddress].s = {
-            font: { bold: true, sz: 11 },
-            alignment: { horizontal: 'center', vertical: 'bottom', wrapText: true },
-            border: {
-              top: { style: 'thin', color: { rgb: "000000" } },
-              bottom: { style: 'thin', color: { rgb: "000000" } },
-              left: { style: 'thin', color: { rgb: "000000" } },
-              right: { style: 'thin', color: { rgb: "000000" } }
-            }
-          };
-        } else {
-          let horizontalAlign = 'center';
-          if (C === 1) horizontalAlign = 'left';
-          if (C === 2) horizontalAlign = 'left';
+        let horizontalAlign = 'center';
+        if (C === 1 && R > 0) horizontalAlign = 'left';
+        if (C === 2 && R > 0) horizontalAlign = 'left';
 
-          ws[cellAddress].s = {
-            alignment: { horizontal: horizontalAlign, vertical: 'center', wrapText: true },
-            border: {
-              top: { style: 'thin', color: { rgb: "000000" } },
-              bottom: { style: 'thin', color: { rgb: "000000" } },
-              left: { style: 'thin', color: { rgb: "000000" } },
-              right: { style: 'thin', color: { rgb: "000000" } }
-            }
-          };
-
-          if (R === items.length + 1 && C === 4) {
-            ws[cellAddress].s.font = { bold: true };
-            ws[cellAddress].s.alignment.horizontal = 'right';
+        ws[cellAddress].s = {
+          alignment: { horizontal: horizontalAlign, vertical: 'center', wrapText: true },
+          border: {
+            top: { style: 'thin', color: { rgb: "000000" } },
+            bottom: { style: 'thin', color: { rgb: "000000" } },
+            left: { style: 'thin', color: { rgb: "000000" } },
+            right: { style: 'thin', color: { rgb: "000000" } }
           }
+        };
+
+        if (R === 0) {
+          ws[cellAddress].s.font = { bold: true, sz: 11 };
+        }
+
+        if (R === items.length + 1 && C === 4) {
+          ws[cellAddress].s.font = { bold: true };
+          ws[cellAddress].s.alignment.horizontal = 'right';
         }
       }
     }
