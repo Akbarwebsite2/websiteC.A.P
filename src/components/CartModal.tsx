@@ -98,9 +98,8 @@ export const CartModal: React.FC<CartModalProps> = ({
 
         if (R === 0) {
           ws[cellAddress].s = {
-            font: { bold: true, sz: 12 },
+            font: { bold: true, sz: 11 },
             alignment: { horizontal: 'center', vertical: 'bottom', wrapText: true },
-            fill: { fgColor: { rgb: "4A90E2" } },
             border: {
               top: { style: 'thin', color: { rgb: "000000" } },
               bottom: { style: 'thin', color: { rgb: "000000" } },
@@ -109,18 +108,23 @@ export const CartModal: React.FC<CartModalProps> = ({
             }
           };
         } else {
+          let horizontalAlign = 'center';
+          if (C === 1) horizontalAlign = 'left';
+          if (C === 2) horizontalAlign = 'left';
+
           ws[cellAddress].s = {
-            alignment: { horizontal: 'center', vertical: 'bottom', wrapText: true },
+            alignment: { horizontal: horizontalAlign, vertical: 'center', wrapText: true },
             border: {
-              top: { style: 'thin', color: { rgb: "CCCCCC" } },
-              bottom: { style: 'thin', color: { rgb: "CCCCCC" } },
-              left: { style: 'thin', color: { rgb: "CCCCCC" } },
-              right: { style: 'thin', color: { rgb: "CCCCCC" } }
+              top: { style: 'thin', color: { rgb: "000000" } },
+              bottom: { style: 'thin', color: { rgb: "000000" } },
+              left: { style: 'thin', color: { rgb: "000000" } },
+              right: { style: 'thin', color: { rgb: "000000" } }
             }
           };
 
-          if (R === items.length + 1 && C >= 4) {
+          if (R === items.length + 1 && C === 4) {
             ws[cellAddress].s.font = { bold: true };
+            ws[cellAddress].s.alignment.horizontal = 'right';
           }
         }
       }
