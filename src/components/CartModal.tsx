@@ -94,25 +94,22 @@ export const CartModal: React.FC<CartModalProps> = ({
         const cellAddress = XLSX.utils.encode_cell({ r: R, c: C });
         if (!ws[cellAddress]) continue;
 
-        if (!ws[cellAddress].s) ws[cellAddress].s = {};
-
         ws[cellAddress].s = {
-          alignment: { horizontal: 'center', vertical: 'center', wrapText: true },
+          alignment: {
+            horizontal: 'center',
+            vertical: 'center',
+            wrapText: true
+          },
           border: {
             top: { style: 'thin', color: { rgb: "000000" } },
             bottom: { style: 'thin', color: { rgb: "000000" } },
             left: { style: 'thin', color: { rgb: "000000" } },
             right: { style: 'thin', color: { rgb: "000000" } }
-          }
+          },
+          font: R === 0 ? { bold: true, sz: 11 } :
+                (R === items.length + 1 && (C === 4 || C === 5)) ? { bold: true } :
+                {}
         };
-
-        if (R === 0) {
-          ws[cellAddress].s.font = { bold: true, sz: 11 };
-        }
-
-        if (R === items.length + 1 && (C === 4 || C === 5)) {
-          ws[cellAddress].s.font = { bold: true };
-        }
       }
     }
 
