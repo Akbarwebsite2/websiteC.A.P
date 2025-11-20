@@ -1,6 +1,6 @@
 import React from 'react';
 import { X, Trash2, ShoppingCart, FileUp, Download } from 'lucide-react';
-import * as XLSX from 'xlsx';
+import * as XLSX from 'xlsx-js-style';
 
 interface CartItem {
   id: string;
