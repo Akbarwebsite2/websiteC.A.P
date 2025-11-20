@@ -97,7 +97,7 @@ export const CartModal: React.FC<CartModalProps> = ({
         ws[cellAddress].s = {
           alignment: {
             horizontal: 'center',
-            vertical: 'center',
+            vertical: 'middle',
             wrapText: true
           },
           border: {
@@ -132,7 +132,7 @@ export const CartModal: React.FC<CartModalProps> = ({
     XLSX.utils.book_append_sheet(wb, ws, 'Заказ');
 
     const fileName = `Заказ_${new Date().toLocaleDateString('ru-RU').replace(/\./g, '-')}.xlsx`;
-    XLSX.writeFile(wb, fileName);
+    XLSX.writeFile(wb, fileName, { cellStyles: true, bookType: 'xlsx' });
   };
 
   return (
