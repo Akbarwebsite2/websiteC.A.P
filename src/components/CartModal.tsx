@@ -126,9 +126,9 @@ export const CartModal: React.FC<CartModalProps> = ({
     ];
     ws['!cols'] = colWidths;
 
-    const rowHeights = [{ hpt: 25 }];
+    const rowHeights = [{ hpt: 30 }];
     for (let i = 0; i <= items.length; i++) {
-      rowHeights.push({ hpt: 20 });
+      rowHeights.push({ hpt: 30 });
     }
     ws['!rows'] = rowHeights;
 
