@@ -74,7 +74,8 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
   const [currentLanguage, setCurrentLanguage] = useState<'ru' | 'en'>('ru');
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [showCart, setShowCart] = useState(false);
-  const [partQuantities, setPartQuantities] = useState<{ [key: string]: number }>({});
+  const [partQuantities, setPartQuantities] = useState<{ [key: string]: number | '' }>({});
+  const [quantityWarning, setQuantityWarning] = useState<{ [key: string]: boolean }>({});
   const [selectedCurrency, setSelectedCurrency] = useState<'AED' | 'TJS' | 'USD'>('AED');
   const [exchangeRates, setExchangeRates] = useState<{ [key: string]: number }>({ AED: 1, TJS: 2.5249, USD: 0.2723 });
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -440,7 +441,13 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
 
   const addToCart = async (part: PartData) => {
     try {
-      const quantityToAdd = partQuantities[part.code] || 0;
+      const quantityToAdd = typeof partQuantities[part.code] === 'number' ? partQuantities[part.code] : 1;
+
+      if (quantityToAdd < 1) {
+        alert('Пожалуйста, укажите количество');
+        return;
+      }
+
       const existingItem = cartItems.find(item => item.part_code === part.code);
 
       if (existingItem) {
@@ -1006,30 +1013,37 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
                     </label>
                     <input
                       type="number"
-                      min="0"
+                      min="1"
                       max={part.qty && parseInt(part.qty) > 0 ? parseInt(part.qty) : undefined}
-                      value={partQuantities[part.code] !== undefined ? partQuantities[part.code] : ''}
-                      placeholder="0"
+                      value={partQuantities[part.code] !== undefined && partQuantities[part.code] !== '' ? partQuantities[part.code] : ''}
+                      placeholder="1"
                       onChange={(e) => {
                         const inputValue = e.target.value;
 
+                        // Скрыть предупреждение при новом вводе
+                        setQuantityWarning(prev => ({ ...prev, [part.code]: false }));
+
                         // Разрешить пустое поле
                         if (inputValue === '') {
-                          setPartQuantities(prev => ({ ...prev, [part.code]: 0 }));
+                          setPartQuantities(prev => ({ ...prev, [part.code]: '' }));
                           return;
                         }
 
                         const value = parseInt(inputValue);
 
                         // Проверить что значение валидное
-                        if (isNaN(value) || value < 0) {
-                          setPartQuantities(prev => ({ ...prev, [part.code]: 0 }));
+                        if (isNaN(value) || value < 1) {
+                          setPartQuantities(prev => ({ ...prev, [part.code]: '' }));
                           return;
                         }
 
                         const availableQty = part.qty ? parseInt(part.qty) : 0;
                         if (availableQty > 0 && value > availableQty) {
                           setPartQuantities(prev => ({ ...prev, [part.code]: availableQty }));
+                          setQuantityWarning(prev => ({ ...prev, [part.code]: true }));
+                          setTimeout(() => {
+                            setQuantityWarning(prev => ({ ...prev, [part.code]: false }));
+                          }, 3000);
                           return;
                         }
 
@@ -1037,6 +1051,11 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
                       }}
                       className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
                     />
+                    {quantityWarning[part.code] && (
+                      <p className="text-amber-400 text-xs mt-1 font-medium">
+                        ⚠ Максимальное количество в наличии: {part.qty}
+                      </p>
+                    )}
                   </div>
 
                   {/* Add to Cart Button */}
