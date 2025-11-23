@@ -448,42 +448,94 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
         return;
       }
 
+      const maxQty = part.qty ? parseInt(part.qty) : 0;
       const existingItem = cartItems.find(item => item.part_code === part.code);
+      const currentCartQuantity = existingItem ? existingItem.quantity : 0;
 
-      if (existingItem) {
-        const { error } = await supabase
-          .from('cart_items')
-          .update({ quantity: existingItem.quantity + quantityToAdd, updated_at: new Date().toISOString() })
-          .eq('id', existingItem.id);
-
-        if (error) throw error;
-
-        setCartItems(prev => prev.map(item =>
-          item.id === existingItem.id
-            ? { ...item, quantity: item.quantity + quantityToAdd }
-            : item
-        ));
-      } else {
-        const { data, error } = await supabase
-          .from('cart_items')
-          .insert([{
-            user_email: user.email,
-            part_code: part.code,
-            part_name: part.name,
-            brand: part.brand,
-            price: part.price,
-            quantity: quantityToAdd
-          }])
-          .select();
-
-        if (error) throw error;
-        if (data) {
-          setCartItems(prev => [...prev, data[0]]);
+      if (maxQty > 0) {
+        if (currentCartQuantity >= maxQty) {
+          alert(`Максимальное количество уже в корзине: ${maxQty} шт.`);
+          return;
         }
-      }
 
-      setPartQuantities(prev => ({ ...prev, [part.code]: 0 }));
-      console.log(`✅ Добавлено ${quantityToAdd} шт. запчасти ${part.code} в корзину`);
+        const availableToAdd = maxQty - currentCartQuantity;
+        const actualQuantityToAdd = Math.min(quantityToAdd, availableToAdd);
+
+        if (actualQuantityToAdd < quantityToAdd) {
+          alert(`Добавлено ${actualQuantityToAdd} шт. (максимум: ${maxQty}, в корзине: ${currentCartQuantity})`);
+        }
+
+        if (existingItem) {
+          const newQuantity = currentCartQuantity + actualQuantityToAdd;
+          const { error } = await supabase
+            .from('cart_items')
+            .update({ quantity: newQuantity, updated_at: new Date().toISOString() })
+            .eq('id', existingItem.id);
+
+          if (error) throw error;
+
+          setCartItems(prev => prev.map(item =>
+            item.id === existingItem.id
+              ? { ...item, quantity: newQuantity }
+              : item
+          ));
+        } else {
+          const { data, error } = await supabase
+            .from('cart_items')
+            .insert([{
+              user_email: user.email,
+              part_code: part.code,
+              part_name: part.name,
+              brand: part.brand,
+              price: part.price,
+              quantity: actualQuantityToAdd
+            }])
+            .select();
+
+          if (error) throw error;
+          if (data) {
+            setCartItems(prev => [...prev, data[0]]);
+          }
+        }
+
+        setPartQuantities(prev => ({ ...prev, [part.code]: '' }));
+        console.log(`✅ Добавлено ${actualQuantityToAdd} шт. запчасти ${part.code} в корзину`);
+      } else {
+        if (existingItem) {
+          const { error } = await supabase
+            .from('cart_items')
+            .update({ quantity: existingItem.quantity + quantityToAdd, updated_at: new Date().toISOString() })
+            .eq('id', existingItem.id);
+
+          if (error) throw error;
+
+          setCartItems(prev => prev.map(item =>
+            item.id === existingItem.id
+              ? { ...item, quantity: item.quantity + quantityToAdd }
+              : item
+          ));
+        } else {
+          const { data, error } = await supabase
+            .from('cart_items')
+            .insert([{
+              user_email: user.email,
+              part_code: part.code,
+              part_name: part.name,
+              brand: part.brand,
+              price: part.price,
+              quantity: quantityToAdd
+            }])
+            .select();
+
+          if (error) throw error;
+          if (data) {
+            setCartItems(prev => [...prev, data[0]]);
+          }
+        }
+
+        setPartQuantities(prev => ({ ...prev, [part.code]: '' }));
+        console.log(`✅ Добавлено ${quantityToAdd} шт. запчасти ${part.code} в корзину`);
+      }
     } catch (error) {
       console.error('Ошибка добавления в корзину:', error);
       alert('Ошибка добавления в корзину');
