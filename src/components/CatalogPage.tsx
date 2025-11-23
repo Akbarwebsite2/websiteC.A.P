@@ -76,6 +76,7 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
   const [showCart, setShowCart] = useState(false);
   const [partQuantities, setPartQuantities] = useState<{ [key: string]: number | '' }>({});
   const [quantityWarning, setQuantityWarning] = useState<{ [key: string]: boolean }>({});
+  const [cartWarning, setCartWarning] = useState<{ [key: string]: string }>({});
   const [selectedCurrency, setSelectedCurrency] = useState<'AED' | 'TJS' | 'USD'>('AED');
   const [exchangeRates, setExchangeRates] = useState<{ [key: string]: number }>({ AED: 1, TJS: 2.5249, USD: 0.2723 });
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -454,7 +455,10 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
 
       if (maxQty > 0) {
         if (currentCartQuantity >= maxQty) {
-          alert(`Максимальное количество уже в корзине: ${maxQty} шт.`);
+          setCartWarning(prev => ({ ...prev, [part.code]: `Максимальное количество уже в корзине: ${maxQty} шт.` }));
+          setTimeout(() => {
+            setCartWarning(prev => ({ ...prev, [part.code]: '' }));
+          }, 3000);
           return;
         }
 
@@ -462,7 +466,10 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
         const actualQuantityToAdd = Math.min(quantityToAdd, availableToAdd);
 
         if (actualQuantityToAdd < quantityToAdd) {
-          alert(`Добавлено ${actualQuantityToAdd} шт. (максимум: ${maxQty}, в корзине: ${currentCartQuantity})`);
+          setCartWarning(prev => ({ ...prev, [part.code]: `Добавлено ${actualQuantityToAdd} шт. (максимум: ${maxQty}, в корзине: ${currentCartQuantity})` }));
+          setTimeout(() => {
+            setCartWarning(prev => ({ ...prev, [part.code]: '' }));
+          }, 3000);
         }
 
         if (existingItem) {
@@ -1118,6 +1125,11 @@ export const CatalogPage: React.FC<CatalogPageProps> = ({ user, onLogout, onBack
                     <Plus className="w-4 h-4" />
                     <span>Добавить в корзину</span>
                   </button>
+                  {cartWarning[part.code] && (
+                    <p className="text-amber-400 text-xs mt-2 font-medium">
+                      ⚠ {cartWarning[part.code]}
+                    </p>
+                  )}
                 </div>
               ))}
             </div>
