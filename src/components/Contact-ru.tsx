@@ -104,7 +104,7 @@ export const ContactRu: React.FC = () => {
             </div>
           </div>
           <p className="text-gray-500 text-sm">
-            © 2025 Common Auto Parts. Все права защищены.
+            © 2026 Common Auto Parts. Все права защищены.
           </p>
         </div>
       </div>
